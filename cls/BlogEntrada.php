@@ -16,13 +16,14 @@ class BlogEntrada {
 
     public function get($prop) {
         if (!isset($this->$prop)) {
-            trigger_error("Err: No existe la porpiedad $prop, en get.");
-            return false;
+            Debuguie::AddMsg("BlogEntrada - get()", "Err: No existe la porpiedad $prop.", "error");
+            return null;
         }
         if (!in_array((string) $prop, $this->excludeGet)) {
             return $this->$prop;
         }
-        trigger_error("get_$prop excluido, ");
+        Debuguie::AddMsg("BlogEntrada - get()", "get_$prop excluido", "warning");
+        return null;
     }
 
     public function set($prop, $val) {

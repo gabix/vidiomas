@@ -20,7 +20,7 @@ if (Session::get('entradaActiva')) {
             $entNom = $entNom->get('nombre');
         } else {
             Debuguie::AddMsg("p_blogComentarios", "nombre inválido", "warning");
-            die("Pedido invalido");
+            die("Pedido inválido");
         }
 
         $comId = null;

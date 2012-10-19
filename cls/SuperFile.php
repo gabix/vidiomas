@@ -32,7 +32,7 @@ class SuperFile {
     }
 
     public function put(array $data) {
-        $entry = '<?php $entry = ' . var_export($data, true) . ' ?>';
+        $entry = '<?php $entry = ' . var_export($data, true) . ';';
         $ret = file_put_contents($this->filePath, $entry);
 
         if (!$ret) Debuguie::AddMsg("SuperFile - get()", "No la pudo poner, ". var_export($data, true) . "en $this->filePath", "error");

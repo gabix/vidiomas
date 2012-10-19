@@ -23,4 +23,3 @@ if (isset($_POST['time'])) {
 
 $ret = dateame($time, $formato);
 echo $ret;
-?>

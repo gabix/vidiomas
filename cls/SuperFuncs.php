@@ -16,6 +16,8 @@ class SuperFuncs {
         if (!defined($name)) {
             define($name, $value);
         }
+        else
+            debuguie("init-miDefine", "ya existia la constante");
     }
 
     /**
@@ -25,13 +27,13 @@ class SuperFuncs {
      * @param object|string $xtra lo que quieras, para pasar datos extra
      */
     public static function errYmsg($err = true, $msg = "", $xtra = "") {
-        echo json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => $xtra));
+        echo json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
     }
 
     /**
      * hace un echo entre <p></p> de htmlspecialchars($s)
-     * @param string $s
-     * @param string $style "", "rojo", "azul"
+     * @param type $s
+     * @param type $style "", "rojo", "azul"
      */
     public static function echoConP($s, $style = "") {
         switch ($style) {
@@ -42,7 +44,7 @@ class SuperFuncs {
                 echo sprintf('<p style="%s">%s</p>%s', "color:red;", self::htmlent($s), "\n");
                 break;
             case "azul" :
-                echo sprintf('<p style="%s">%s</p>%s', "color:blue;", self::htmlent($s), "\n");
+                echo sprintf('<p style="%s">%s</p>%s', "color:bule;", self::htmlent($s), "\n");
                 break;
         }
     }
@@ -67,14 +69,43 @@ class SuperFuncs {
                 break;
         }
     }
-    
-    public static function aDateConH($t) {
-        if (is_int($t)) {
-            $t = date("y-m-d H:i:s", $t);
-        } else {
-            return null;
+
+    /**
+     * @param int $time
+     * @param string $formato default: y-m-d H:i:s | ymd_his: ymd_His
+     * @return string
+     */
+    public static function aDate($time, $formato = "y-m-d H:i:s") {
+        $ret = null;
+        if (is_int($time)) {
+            switch ($formato) {
+                case "ymd_his" :
+                    $ret = date("ymd_His", $time);
+                    break;
+                case "y-m-d H:i:s" :
+                default :
+                    $ret = date("y-m-d H:i:s", $time);
+                    break;
+            }
         }
-        return $t;
+        return $ret;
+    }
+
+    /**
+     * Looks for the first occurrence of $needle in $haystack
+     * and replaces it with $replace.
+     * @param $needle
+     * @param $replace
+     * @param $haystack
+     * @return mixed
+     */
+    public static function str_replace_once($needle , $replace , $haystack){
+        $pos = strpos($haystack, $needle);
+        if ($pos === false) {
+            // Nothing found
+            return $haystack;
+        }
+        return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 
 }

@@ -136,7 +136,7 @@ class Loader {
      * @return require with the file | false in case of non existance of asked file
      */
     public static function LoadItemByPath($path) {
-        if (file_exists($path)) {
+        if (is_file($path)) {
             Debuguie::AddMsg("Loader - LoadItemByPath()", "return require($path)", "success");
             return require_once($path);
         } else {
