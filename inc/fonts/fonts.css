@@ -1,0 +1,49 @@
+/* 
+    Document   : fonts
+    Created on : 14/09/2012, 15:02:05
+    Author     : gabix
+    Description:
+        custom fonts de vidiomas
+*/
+
+@font-face {
+    font-family: huelic;
+    src: url("HUELIC.eot")
+}
+@font-face {
+    font-family: huelic;
+    src: url("HUELIC.ttf")
+}
+@font-face {
+    font-family: huelic_l;
+    src: url("HUELIC_L.eot")
+}
+@font-face {
+    font-family: huelic_l;
+    src: url("HUELIC_L.ttf")
+}
+@font-face {
+    font-family: huelic_r;
+    src: url("HUELIC_R.eot")
+}
+@font-face {
+    font-family: huelic_r;
+    src: url("HUELIC_R.ttf")
+}
+@font-face {
+    font-family: quadranta;
+    src: url("quadrantaregular.eot")
+}
+@font-face {
+    font-family: quadranta;
+    src: url("quadrantaregular.ttf")
+}
+@font-face {
+    font-family: quadranta_b;
+    src: url("quadrantabold.eot")
+}
+@font-face {
+    font-family: quadranta_b;
+    src: url("quadrantabold.ttf")
+}
+

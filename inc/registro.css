@@ -1,0 +1,94 @@
+/* 
+    Document   : registro
+    Created on : 01/10/2012, 11:00:14
+    Author     : gabix
+    Description:
+        Para la pag de registro.
+*/
+h1 {
+    font-family: 'quadranta_b';
+    font-size: 29px;
+    font-weight: normal;
+    color: #379ED8;
+    margin: 0;
+    padding: 0;
+}
+h2 {
+    font-family: 'quadranta_b';
+    font-size: 18px;
+    font-weight: normal;
+    color: #ADCE3A;
+    margin: 0 0 15px 0;
+    padding: 0;
+}
+h3 {
+    font-family: 'quadranta_b';
+    font-size: 14px;
+    font-weight: normal;
+    color: #379ED8;
+    margin: 10px 0 10px 0;
+    padding: 0;
+}
+p {
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: normal;
+    color: #000000;
+
+    margin: 0;
+    padding: 0;
+}
+
+#d_cuerpo {
+    width: 897px;
+    height: 525px;
+    float: left;
+    padding-top: 10px;
+    padding-left: 55px;
+    padding-right: 72px;
+    padding-bottom: 10px;
+}
+
+.hr_punteada {
+    border-style: dashed;
+    color: #379ED8;
+}
+
+.d_preg {
+    float: left;
+}
+
+#img_flecha {
+    position: relative;
+    width: 18px;
+    margin-top: 25px;
+    z-index: 1;
+}
+.d_bordes_flecha {
+    float: right;
+}
+.d_bordes {
+    position: relative;
+    float: right;
+    z-index: 0;
+    width: 500px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+    behavior: url(othersLib/PIE.htc);
+}
+.d_bordes_contiene {
+    padding: 10px;
+
+    /*background-color: #b7d68e;*/
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+*.pydevproject
+.project
+.metadata
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+*.tmp
+*.Cache
+~$*
+Thumbs.db
+Desktop.ini
+# Mac crap
+.DS_Store
+._*
+
+############
+#   MIOS   #
+############
+
+/nbproject/
+/zzNo/
+.idea
+
+/config/zymic.php

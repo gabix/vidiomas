@@ -1,0 +1,13 @@
+/* 
+    Document   : home
+    Created on : 26/09/2012, 03:27:57
+    Author     : gabix
+    Description:
+        Para la pag Home
+*/
+#d_cuerpo {
+    width: 100%;
+    height: 400px;
+    float: left;
+    border-left: 3px solid red;
+}

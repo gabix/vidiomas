@@ -1,0 +1,117 @@
+/* 
+    Document   : viajar
+    Created on : 26/09/2012, 03:24:19
+    Author     : gabix
+    Description:
+        Para la pag de viajar
+*/
+h1 {
+    font-family: 'quadranta_b';
+    font-size: 29px;
+    font-weight: normal;
+    color: #379ED8;
+    margin: 0;
+    padding: 0;
+}
+h2 {
+    font-family: 'quadranta_b';
+    font-size: 18px;
+    font-weight: normal;
+    color: #ADCE3A;
+    margin: 0 0 15px 0;
+    padding: 0;
+}
+h3 {
+    font-family: 'quadranta_b';
+    font-size: 14px;
+    font-weight: normal;
+    color: #379ED8;
+    margin: 10px 0 10px 0;
+    padding: 0;
+}
+p {
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: normal;
+    color: #000000;
+    
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style-type: circle;
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin: 0;
+    padding: 0;
+}
+
+#d_cuerpo {
+    width: 897px;
+    height: 525px;
+    float: left;
+    
+    padding-top: 10px;
+    padding-left: 55px;
+    padding-right: 72px;
+    padding-bottom: 10px;
+}
+
+#d_preg {
+    width: 276px;
+    margin-top: 43px;
+}
+
+/*#d_flecha {
+    width: 13px;
+    height: 34px;
+    background-color: #ffffff;
+    background-image: url(../img/noimg.png);
+
+    -webkit-box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0px 5px 2px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+
+    position: relative;
+    behavior: url(../othersLib/PIE.htc);
+}*/
+
+.d_bordeado {
+    width: 596px;
+    height: 474px;
+    float: right;
+    
+    background-image: url(../img/fondoViajar.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.d_innBordeado {
+    text-align: justify;
+    padding: 40px 35px 40px 50px;
+    border: 1px solid black;
+}
+
+.img_pajaroViajar {
+    width: 90px;
+    height: 97px;
+    float: right;
+    vertical-align: top;
+    margin: 0px 0px 0px 10px;
+}
+
+.img_valijaMarron {
+    width: 61px;
+    height: 42px;
+    float: left;
+    vertical-align: top;
+    margin: 10px;    
+}
+
+.hr_punteada {
+    border-style: dashed;
+    color: #379ED8;
+}
+
+

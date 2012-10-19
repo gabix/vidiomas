@@ -1,0 +1,6 @@
+<?php
+$headMetas['titu'] = "vidiomas.com online platform for teaching and learning Spanish online";
+$headMetas['keys'] = "online classes, Spanish lessons, study Spanish online, language, course, private tuition, tutoring, live interaction, remote lessons, learn Spanish, teach Spanish, Spanish study materials, practice Spanish, Spanish vocabulary, Spanish grammar, Spanish exercises, listening Spanish, speaking Spanish, reading Spanish, writing Spanish,Common European framework for languages";
+$headMetas['subj'] = "Online Spanish classes";
+$headMetas['class'] = "World, Spanish, Regional, Europe, United States, Canada, Australia, New Zealand, Asia, China, Japan, Israel, South Africa, Scandinavia, Iceland, Brazil";
+$headMetas['desc'] = "The best online school of Spanish. Vidiomas is a platform where you can teach and learn Spanish using a smooth video conference tool that creates a virtual classroom. Teachers can use Vidiomas to make their online classes as comfortable as if they were at a physical school, and students can upload and download study materials, test their newly acquired abilities, practice their Spanish with interactive games, memo tests and online flashcards. The platform is designed to create the best possible language learning experience";
