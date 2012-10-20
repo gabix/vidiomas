@@ -48,10 +48,6 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
                 width: 1024px;
             }
 
-            #d_tessto {
-                width: 100%;
-            }
-
             .d_controles {
                 text-align: center;
             }
@@ -129,13 +125,16 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
             });
 
             function MostrarErrorEn(msg, control) {
-                $('#lbl_'+control+'_error').html(msg);
+                var lblErr = $('#lbl_'+control+'_error');
+                var divC = $('#d_'+control);
+
+                lblErr.html(msg);
                 if (msg != "") {
-                    $('#d_'+control).addClass('error');
-                    $('#lbl_'+control+'_error').removeClass('dispNone');
+                    divC.addClass('error');
+                    lblErr.removeClass('dispNone');
                 } else {
-                    $('#d_'+control).removeClass('error');
-                    $('#lbl_'+control+'_error').addClass('dispNone');
+                    divC.removeClass('error');
+                    lblErr.addClass('dispNone');
                 }
             }
 
@@ -213,7 +212,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
                 evt.preventDefault();
                 
                 if ((ValidaNombre() == false) && (ValidaTitulo() == false) && (ValidaTxt() == false)) {
-                    $('#txt_nombre')
+                    $('#txt_nombre');
                     $('#f_escribite').submit();
                 }
             });

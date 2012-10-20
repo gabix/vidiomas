@@ -52,7 +52,6 @@ class BlogEntradas {
         if (BlogEntrada::Validar("nombre", $nombre) != 1) {
             //no es un nom válido
             return false;
-            exit();
         }
         
         foreach ($this->entradas as $entrada) {
