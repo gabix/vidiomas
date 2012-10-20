@@ -32,6 +32,7 @@ $pagTitle = "php page template";
 <h1><?= $pagTitle ?></h1>
 <hr/>
 
+<?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
 <script type="text/javascript" src="othersLib/jquery.min.js"></script>
 <script type="text/javascript" src="inc/<?= $pagTitle ?>"></script>
 <script type="text/javascript"></script>
