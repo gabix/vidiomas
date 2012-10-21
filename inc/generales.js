@@ -171,6 +171,11 @@ $('#but_enter').on('click', function (evt) {
     Login();
 });
 
+function JsCargado(p_id, jsPag) {
+    p_id.html(jsPag+" CARGADO");
+    p_id.removeClass('colRojo');
+    p_id.addClass('colVerde');
+}
 
 // -- Init -- \\
 $(function () {
@@ -178,7 +183,9 @@ $(function () {
         login_activa(2);
     }
 
-    $('#pru').html("js CARGADO");
+    JsCargado($('#cargandoJs_generales'), 'generales.js');
+
+
 //var lang = $('meta[name=lang]').attr("content");
 //$('#pru').html(lang);
 

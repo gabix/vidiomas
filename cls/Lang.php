@@ -41,7 +41,7 @@ class Lang {
         $this->setLang($soloTal, $lang);
     }
 
-    public function setLang($soloTal, $lang = null) {
+    public function setLang($soloTal, $lang = "") {
         if (isset($_POST['inp_lang']) && strlen($_POST['inp_lang']) === 2) {
             //hay un cambio de lenguaje? (viene por post inp_lang)
             $this->lang = $_POST['inp_lang'];
@@ -80,7 +80,7 @@ class Lang {
     public function errMsg($msg) {
         Debuguie::AddMsg("Lang - errMsg()", "atributo=$msg", "info");
 
-        if ($msg == "") return false;
+        if ($msg == ""  && $this->errMsg == null) return false;
 
         $msg = explode("-", $msg);
 
@@ -115,7 +115,7 @@ class Lang {
         if (($this->$arr <> null) && (array_key_exists($msg, $this->$arr))) {
             return $this->{$arr}[$msg];
         } else {
-            Debuguie::AddMsg("Lang - generico()", "(arr=($arr) | msg=($msg)) inválido", "warning");
+            Debuguie::AddMsg("Lang - generico()", "(arr=($arr) | msg=($msg)) inválido", "info");
             return $msg;
         }
     }
@@ -127,7 +127,7 @@ class Lang {
      * @return string
      */
     public function __call($metodo, $argumentos) {
-        Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "info");
+        Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "success");
 
         if (!isset($this->$metodo)) {
             Debuguie::AddMsg("Lang - __call()", "$metodo inexistente", "error");

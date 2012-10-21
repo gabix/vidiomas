@@ -1,7 +1,6 @@
 <?php
 $errMsg['usuarioBloqueado'] = "Ha superado la cantidad de intentos de logueo, su usuario ha sido bloqueado. Vuelva a probar en 2 horas";
-$errMsg['falloSqlPrep'] = "falló el mysql->prepare";
-$errMsg['noConectaAdb'] = "Can't connect to MySQL Server. Errorcode: ";
+$errMsg['noConectaAdb'] = "Can't connect to DB";
 $errMsg['noExisteCookie'] = "No existe esa cookie";
 $errMsg['cookieDesactualizada'] = "La cookie está desactualizada. Vuelva a loguearse.";
 

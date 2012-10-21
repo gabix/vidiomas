@@ -9,6 +9,8 @@ class Debuguie {
     private $debugSessionName = null;
     private static $instance = null;
 
+    private $doNotDebug = array("", "");
+
     public function __construct() {
         $this->debugSessionName = "Debug log | " . date("Y-m-d H:i:s", time());
         $this->debugTable = $debugTable = $this->_genDebugTable();
@@ -17,7 +19,9 @@ class Debuguie {
             $this->logFilePath = $logFilePath = APP_ROOT.DS.LOGS_LOCATION.DS."debugLog.".date("Ymd-H", time()).".html";
             $this->logFile = $logFile = new SuperFile($logFilePath);
 
-            if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
+
+            //if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
+            if (ONTHEFLY) DBfuncs::DBcrearTablaLog();
         }
     }
 
@@ -56,10 +60,15 @@ class Debuguie {
      */
     public static function AddMsg($donde, $msg, $tipoDeError) {
         self::instance()->_addMsg($donde, $msg, $tipoDeError);
-        if (ONTHEFLY) self::instance()->_printMsgsOnTheFly();
+        if (ONTHEFLY) self::instance()->_onTheFly();
     }
 
     private function _addMsg($donde, $msg, $tipoDeError) {
+        //pa ignorar los addMsg de ciertas clases
+        $clase = explode(" - ", $donde);
+        if (in_array($clase[0], $this->doNotDebug)) return null;
+
+        //ahora si, agregá.
         //TODO: is_otra cosa --> bla
         if (($msg == "") || ($msg == null)) $msg = 'vacio';
         //if (is_numeric($msg)) $msg = "(numeric)=".(string) $msg;
@@ -75,7 +84,11 @@ class Debuguie {
         return self::instance()->_printMsgs();
     }
 
-    private function _printMsgsOnTheFly() {
+    /**
+     * Muestra como trigger_error() los msj pasados a debuguie que son del tipo warning y error
+     * Manda un insert a la db.
+     */
+    private function _onTheFly() {
         $debMsg = end($this->debuguieMsgs);
 
         if ($debMsg['tipoDeError'] == "error" || ($debMsg['tipoDeError'] == "warning")) {
@@ -83,11 +96,21 @@ class Debuguie {
         }
 
         if (GENERARLOG) {
-            $dMsg = '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
-            $dMsg .= "     <td>" . $debMsg['tipoDeError'] . "</td><td>" . $debMsg['donde'] . "</td><td>" . $debMsg['msg'] . "</td>\n";
-            $dMsg .= "    </tr>\n";
+            $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            if (!mysqli_connect_errno()) {
+                if ($q = $mysqli->prepare("INSERT INTO debuguie_log (titulo, time, claseYmetodo, msg, tipoDeError) VALUES (?, ?, ?, ?, ?)")) {
+                    $time = time();
+                    $q->bind_param('sisss', $this->debugSessionName, $time, $debMsg['donde'], $debMsg['msg'], $debMsg['tipoDeError']);
+                    $funciono = $q->execute();
 
-            $this->logFile->PushToDebugLogFile($dMsg, true);
+                    $mysqli->close();
+                    echo "caca funciono?($funciono) en ".$debMsg['donde']."<br>\n";
+                    return true;
+                }
+            }
+            $mysqli->close();
+            trigger_error("No se puede conectar a la DB. Err: " . mysqli_connect_error());
+            return null;
         }
     }
 
@@ -107,18 +130,36 @@ class Debuguie {
         return $ret;
     }
 
-    //obsoleto?
-    //     /**
-    //     * Imprime divs con el coso donde sea que se está el """puntero""" actual de escritura de la pag.
-    //     * Usar el otro con <script es más mejor.
-    //     * @return string (divo div)
-    //     */
-    //    private function _printDebuguieMsgsOnTheFly() {
-    //        $debMsg = end($this->debuguieMsgs);
-    //        $ret = '<div class="alert alert-' . $debMsg['color'] . '">' . "\n";
-    //        $ret .= "\t" . '<a href="#" class="close" data-dismiss="alert">×</a>' . "\n";
-    //        $ret .= "\t<strong>" . $debMsg['color'] . "</strong> <em>en</em> " . $debMsg['donde'] . " | " . $debMsg['msg'] . "\n";
-    //        $ret .= "</div>\n";
-    //        return $ret;
-    //    }
 }
+
+//obsoleto?
+//     /**
+//     * Imprime divs con el coso donde sea que se está el """puntero""" actual de escritura de la pag.
+//     * Usar el otro con <script es más mejor.
+//     * @return string (divo div)
+//     */
+//    private function _onTheFly() {
+//        $debMsg = end($this->debuguieMsgs);
+//        $ret = '<div class="alert alert-' . $debMsg['color'] . '">' . "\n";
+//        $ret .= "\t" . '<a href="#" class="close" data-dismiss="alert">×</a>' . "\n";
+//        $ret .= "\t<strong>" . $debMsg['color'] . "</strong> <em>en</em> " . $debMsg['donde'] . " | " . $debMsg['msg'] . "\n";
+//        $ret .= "</div>\n";
+//        return $ret;
+//    }
+//
+//    /**
+//     * También imprime en el log cada vez que se agrega un msg (de cualquier tipo)
+//     */
+//    private function _onTheFly() {
+//        $debMsg = end($this->debuguieMsgs);
+//
+//        if (GENERARLOG) {
+//
+//            $dMsg = '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
+//            $dMsg .= "     <td>" . $debMsg['tipoDeError'] . "</td><td>" . $debMsg['donde'] . "</td><td>" . $debMsg['msg'] . "</td>\n";
+//            $dMsg .= "    </tr>\n";
+//
+//            $this->logFile->PushToDebugLogFile($dMsg, true);
+//
+//        }
+//    }

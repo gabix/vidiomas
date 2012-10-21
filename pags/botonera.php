@@ -1,26 +1,27 @@
+<!--suppress HtmlUnknownTarget -->
 <div id="d_bar_supBoto">
     <div id="d_bar_boto1">
-        <a class="but_boto_sup <?php if ($selPag == "home") echo "boto_sup_select_of" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "home") echo " boto_sup_select_of" ?>"
            href="home.php"><?=$l->grales('home')?></a>
         <span class="boto_span">|</span>
-        <a class="but_boto_sup <?php if ($selPag == "nosotros") echo "boto_sup_select" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "nosotros") echo " boto_sup_select" ?>"
            href="nosotros.php"><?=$l->grales('nosotros')?></a>
         <span class="boto_span">|</span>
-        <a class="but_boto_sup <?php if ($selPag == "aula") echo "boto_sup_select" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "aula") echo " boto_sup_select" ?>"
            href="aula.php"><?=$l->grales('aula')?></a>
         <span class="boto_span">|</span>
-        <a class="but_boto_sup <?php if ($selPag == "niveles") echo "boto_sup_select_of" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "niveles") echo " boto_sup_select_of" ?>"
            href="niveles.php"><?=$l->grales('niveles')?></a>
         <span class="boto_span">|</span>
-        <a class="but_boto_sup <?php if ($selPag == "viajar") echo "boto_sup_select_of" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "viajar") echo " boto_sup_select_of" ?>"
            href="viajar.php"><?=$l->grales('viajar')?></a>
     </div>
 
     <div id="d_bar_boto2">
-        <a class="but_boto_sup <?php if ($selPag == "foro") echo "boto_sup_select_of" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "foro") echo " boto_sup_select_of" ?>"
            href="foro.php"><?=$l->grales('foro')?></a>
         <span class="boto_span">|</span>
-        <a class="but_boto_sup <?php if ($selPag == "blog") echo "boto_sup_select_of" ?>"
+        <a class="but_boto_sup<?php if ($selPag == "blog") echo " boto_sup_select_of" ?>"
            href="blog.php"><?=$l->grales('blog')?></a>
     </div>
 

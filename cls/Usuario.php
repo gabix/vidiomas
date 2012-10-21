@@ -57,7 +57,7 @@ class Usuario {
     }
 
     public function __call($metodo, $argumentos) {
-        Debuguie::AddMsg("Usuario - __call()", "met=$metodo args=" . json_encode($argumentos), "info");
+        Debuguie::AddMsg("Usuario - __call()", "met=$metodo args=" . json_encode($argumentos), "success");
 
         $prop = $setter = $getter = false;
         if (strpos($metodo, 'set_') === 0) {
@@ -84,7 +84,7 @@ class Usuario {
         //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: set_props args: " . json_encode($params));}
         foreach ($params as $prop => $val) {
             if (!isset($this->$prop)) {
-                trigger_error("Err: No existe la porpiedad $prop, en set_props, ");
+                trigger_error("Err: No existe la propiedad $prop, en set_props, ");
                 return false;
             }
             $this->_set($prop, $val);
@@ -95,7 +95,7 @@ class Usuario {
     /**
      * para traer todas las propiedades de la clase pedidas en $params
      * @param type array(), ej: array('xx1', 'xx2')
-     * @return type array(), ej: array('xx1' => 'el val de xx1', 'xx2' => 'el val de xx2') 
+     * @return type array(), ej: array('xx1' => 'el val de xx1', 'xx2' => 'el val de xx2')
      */
     public function get_props($params) {
         //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: get_props args: " . json_encode($params));}
@@ -103,7 +103,7 @@ class Usuario {
         foreach ($params as $prop) {
             if (!isset($this->$prop)) {
                 //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: get_props ");}
-                trigger_error("Err: No existe la porpiedad $prop, en get_props, ");
+                trigger_error("Err: No existe la propiedad $prop, en get_props, ");
                 return false;
             }
             //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: get_props ");}
@@ -115,7 +115,7 @@ class Usuario {
     // </editor-fold>
     // 
     // <editor-fold desc="Inicializadores">
-    
+
     public static function instance() {
         if (null === self::$instance) {
             self::$instance = new Usuario();
@@ -143,6 +143,8 @@ class Usuario {
     // <editor-fold desc="Metodos Privados">
 
     private function checkBrute($user_id, $mysqli) {
+        Debuguie::AddMsg("Usuario - checkBrute()", "params user_id=($user_id), y mysqli", "success");
+
         $now = time();
         // All login attempts are counted from the past 2 hours. 
         $valid_attempts = $now - (2 * 60 * 60);
@@ -155,26 +157,32 @@ class Usuario {
 
             // If there has been more than 10 failed logins
             if ($q->num_rows > 10) {
+                Debuguie::AddMsg("Usuario - checkBrute()", "hubo más de 10 intentos de logueo (ret true)", "success");
+
                 return true;
             } else {
+                Debuguie::AddMsg("Usuario - checkBrute()", "no hubo más de 10 intentos de logueo (ret false)", "success");
+
                 return false;
             }
         }
+        Debuguie::AddMsg("Usuario - checkBrute()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+
         return false;
     }
 
     /**
      * Dandole un email y pass setea todos los parametros de esta clase
-     * @param (string) $email 
+     * @param (string) $email
      * @param (string) $pass la contraseña ya hasheada
-     * @return (array) 'err' => t/f, 'msg' => mensaje de error 
+     * @return (array) 'err' => t/f, 'msg' => mensaje de error
      */
     private function deDBPropsXemailYpass($email, $pass) {
-        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        if (mysqli_connect_errno()) {
-            return array('err' => true, 'msg' => "noConectaAdb-" . mysqli_connect_error());
-            die();
-        }
+        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "success");
+
+        $mysqli = dbFuncs::DBcrearMysqli();
+        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
+
         if ($q = $mysqli->prepare("SELECT id, apodo, categoria, pass, salt, creditos, nombre, pais, sexo, tel, codpostal, lang, time FROM usuarios WHERE email = ? LIMIT 1")) {
             $q->bind_param('s', $email);
             $q->execute();
@@ -186,13 +194,15 @@ class Usuario {
             if ($q->num_rows == 1) {
                 if ($this->checkBrute($user_id, $mysqli) == true) {
                     // usuario bloqueado!
+                    Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "usuario bloqueado por 2hrs", "success");
+
                     // TODO: mandar email informando que el usu esta bloqueado
                     $mysqli->close();
                     return array('err' => true, 'msg' => "usuarioBloqueado");
                 } else {
                     if ($db_password == $pass) {
                         // Password is correct!
-                        $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user. 
+                        $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
                         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
                         $login_string = hash('sha512', $pass . $ip_address . $user_browser);
 
@@ -212,12 +222,15 @@ class Usuario {
                 }
             } else {
                 //no existe el mail
+                Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "no existe el mail", "success");
+
                 $mysqli->close();
                 return array('err' => true, 'msg' => "noExisteMail");
             }
         }
         $mysqli->close();
-        return array('err' => true, 'msg' => "falloSqlPrep-deDBPropsXemailYpass");
+        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        return array('err' => true, 'msg' => "noConectaAdb");
     }
 
     /**
@@ -226,11 +239,9 @@ class Usuario {
      * @return (array) 'err' => true, 'msg' => ""
      */
     private function dbDBcatYcreditosXid($usuId) {
-        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        if (mysqli_connect_errno()) {
-            return array('err' => true, 'msg' => "noConectaAdb-" . mysqli_connect_error());
-            die();
-        }
+        $mysqli = dbFuncs::DBcrearMysqli();
+        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
+
         if ($q = $mysqli->prepare("SELECT categoria, creditos FROM usuarios WHERE id = ? LIMIT 1")) {
             $q->bind_param('i', $usuId);
             $q->execute();
@@ -246,8 +257,10 @@ class Usuario {
                 ;
             }
         }
+
         $mysqli->close();
-        return array('err' => true, 'msg' => "falloSqlPrep-dbDBcatYcreditosXidYlogString");
+        Debuguie::AddMsg("Usuario - dbDBcatYcreditosXidYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        return array('err' => true, 'msg' => "noConectaAdb");
     }
 
     /** checkCookie
@@ -259,14 +272,11 @@ class Usuario {
     private function checkCookie($usuId, $logStr) {
         //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-checkCookie", "entré"); }
 
-        $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user. 
+        $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 
-        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        if (mysqli_connect_errno()) {
-            return array('err' => true, 'msg' => "noConectaAdb-" . mysqli_connect_error());
-            die();
-        }
+        $mysqli = dbFuncs::DBcrearMysqli();
+        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
 
         if ($q = $mysqli->prepare("SELECT pass FROM usuarios WHERE id = ? LIMIT 1")) {
             $q->bind_param('i', $usuId);
@@ -292,7 +302,9 @@ class Usuario {
                 return false;
             }
         }
+
         $mysqli->close();
+        Debuguie::AddMsg("Usuario - checkCookie()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
         return false;
     }
 
@@ -315,11 +327,11 @@ class Usuario {
 
             Cookie::kill($cooname);
         }
-        
+
     }
 
     // </editor-fold>
-    // 
+    //
     // <editor-fold desc="Métodos Publicos">
     /**
      * Carga todas las props en sess usu ($this->props)
@@ -349,7 +361,7 @@ class Usuario {
 
     /**
      * verifica si la cookie existe y todavía es válida, y luego carga de la db la categoría y los créditos
-     * @return (array) 'err' => t/f, 'msg' => mensaje de error 
+     * @return (array) 'err' => t/f, 'msg' => mensaje de error
      */
     private function deCookieAsess() {
         if (isset($_COOKIE["usu"]['id']) && isset($_COOKIE["usu"]['login_string'])) {
@@ -382,22 +394,24 @@ class Usuario {
     /**
      * se hace?
      * @param type $id
-     * @param type $logStr 
+     * @param type $logStr
      */
     public function logueadoXdb($id, $logStr) {
         //TODO: logueadoXdb si es nesario
     }
 
     /**
-     * 
+     *
      * @param string $email
      * @param string $pass
      * @param bool $cookie
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     public function loguear($email, $pass, $cookie = false) {
+        Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "success");
+
         $rta = $this->deDBPropsXemailYpass($email, $pass);
-        //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu->loguear", $rta);}
+
         if (!$rta['err']) {
             //props de this seteadas, guardo el usu en sess
             //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu->loguear", "si log");}
@@ -414,7 +428,7 @@ class Usuario {
             return $rta;
         }
     }
-    
+
     public function inicio() {
         if (Session::get('usu')) {
             //SuperFuncs::debuguie("cusu", "si sess");
@@ -430,7 +444,7 @@ class Usuario {
             }
             return null;
         }
-        
+
     }
 
     /**

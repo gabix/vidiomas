@@ -13,7 +13,7 @@ $lo = $usu->get_loged();
 $cat = $usu->get_categoria();
 
 //defino el título de la pag
-$selPag = "oPru";
+$selPag = "templateNewPage";
 $pagTit = $l->grales($selPag);
 // </editor-fold>
 ?>
@@ -39,33 +39,13 @@ $pagTit = $l->grales($selPag);
 
 <body>
 <div id="d_superContenedor">
-    <?php //require_once APP_ROOT.DS."pags".DS."header.php"; ?>
-    <?php //require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
+    <?php require_once APP_ROOT.DS."pags".DS."header.php"; ?>
+    <?php require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
 
     <div id="d_cuerpo">
         <h1><?=$pagTit?></h1>
         <p>oPru es un super-duper template</p>
         <p>si</p>
-        <hr/>
-
-        <?php
-        if (isset($_POST['si']) && $_POST['si'] == "si") {
-            $ret = Cookie::set('almacen', 'miMamaMeMima');
-            ?><p class="lefteame">estoy seteando!! ret=(<?= $ret ?>)</p><?php
-        }
-        if (isset($_POST['kill']) && $_POST['kill'] == "kill") {
-            $ret = Cookie::kill('almacen');
-            ?><p class="lefteame">estoy matando!! ret=(<?= $ret ?>)</p><?php
-        }
-
-        $getIl = Cookie::get('almacen');
-        ?>
-        <p>Prueba de alamc&eacute;n de cookie getIl=(<?= $getIl ?>)</p>
-
-        <form class="centrame" method="post" action="oPru.php">
-            <input type="submit" name="si" value="si" />
-            <input type="submit" name="kill" value="kill" />
-        </form>
 
         <p class="cl"></p>
     </div>
@@ -83,7 +63,7 @@ $pagTit = $l->grales($selPag);
 
 <script type="text/javascript" src="inc/generales.js"></script>
 <script type="text/javascript">
-    JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js')
+    JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js');
 </script>
 </body>
 </html>

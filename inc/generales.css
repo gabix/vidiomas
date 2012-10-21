@@ -58,11 +58,8 @@ a:active {
 }
 
 #d_debug {
-    position: relative;
-    float: none;
-    width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    text-align: left;
 }
 
 .cl {
@@ -91,6 +88,18 @@ a:active {
 }
 .colVerde {
     color: #ADCE3A;
+}
+.colRojo {
+    color: #ce3c4e;
+}
+.centrame {
+    text-align: center;
+}
+.lefteame {
+    text-align: left;
+}
+.righteame {
+    text-align: right;
 }
 
 /* del header */

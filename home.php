@@ -19,40 +19,42 @@ $pagTit = $l->grales($selPag);
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-<?php $l->crearHeadMetas($pagTit) ?>
-        <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
-        <link rel="stylesheet" type="text/css" href="inc/generales.css" />
-        <link rel="stylesheet" type="text/css" href="inc/home.css" />
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    </head>
-    <body>
-        <div id="d_superContenedor">
-<?php include APP_ROOT.DS."pags".DS."header.php"; ?>
-<?php include APP_ROOT.DS."pags".DS."botonera.php"; ?>
+<head>
+    <?php $l->crearHeadMetas($pagTit) ?>
+    <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="inc/generales.css" />
+    <link rel="stylesheet" type="text/css" href="inc/home.css" />
 
-<div id="d_cuerpo">
-    <h1><?=$pagTit?></h1>
-    <p>acacacacalñ ñlaskdlñakdñlaskdñasdkañsldkaslñdkasñdlkadñlk</p>
-    <p>nosotros aula</p>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="othersLib/sha512.js"></script>
+</head>
+<body>
+<div id="d_superContenedor">
+    <?php require_once APP_ROOT.DS."pags".DS."header.php"; ?>
+    <?php require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
 
-    <p class="cl"></p>
+    <div id="d_cuerpo">
+        <h1><?=$pagTit?></h1>
+        <p>acacacacalñ ñlaskdlñakdñlaskdñasdkañsldkaslñdkasñdlkadñlk</p>
+        <p>nosotros aula</p>
+
+        <p class="cl"></p>
+    </div>
+
+    <?php require_once APP_ROOT.DS.'pags'.DS.'footer.php'; ?>
+
+    <div id="d_debug">
+        <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
+        <a href="debug_sess.php">debug_sess.php</a>
+        <p id="cargandoJs_generales" class="colRojo">CARGANDO generales.js</p>
+        <?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
+    </div>
 </div>
-            
-<?php include APP_ROOT.DS.'pags'.DS.'footer.php'; ?>
 
-            <div id="debug">
-                <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
-                <a href="debug_sess.php">debug_sess.php</a>
-                <p id="pru">CARGANDO JS</p>
-            </div>
-        </div>
+<!-- TODO: agregar las CONST de xxPAG a window.constBla
+<script type="text/javascript"></script>
+-->
+<script type="text/javascript" src="inc/generales.js"></script>
 
-
-        <script type="text/javascript" src="othersLib/sha512.js"></script>
-        <!-- TODO: agregar las CONST de xxPAG a window.constBla
-        <script type="text/javascript"></script>
-        -->
-        <script type="text/javascript" src="inc/generales.js"></script>
-    </body>
+</body>
 </html>

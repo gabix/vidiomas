@@ -10,7 +10,7 @@ define('DEFLANG', 'en');
 
 // pa debuguear
 define('DEBUGUEANDO', true);
-define('ONTHEFLY', false);
+define('ONTHEFLY', true);
 define('GENERARLOG', true);
 
 // pa TEA

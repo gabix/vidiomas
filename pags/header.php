@@ -26,7 +26,7 @@
         <div id="usu_login" class="dispNone">
             <label><?= $l->grales("holaUsu") ?></label>
             <a href="cpanel.php" class="but_logins" id="but_usu"><?php if ($lo)
-    echo $usu->get_apodo(); ?></a>
+                echo $usu->get_apodo(); ?></a>
         </div>
         <span>&nbsp;|&nbsp;</span>
         <a href="registro.php" class="but_logins dispInline" id="but_register"><?= $l->grales("registrate") ?></a>
