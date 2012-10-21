@@ -13,7 +13,7 @@ $lo = $usu->get_loged();
 $cat = $usu->get_categoria();
 
 //defino el título de la pag
-$selPag = "oPru";
+$selPag = "oPru2";
 $pagTit = $l->grales($selPag);
 // </editor-fold>
 

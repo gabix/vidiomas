@@ -98,7 +98,9 @@ class Lang {
                     $ret.= " | ";
             }
             return $ret;
+
         } else {
+            Debuguie::AddMsg("Lang - errMsg()", "msg=$msg vacio?", "warning");
             return $this->errMsg['defErr'];
         }
     }
@@ -107,21 +109,22 @@ class Lang {
      * Forma 1 de conseguir un msje de las pags de idioma ($l->generico('grales', 'holaUsu'))
      * @param (string) $arr el nombre del array con los msjes
      * @param (string) $msg el key del msje
-     * @return (string) el msje en el array
+     * @return (string) el msje en el array | warning y el $msg enviado
      */
     public function generico($arr, $msg) {
         if (($this->$arr <> null) && (array_key_exists($msg, $this->$arr))) {
             return $this->{$arr}[$msg];
         } else {
-            return "ERROR, pinché con $arr o $msg en generico($arr, $msg), en Lang";
+            Debuguie::AddMsg("Lang - generico()", "(arr=($arr) | msg=($msg)) inválido", "warning");
+            return $msg;
         }
     }
 
     /**
      * Forma 2 de conseguir un msje de las pags de idioma ($l->grales('holaUsu'))
-     * @param (string) $metodo 
-     * @param type $argumentos
-     * @return (string)
+     * @param string $metodo
+     * @param string $argumentos
+     * @return string
      */
     public function __call($metodo, $argumentos) {
         Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "info");
