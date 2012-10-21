@@ -27,8 +27,8 @@ $pagTit = $l->grales($selPag);
 </head>
 <body>
 <div id="d_superContenedor">
-    <?php include APP_ROOT.DS."pags".DS."header.php"; ?>
-    <?php include APP_ROOT.DS."pags".DS."botonera.php"; ?>
+    <?php require_once APP_ROOT.DS."pags".DS."header.php"; ?>
+    <?php require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
 
     <div id="d_cuerpo">
         <h1><?=$pagTit?></h1>
@@ -38,7 +38,7 @@ $pagTit = $l->grales($selPag);
         <p class="cl"></p>
     </div>
 
-    <?php include APP_ROOT.DS.'pags'.DS.'footer.php'; ?>
+    <?php require_once APP_ROOT.DS.'pags'.DS.'footer.php'; ?>
 
     <div id="debug">
         <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>

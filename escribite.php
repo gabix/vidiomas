@@ -1,5 +1,5 @@
 <?php
-require_once 'config' . DIRECTORY_SEPARATOR . 'init.php';
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
 $pagTitle = "escribite";
 
@@ -17,7 +17,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
 
         $ent = new BlogEntrada();
         if ($ent->LlenarDB_entradaXnombre($_GET['nom'])) {
-            if (isset($_GET['eliminarestaurar']) && $_GET['eliminarestaurar'] == "true") {
+            if (isset($_GET['eliminar-restaurar']) && $_GET['eliminar-restaurar'] == "true") {
                 if ($ent->EliminarRestaurarDB_entrada()) {
                     Debuguie::AddMsg("escribite.php", "Eliminar/Restaurar success", "success");
                 } else {
@@ -37,7 +37,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
         <?= "<title>$pagTitle</title>\n" ?>
         <link rel="stylesheet" type="text/css" href="othersLib/bootstrap.css" />
         <style>
-            .titti {
+            .titty {
                 text-align: center;
                 color: #006dcc;
             }
@@ -46,6 +46,10 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
                 margin-left: auto;
                 margin-right: auto;
                 width: 1024px;
+            }
+
+            #d_tessto {
+                width: 100%;
             }
 
             .d_controles {
@@ -62,7 +66,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
     </head>
     <body>
         <div class="supCont">
-            <h1 class="titti"><?= $pagTitle ?></h1>
+            <h1 class="titty"><?= $pagTitle ?></h1>
             <hr />
             
             <form id="f_escribite" method="post" action="proc/p_blogEntrada.php">
@@ -125,16 +129,13 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
             });
 
             function MostrarErrorEn(msg, control) {
-                var lblErr = $('#lbl_'+control+'_error');
-                var divC = $('#d_'+control);
-
-                lblErr.html(msg);
+                $('#lbl_'+control+'_error').html(msg);
                 if (msg != "") {
-                    divC.addClass('error');
-                    lblErr.removeClass('dispNone');
+                    $('#d_'+control).addClass('error');
+                    $('#lbl_'+control+'_error').removeClass('dispNone');
                 } else {
-                    divC.removeClass('error');
-                    lblErr.addClass('dispNone');
+                    $('#d_'+control).removeClass('error');
+                    $('#lbl_'+control+'_error').addClass('dispNone');
                 }
             }
 
@@ -212,7 +213,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
                 evt.preventDefault();
                 
                 if ((ValidaNombre() == false) && (ValidaTitulo() == false) && (ValidaTxt() == false)) {
-                    $('#txt_nombre');
+                    $('#txt_nombre')
                     $('#f_escribite').submit();
                 }
             });

@@ -6,26 +6,25 @@ class Debuguie {
     private $debugTable = null;
     private $logFilePath = null;
     private $logFile = null;
-    private $logTitle = null;
+    private $debugSessionName = null;
     private static $instance = null;
 
     public function __construct() {
-        echo "hola .. construyo\n";
-        $this->logTitle = $logTitle = "Debug log | " . date("Y-m-d H:i:s", time());
+        $this->debugSessionName = "Debug log | " . date("Y-m-d H:i:s", time());
         $this->debugTable = $debugTable = $this->_genDebugTable();
 
-        $this->logFilePath = $logFilePath = Loader::LoadObjectPath("logs", "debugLog", "html", date("Ymd-H", time()));
-        $this->logFile = $logFile = new SuperFile($logFilePath);
+        if (GENERARLOG) {
+            $this->logFilePath = $logFilePath = APP_ROOT.DS.LOGS_LOCATION.DS."debugLog.".date("Ymd-H", time()).".html";
+            $this->logFile = $logFile = new SuperFile($logFilePath);
 
-        if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
+            if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
+        }
     }
 
     private function _genDebugTable() {
-        echo "hola .. _genDebugTable\n";
-
-        $ret = '<div id="'.$this->logTitle.'" class="well well-small">'."\n";
-        $ret .= ' <div id="d_debuguie">'."\n";
-        $ret .= '  <caption>'.$this->logTitle.'</caption>'."\n";
+        $ret = '<div id="'.$this->debugSessionName.'" class="well well-small">'."\n";
+        $ret .= ' <div class="d_debuguie">'."\n";
+        $ret .= '  <caption>'.$this->debugSessionName.'</caption>'."\n";
         $ret .= '  <table class="table table-condensed">'."\n";
         $ret .= '   <thead>'."\n";
         $ret .= '    <tr>'."\n";
@@ -51,13 +50,13 @@ class Debuguie {
 
     /**
      * @param string $donde
-     * @param object $msg
+     * @param object|string $msg
      * @param string $tipoDeError "success|error|warning|info"
      * @return array
      */
     public static function AddMsg($donde, $msg, $tipoDeError) {
+        self::instance()->_addMsg($donde, $msg, $tipoDeError);
         if (ONTHEFLY) self::instance()->_printMsgsOnTheFly();
-        self::instance()->_addMsg($donde, $msg, $tipoDeError);;
     }
 
     private function _addMsg($donde, $msg, $tipoDeError) {
@@ -79,19 +78,20 @@ class Debuguie {
     private function _printMsgsOnTheFly() {
         $debMsg = end($this->debuguieMsgs);
 
-        if ($debMsg['tipoDeError'] == "error" || $debMsg['tipoDeError'] == "warning") {
-            trigger_error($debMsg['tipoDeError'] . ": en ".$debMsg['donde'] . " | " . $debMsg['msg']);
+        if ($debMsg['tipoDeError'] == "error" || ($debMsg['tipoDeError'] == "warning")) {
+            trigger_error("<b>".$debMsg['tipoDeError']."</b>: en ".$debMsg['donde']." | ".$debMsg['msg']);
         }
 
-        $dMsg = '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
-        $dMsg .= "     <td>" . $debMsg['tipoDeError'] . "</td><td>" . $debMsg['donde'] . "</td><td>" . $debMsg['msg'] . "</td>\n";
-        $dMsg .= "    </tr>\n";
+        if (GENERARLOG) {
+            $dMsg = '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
+            $dMsg .= "     <td>" . $debMsg['tipoDeError'] . "</td><td>" . $debMsg['donde'] . "</td><td>" . $debMsg['msg'] . "</td>\n";
+            $dMsg .= "    </tr>\n";
 
-        $this->logFile->PushToDebugLogFile($dMsg, true);
+            $this->logFile->PushToDebugLogFile($dMsg, true);
+        }
     }
 
     private function _printMsgs() {
-        echo "hola, count = " . count($this->debuguieMsgs);
         $ret = null;
         if (count($this->debuguieMsgs) > 0) {
             $dMsgs = "";
@@ -102,7 +102,7 @@ class Debuguie {
             }
             $ret = str_replace("<!--DEBUG_MSG_INPUT-->", $dMsgs, $this->debugTable);
 
-            if (!ONTHEFLY) $this->logFile->PushToDebugLogFile($ret, false);
+            if (GENERARLOG && !ONTHEFLY) $this->logFile->PushToDebugLogFile($ret, false);
         }
         return $ret;
     }

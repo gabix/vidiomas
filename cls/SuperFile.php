@@ -15,10 +15,14 @@ class SuperFile {
         $this->filePath = $filePath;
     }
 
-
-    public function get() {
+    /**
+     * Get entry form file.
+     * @param bool $strict (optinal, def=true, triggers error if file is not found)
+     * @return object if file exists returns $entry in specified file.
+     */
+    public function get($strict = true) {
         if (!is_file($this->filePath)) {
-            Debuguie::AddMsg("SuperFile - get()", "$this->filePath is not a file", "error");
+            if ($strict) Debuguie::AddMsg("SuperFile - get()", "$this->filePath is not a file", "error");
             return null;
         } else {
             require_once($this->filePath);

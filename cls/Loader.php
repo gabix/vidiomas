@@ -18,7 +18,7 @@ class Loader {
 
     /**
      * Add a directory to look into when loading classes
-     * @param type $dir 
+     * @param string $dir
      */
     public static function addLookupDirectory($dir) {
         if (!is_dir($dir)) {
@@ -85,9 +85,9 @@ class Loader {
      * Loads a given item if it actually is somewhere and is recognizable by the loader
      * @param string $item
      * @param string $type (Optional, defaults to "class"
-     * @return boolean
+     * @return string
      */
-    public static function IsItem($item, $type = 'class') {
+    public static function getItemPath($item, $type = 'class') {
         $dirs = self::getLookupDirectories();
         $exts = self::getExtension($type);
         $name = self::getPSR0Name($item);
@@ -96,11 +96,11 @@ class Loader {
                 $file = $dir . DIRECTORY_SEPARATOR . $name . ".$ext";
 //                echo $file.'<br>';
                 if (is_file($file)) {
-                    return true;
+                    return $file;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -133,7 +133,7 @@ class Loader {
     /**
      * Loads the item required by a path in case the file exists
      * @param string $path path to file
-     * @return require with the file | false in case of non existance of asked file
+     * @return require with the file | false in case of non existence of asked file
      */
     public static function LoadItemByPath($path) {
         if (is_file($path)) {
@@ -146,19 +146,18 @@ class Loader {
     }
     
     /**
-     * Ej: (pags_blog, nombreDeEntrada, php, c1)
-     * Ej: (pags_blog, nombreDeEntrada, html)
-     * @param string $place namespace, carpetas separadas por "_" (ej: pags_blog da pags/blog)
+     * Ej: (arch_está_en_carpeta_caca, nombreDeEntrada, php, c1)
+     * Ej: (Escribite_pags_blog, nombreDeEntrada, html)
+     * @param string $place namespace, carpetas separadas por "_" (ej: Escribite_pags_blog da pags/blog)
      * @param string $object nombre del archivo (ej: miEntradaDeBlog)
      * @param string $extension php|html|etc
-     * @param string $extraArg se agrega luego de el objeto y antes de la extención (ej: comentarios5)
+     * @param string $extraArg se agrega luego de el objeto y antes de la extensión (ej: comentarios5)
      * @return string un path a un arch
-     */
     public static function LoadObjectPath($place, $object, $extension, $extraArg = "") {
         $place = str_replace('_', DS, $place);
         $r = APP_ROOT.DS.(($place != "")? $place.DS : "").$object.(($extraArg != "")? ".$extraArg" : "").".$extension";
         //Debuguie::AddMsg("Loader - LoadObjectPath()", "return: $r", "info");
         return $r;
-    }
+    }*/
 
 }

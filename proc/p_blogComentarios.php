@@ -1,5 +1,5 @@
 <?php
-require_once '../config/init.php';
+require_once dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
 function redirect() {
     $entNom = "";
@@ -7,7 +7,8 @@ function redirect() {
         $entNom = Session::get('entradaActiva');
         $entNom = $entNom->get('nombre');
     }
-    header("location: ".APP_URL_ROOT. "/fully.php?nom=$entNom");
+    //TODO: cambiar por blog page
+    header("location: ".APP_URL_ROOT.DS. "fully.php?nom=$entNom");
     exit();
 }
 
@@ -20,7 +21,7 @@ if (Session::get('entradaActiva')) {
             $entNom = $entNom->get('nombre');
         } else {
             Debuguie::AddMsg("p_blogComentarios", "nombre inválido", "warning");
-            die("Pedido inválido");
+            die("Pedido invalido");
         }
 
         $comId = null;
@@ -52,7 +53,7 @@ if (Session::get('entradaActiva')) {
 
             $txt = null;
             if (BlogEntrada::Validar('txt', $_POST['txt'])) {
-                $txt = BlogEntrada::ElimiarScriptsDeStr($_POST['txt']);
+                $txt = BlogEntrada::EliminarScriptsDeStr($_POST['txt']);
             } else {
                 Debuguie::AddMsg("p_blogComentarios", "txt inválido", "warning");
                 die("Pedido invalido");

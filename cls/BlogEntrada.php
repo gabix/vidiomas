@@ -1,8 +1,9 @@
 <?php
+require_once dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
 class BlogEntrada {
 
-    //<editor-fold desc="proprs">
+    //<editor-fold desc="props">
     private $id = -1;
     private $visible = 1;
     private $nombre = "";
@@ -16,19 +17,18 @@ class BlogEntrada {
 
     public function get($prop) {
         if (!isset($this->$prop)) {
-            Debuguie::AddMsg("BlogEntrada - get()", "Err: No existe la porpiedad $prop.", "error");
-            return null;
+            trigger_error("Err: No existe la propiedad $prop, en get.");
+            return false;
         }
         if (!in_array((string) $prop, $this->excludeGet)) {
             return $this->$prop;
         }
-        Debuguie::AddMsg("BlogEntrada - get()", "get_$prop excluido", "warning");
-        return null;
+        trigger_error("get_$prop excluido, ");
     }
 
     public function set($prop, $val) {
         if (!isset($this->$prop)) {
-            trigger_error("Err: No existe la porpiedad $prop, en set.");
+            trigger_error("Err: No existe la propiedad $prop, en set.");
             return false;
         }
         if (!in_array($prop, $this->excludeSet)) {
@@ -75,13 +75,13 @@ class BlogEntrada {
         return $ret;
     }
 
-    public static function ElimiarScriptsDeStr($str) {
+    public static function EliminarScriptsDeStr($str) {
         $str = (string) $str;
         $find = array("<script", "script>", "<?php", "<?=", "?>");
-        $repl = array("<!--script", "script-->", "<!--?", "<!--?=", "?-->");
-        $str = str_ireplace($find, $repl, $str);
+        $replace = array("<!--script", "script-->", "<!--?", "<!--?=", "?-->");
+        $str = str_ireplace($find, $replace, $str);
 
-        Debuguie::AddMsg("BlogEntrada - ElimiarScriptsDeStr()", "returns: $str", "info");
+        Debuguie::AddMsg("BlogEntrada - EliminarScriptsDeStr()", "returns: $str", "info");
         return $str;
     }
 
@@ -214,7 +214,7 @@ class BlogEntrada {
                 Debuguie::AddMsg("BlogEntrada - LlenarDesdeDB_entradaXnombre()", "No existe esa entrada en la DB", "warning");
             }
         } else {
-            Debuguie::AddMsg("BlogEntrada - LlenarDesdeDB_entradaXnombre()", "Err: " . "fallo prepare", "error");
+            Debuguie::AddMsg("BlogEntrada - LlenarDesdeDB_entradaXnombre()", "Err: " . "falló prepare", "error");
             if (!DEBUGUEANDO)
                 die();
         }
@@ -224,8 +224,8 @@ class BlogEntrada {
     }
 
     private function CrearModificarArch_entrada($txt) {
-        $txt = $this->ElimiarScriptsDeStr($txt);
-        $html = Loader::LoadObjectPath("pags_blog", $this->nombre, "html");
+        $txt = $this->EliminarScriptsDeStr($txt);
+        $html = APP_ROOT.DS.BLOG_PAGES_LOCATION.DS.$this->nombre.".html";
 
         $puntero = fopen($html, 'w');
         fwrite($puntero, $txt);
@@ -236,8 +236,7 @@ class BlogEntrada {
     }
 
     public function PrintEntrada() {
-        $html = Loader::LoadObjectPath("pags_blog", $this->nombre, "html");
-
+        $html = APP_ROOT.DS.BLOG_PAGES_LOCATION.DS.$this->nombre.".html";
         Loader::LoadItemByPath($html);
         Debuguie::AddMsg("BlogEntrada - PrintEntrada()", "", "success");
     }

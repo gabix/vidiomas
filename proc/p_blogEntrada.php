@@ -1,9 +1,9 @@
 <?php
-
-require_once '../config/init.php';
+require_once dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
 function redirect($entNom) {
-    header("location: ".APP_URL_ROOT. "/fully.php?nom=$entNom");
+    //TODO: cambiar por blog page
+    header("location: ".APP_URL_ROOT.DS. "fully.php?nom=$entNom");
     exit();
 }
 
@@ -15,7 +15,7 @@ if (isset($_GET['nom']) && isset($_GET['accion'])) {
         exit("pedido inv&aacute;lido");
     }
 
-    if ($_GET['accion'] == "eliminarestaurar") {
+    if ($_GET['accion'] == "eliminar-restaurar") {
         $ent = new BlogEntrada();
         if ($ent->LlenarDB_entradaXnombre($_GET['nom'])) {
             if ($ent->EliminarRestaurarDB_entrada()) {
