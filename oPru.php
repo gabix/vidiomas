@@ -25,7 +25,14 @@ $pagTitle = "php page template";
     <?php $l->crearHeadMetas($pagTit) ?>
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
-    <link rel="stylesheet" type="text/css" href="inc/home.css" />
+    <style type="text/css">
+        #d_cuerpo {
+            width: 100%;
+            height: 400px;
+            float: left;
+            border-left: 3px solid red;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,11 +57,13 @@ $pagTitle = "php page template";
     <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
     <a href="debug_sess.php">debug_sess.php</a>
     <p id="pru">CARGANDO generales.js</p>
+    <p id="pru2">CARGANDO script en bebido</p>
     <?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
 </div>
 
-<script type="text/javascript" src="othersLib/jquery.min.js"></script>
 <script type="text/javascript" src="inc/generales.js"></script>
-<script type="text/javascript"></script>
+<script type="text/javascript">
+    $('#pru2').html("CARGADO script en bebido");
+</script>
 </body>
 </html>

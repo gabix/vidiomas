@@ -38,24 +38,27 @@ class Usuario {
     /**
      * _get para 1SOLA propiedad
      * @param (string) $prop nombre de la prop
-     * @return type el valor de esa prop
+     * @return string|int el valor de esa prop
      */
     private function _get($prop) {
         if (!in_array((string) $prop, $this->excludeGet)) {
             return $this->$prop;
         }
-        trigger_error("_get_$prop excluido, ");
+        Debuguie::AddMsg("Usuario - _get()", "$prop excluida o inexistente", "warning");
+        return null;
     }
 
     private function _set($prop, $val) {
         if (!in_array($prop, $this->excludeSet)) {
             return $this->$prop = $val;
         }
-        trigger_error("_set_$prop excluido, ");
+        Debuguie::AddMsg("Usuario - _set()", "$prop excluida o inexistente", "warning");
+        return null;
     }
 
     public function __call($metodo, $argumentos) {
-        //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: $metodo args: " . json_encode($argumentos));}
+        Debuguie::AddMsg("Usuario - __call()", "met=$metodo args=" . json_encode($argumentos), "info");
+
         $prop = $setter = $getter = false;
         if (strpos($metodo, 'set_') === 0) {
             $setter = true;
@@ -65,7 +68,8 @@ class Usuario {
             $prop = substr($metodo, 4);
         }
         if (!isset($this->$prop)) {
-            trigger_error("Err: No existe la porpiedad $prop, en __call, ");
+            Debuguie::AddMsg("Usuario - __call()", "No existe $prop", "warning");
+            return null;
         }
         //$prop tiene ahora el nombre de la propiedad a setear / traer
         if ($getter) {
@@ -73,7 +77,7 @@ class Usuario {
         } elseif ($setter) {
             return $this->_set($prop, $argumentos[0]);
         }
-        trigger_error("Método $metodo inexistente.");
+        Debuguie::AddMsg("Usuario - __call()", "No existe $metodo", "warning");
     }
 
     public function set_props($params) {

@@ -24,6 +24,7 @@ $pagTit = $l->grales($selPag);
         <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
         <link rel="stylesheet" type="text/css" href="inc/generales.css" />
         <link rel="stylesheet" type="text/css" href="inc/home.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     </head>
     <body>
         <div id="d_superContenedor">
@@ -47,7 +48,7 @@ $pagTit = $l->grales($selPag);
             </div>
         </div>
 
-        <script type="text/javascript" src="othersLib/jquery.min.js"></script>
+
         <script type="text/javascript" src="othersLib/sha512.js"></script>
         <!-- TODO: agregar las CONST de xxPAG a window.constBla
         <script type="text/javascript"></script>

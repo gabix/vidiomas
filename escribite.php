@@ -108,7 +108,7 @@ if (isset($_GET['editar']) && $_GET['editar'] == "true") {
         </div>
         <?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
 
-        <script type="text/javascript" src="othersLib/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="othersLib/tiny_mce/tiny_mce.js"></script>
         <script type="text/javascript">
             tinyMCE.init({
