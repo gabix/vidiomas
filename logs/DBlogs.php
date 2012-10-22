@@ -9,22 +9,27 @@ require_once '..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
 $pagTit = "DBlogs";
 
-$dMsgs = null;
+$dMsgs = getLogs();
+
 
 function getLogs($limit = 100) {
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    if ($q = $mysqli->prepare("SELECT * FROM debuguie_log LIMIT $limit ORDER BY id DESC")) {
-        $q->execute();
-        $result = $q->get_result();
+    if (!(is_int($limit) && $limit < 1000)) return "que feo limit que mandaste cacho!";
 
-        echo "success<br>";
+    $ret = $mysqli->query('SELECT * FROM debuguie_log ORDER BY id DESC LIMIT 0 , 100');
+    if ($ret != false && $ret->num_rows > 0) {
 
-        while ($row = $result->fetch_assoc()) {
-            $dMsgs[] = array('id' => $row['id'], 'titulo' => $row['titulo'], 'time' => $row['time'], 'donde' => $row['clase'], 'msg' => $row['msg'], 'tipoDeError' => $row['tipoDeError']);
+        while ($row = $ret->fetch_assoc()) {
+            $dMsgs[] = array('id' => $row['id'], 'titulo' => $row['titulo'], 'time' => $row['time'], 'donde' => $row['claseYmetodo'], 'msg' => $row['msg'], 'tipoDeError' => $row['tipoDeError']);
         }
+
+        $mysqli->close();
+        return $dMsgs;
     }
+
     $mysqli->close();
+    return null;
 }
 
 ?>
@@ -58,7 +63,7 @@ function getLogs($limit = 100) {
             <h1 class="textCenter"><?= $pagTit ?></h1>
             <hr />
 
-            <div class="d_debuguie well">
+            <div class="d_debuguie">
                 <table class="table table-condensed">
                     <thead>
                     <tr>
@@ -68,16 +73,17 @@ function getLogs($limit = 100) {
                     <tbody>
                     <?php
                     if (null != $dMsgs) {
-                    foreach ($dMsgs as $debMsg) { ?>
-                    <tr class="<?= $debMsg['tipoDeError'] ?>">
-                        <td class="bold"></b><?= $debMsg['tipoDeError'] ?></td>
-                        <td><?= $debMsg['id'] ?></td>
-                        <td><?= $debMsg['titulo'] ?></td>
-                        <td><?= date("Y-m-d H:i:s", $debMsg['time']) ?></td>
-                        <td><?= $debMsg['donde'] ?></td>
-                        <td><?= $debMsg['msg'] ?></td>
-                    </tr>
-                    <?php } } ?>
+                        foreach ($dMsgs as $dMsg) { ?>
+                        <tr class="<?= $dMsg['tipoDeError'] ?>">
+                            <td><?= $dMsg['id'] ?></td>
+                            <td><?= $dMsg['titulo'] ?></td>
+                            <td><?= date("Y-m-d H:i:s", $dMsg['time']) ?></td>
+                            <td class="bold"><?= $dMsg['tipoDeError'] ?></td>
+                            <td><?= $dMsg['donde'] ?></td>
+                            <td><?= $dMsg['msg'] ?></td>
+                        </tr>
+                        <?php }
+                    } ?>
                     </tbody>
                 </table>
             </div>

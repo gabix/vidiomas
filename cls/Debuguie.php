@@ -14,6 +14,7 @@ class Debuguie {
     public function __construct() {
         $this->debugSessionName = "Debug log | " . date("Y-m-d H:i:s", time());
         $this->debugTable = $debugTable = $this->_genDebugTable();
+        echo "construyo debug(".$this->debugSessionName.")<br>\n";
 
         if (GENERARLOG) {
             $this->logFilePath = $logFilePath = APP_ROOT.DS.LOGS_LOCATION.DS."debugLog.".date("Ymd-H", time()).".html";
@@ -75,7 +76,7 @@ class Debuguie {
         if (is_array($msg)) $msg = "(array)=".json_encode($msg);
         if (is_numeric($msg)) $msg = "(obj)=".var_export ($msg, true);
 
-        $msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
+        //$msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
         return $this->debuguieMsgs[] = array('donde' => $donde, 'msg' => $msg, 'tipoDeError' => $tipoDeError);
     }
 
@@ -99,7 +100,11 @@ class Debuguie {
             if (!mysqli_connect_errno()) {
                 if ($q = $mysqli->prepare("INSERT INTO debuguie_log (titulo, time, claseYmetodo, msg, tipoDeError) VALUES (?, ?, ?, ?, ?)")) {
                     $time = time();
-                    $r = $q->bind_param('sisss', $this->debugSessionName, $time, $debMsg['donde'], $debMsg['msg'], $debMsg['tipoDeError']);
+                    $donde = htmlentities($debMsg['donde'], ENT_QUOTES, "UTF-8");
+                    $msg = htmlentities( $debMsg['msg'], ENT_QUOTES, "UTF-8");
+                    echo "sqleo (JA!) debug(".$this->debugSessionName.")<br>\n";
+
+                    $r = $q->bind_param('sisss', $this->debugSessionName, $time, $donde, $msg, $debMsg['tipoDeError']);
 
                     echo "caca bind?($r) en ".$debMsg['donde']."<br>\n";
 
