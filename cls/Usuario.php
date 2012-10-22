@@ -36,48 +36,36 @@ class Usuario {
     // <editor-fold desc="Propiedades">
 
     /**
-     * _get para 1SOLA propiedad
-     * @param (string) $prop nombre de la prop
+     * get para 1SOLA propiedad
+     * @param string $prop nombre de la prop
      * @return string|int el valor de esa prop
      */
-    private function _get($prop) {
-        if (!in_array((string) $prop, $this->excludeGet)) {
+    public function get($prop) {
+        if (isset($this->$prop) && !in_array((string) $prop, $this->excludeGet)) {
+            Debuguie::AddMsg("Usuario - get()", "args=($prop)", "success");
+
             return $this->$prop;
         }
-        Debuguie::AddMsg("Usuario - _get()", "$prop excluida o inexistente", "warning");
+
+        Debuguie::AddMsg("Usuario - get()", "$prop excluida o inexistente", "warning");
         return null;
     }
 
-    private function _set($prop, $val) {
-        if (!in_array($prop, $this->excludeSet)) {
+    /**
+     * set para 1SOLA propiedad
+     * @param string $prop nombre de la prop
+     * @param $val value para la prop
+     * @return int|null el seteo de la prop o null
+     */
+    public function set($prop, $val) {
+        if (isset($this->$prop) && !in_array($prop, $this->excludeSet)) {
+            Debuguie::AddMsg("Usuario - set()", "args=($prop)", "success");
+
             return $this->$prop = $val;
         }
-        Debuguie::AddMsg("Usuario - _set()", "$prop excluida o inexistente", "warning");
+
+        Debuguie::AddMsg("Usuario - set()", "$prop excluida o inexistente", "warning");
         return null;
-    }
-
-    public function __call($metodo, $argumentos) {
-        Debuguie::AddMsg("Usuario - __call()", "met=$metodo args=" . json_encode($argumentos), "success");
-
-        $prop = $setter = $getter = false;
-        if (strpos($metodo, 'set_') === 0) {
-            $setter = true;
-            $prop = substr($metodo, 4);
-        } elseif (strpos($metodo, 'get_') === 0) {
-            $getter = true;
-            $prop = substr($metodo, 4);
-        }
-        if (!isset($this->$prop)) {
-            Debuguie::AddMsg("Usuario - __call()", "No existe $prop", "warning");
-            return null;
-        }
-        //$prop tiene ahora el nombre de la propiedad a setear / traer
-        if ($getter) {
-            return $this->_get($prop);
-        } elseif ($setter) {
-            return $this->_set($prop, $argumentos[0]);
-        }
-        Debuguie::AddMsg("Usuario - __call()", "No existe $metodo", "warning");
     }
 
     public function set_props($params) {
@@ -87,7 +75,7 @@ class Usuario {
                 trigger_error("Err: No existe la propiedad $prop, en set_props, ");
                 return false;
             }
-            $this->_set($prop, $val);
+            $this->set($prop, $val);
             //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: set_props set($prop, $val)");}
         }
     }
@@ -107,7 +95,7 @@ class Usuario {
                 return false;
             }
             //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: get_props ");}
-            $ret[$prop] = $this->_get($prop);
+            $ret[$prop] = $this->get($prop);
         }
         return $ret;
     }
@@ -124,7 +112,7 @@ class Usuario {
     }
 
     private function set_todo($id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time) {
-        Debuguie::AddMsg("Usuario - set_todo()", "", "success");
+        Debuguie::AddMsg("Usuario - set_todo()", "", "fInit");
         $this->id = $id;
         $this->apodo = $apodo;
         $this->email = $email;
@@ -144,7 +132,7 @@ class Usuario {
     // <editor-fold desc="Metodos Privados">
 
     private function checkBrute($user_id, $mysqli) {
-        Debuguie::AddMsg("Usuario - checkBrute()", "params user_id=($user_id), y mysqli", "success");
+        Debuguie::AddMsg("Usuario - checkBrute()", "params user_id=($user_id), y mysqli", "fInit");
 
         $now = time();
         // All login attempts are counted from the past 2 hours. 
@@ -179,7 +167,7 @@ class Usuario {
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     private function deDBPropsXemailYpass($email, $pass) {
-        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "success");
+        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "fInit");
 
         $mysqli = dbFuncs::DBcrearMysqli();
         if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
@@ -347,7 +335,7 @@ class Usuario {
      * ojo con inciar sess antes!
      */
     private function setSession() {
-        Debuguie::AddMsg("Usuario - setSession()", "", "success");
+        Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
 
         Session::set('usu', array(
             'id' => $this->id,
@@ -417,7 +405,7 @@ class Usuario {
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     public function loguear($email, $pass, $cookie = false) {
-        Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "success");
+        Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "fInit");
 
         $rta = $this->deDBPropsXemailYpass($email, $pass);
         Debuguie::AddMsg("Usuario - loguear()", "rta=($rta)", "success");

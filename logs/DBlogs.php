@@ -4,7 +4,7 @@
  * Date: 21/10/12
  * Time: 10:19
  */
-//TODO: Preguntar a Carlos que onda con el microtime(true) y porque el date no me está trayendo los microseconds
+//PREG-charly: que onda con el microtime(true) y porque el date no me está trayendo los microseconds
 
 require_once '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'init.php';
 

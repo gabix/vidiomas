@@ -20,7 +20,7 @@ class Cookie {
     }
 
     public function getValue($key) {
-        Debuguie::AddMsg("Cookie - getValue()", "parámetros = $key", "success");
+        Debuguie::AddMsg("Cookie - getValue()", "parámetros = $key", "fInit");
 
         if (isset($_COOKIE[$key])) {
             Debuguie::AddMsg("Cookie - getValue()", "val para key=$key = $_COOKIE[$key]", "success");
@@ -37,7 +37,7 @@ class Cookie {
     }
 
     public function setValue($key, $value, $expirTime) {
-        Debuguie::AddMsg("Cookie - setValue()", "parámetros = $key, $value", "success");
+        Debuguie::AddMsg("Cookie - setValue()", "parámetros = $key, $value", "fInit");
 
         $setCookie = setcookie($key, $value, $expirTime);
 
@@ -50,7 +50,7 @@ class Cookie {
     }
 
     public function killCookie($key) {
-        Debuguie::AddMsg("Cookie - killCookie()", "parámetros = $key", "success");
+        Debuguie::AddMsg("Cookie - killCookie()", "parámetros = $key", "fInit");
 
         if (isset($_COOKIE[$key])) {
             $killCookie = setcookie($key, null, -1);

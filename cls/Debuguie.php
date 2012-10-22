@@ -9,38 +9,39 @@ class Debuguie {
     private $debugSessionName = null;
     private static $instance = null;
 
-    private $doNotDebug = array("", "");
+    private $doNotDebug = array("Lang", "");
 
     public function __construct() {
         $this->debugSessionName = "Debug log | " . date("Y-m-d H:i:s", time());
         $this->debugTable = $debugTable = $this->_genDebugTable();
-        echo "construyo debug(".$this->debugSessionName.")<br>\n";
+
+        //echo "construyo debug(" . $this->debugSessionName . ")<br>\n";
 
         if (GENERARLOG) {
-            $this->logFilePath = $logFilePath = APP_ROOT.DS.LOGS_LOCATION.DS."debugLog.".date("Ymd-H", time()).".html";
-            $this->logFile = $logFile = new SuperFile($logFilePath);
-
+            //$this->logFilePath = $logFilePath = APP_ROOT . DS . LOGS_LOCATION . DS . "debugLog." . date("Ymd-H", time()) . ".html";
+            //$this->logFile = $logFile = new SuperFile($logFilePath);
             //if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
+
             if (ONTHEFLY) DBfuncs::DBcrearTablaLog();
         }
     }
 
     private function _genDebugTable() {
-        $ret = '<div id="'.$this->debugSessionName.'" class="well well-small">'."\n";
-        $ret .= ' <div class="d_debuguie">'."\n";
-        $ret .= '  <caption>'.$this->debugSessionName.'</caption>'."\n";
-        $ret .= '  <table class="table table-condensed">'."\n";
-        $ret .= '   <thead>'."\n";
-        $ret .= '    <tr>'."\n";
-        $ret .= '     <th>Tipo</th><th>Donde</th><th>Mensaje</th>'."\n";
-        $ret .= '    </tr>'."\n";
-        $ret .= '   </thead>'."\n";
-        $ret .= '   <tbody>'."\n";
-        $ret .= '<!--DEBUG_MSG_INPUT-->'."\n";
-        $ret .= '   </tbody>'."\n";
-        $ret .= '  </table>'."\n";
-        $ret .= ' </div>'."\n";
-        $ret .= '</div>'."\n";
+        $ret = '<div id="' . $this->debugSessionName . '" class="well well-small">' . "\n";
+        $ret .= ' <div class="d_debuguie">' . "\n";
+        $ret .= '  <caption>' . $this->debugSessionName . '</caption>' . "\n";
+        $ret .= '  <table class="table table-condensed">' . "\n";
+        $ret .= '   <thead>' . "\n";
+        $ret .= '    <tr>' . "\n";
+        $ret .= '     <th>id</th><th>debug sess</th><th>time</th><th>Tipo</th><th>Donde</th><th>Mensaje</th>' . "\n";
+        $ret .= '    </tr>' . "\n";
+        $ret .= '   </thead>' . "\n";
+        $ret .= '   <tbody>' . "\n";
+        $ret .= '<!--DEBUG_MSG_INPUT-->' . "\n";
+        $ret .= '   </tbody>' . "\n";
+        $ret .= '  </table>' . "\n";
+        $ret .= ' </div>' . "\n";
+        $ret .= '</div>' . "\n";
         return $ret;
     }
 
@@ -55,7 +56,7 @@ class Debuguie {
     /**
      * @param string $donde
      * @param object|string $msg
-     * @param string $tipoDeError "success|error|warning|info"
+     * @param string $tipoDeError "success|error|warning|info|fInit"
      * @return array
      */
     public static function AddMsg($donde, $msg, $tipoDeError) {
@@ -64,20 +65,15 @@ class Debuguie {
     }
 
     private function _addMsg($donde, $msg, $tipoDeError) {
-        //pa ignorar los addMsg de ciertas clases
-        $clase = explode(" - ", $donde);
-        if (in_array($clase[0], $this->doNotDebug)) return null;
-
-        //ahora si, agregá.
         //TODO: is_otra cosa --> bla
         if (($msg == "") || ($msg == null)) $msg = 'vacio';
         //if (is_numeric($msg)) $msg = "(numeric)=".(string) $msg;
         //if (is_bool($msg)) $msg = "(bool)=".(string) $msg;
-        if (is_array($msg)) $msg = "(array)=".json_encode($msg);
+        if (is_array($msg)) $msg = "(array)=" . json_encode($msg);
         //if (is_numeric($msg)) $msg = "(obj)=".var_export ($msg, true);
 
         //$msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
-        return $this->debuguieMsgs[] = array('donde' => $donde, 'msg' => $msg, 'tipoDeError' => $tipoDeError);
+        return $this->debuguieMsgs[] = array('donde' => $donde, 'msg' => $msg, 'tipoDeError' => $tipoDeError, 'time' => microtime(true));
     }
 
     public static function PrintMsgs() {
@@ -86,19 +82,20 @@ class Debuguie {
 
     /**
      * Muestra como trigger_error() los msj pasados a debuguie que son del tipo warning y error
-     * Manda un insert a la db.
+     * Y
+     * manda un insert a la db.
      */
     private function _onTheFly() {
         $debMsg = end($this->debuguieMsgs);
 
         $sessName = $this->debugSessionName;
-        $time = microtime(true);
+        $time = $debMsg['time'];
         $donde = htmlentities($debMsg['donde'], ENT_QUOTES, "UTF-8");
-        $msg = htmlentities( $debMsg['msg'], ENT_QUOTES, "UTF-8");
+        $msg = htmlentities($debMsg['msg'], ENT_QUOTES, "UTF-8");
         $tipo = $debMsg['tipoDeError'];
 
         if ($debMsg['tipoDeError'] == "error" || ($debMsg['tipoDeError'] == "warning")) {
-            trigger_error("<b>".$debMsg['tipoDeError']."</b>: en ".$debMsg['donde']." | ".$debMsg['msg']);
+            trigger_error("<b>" . $debMsg['tipoDeError'] . "</b>: en " . $debMsg['donde'] . " | " . $debMsg['msg']);
         }
 
         if (GENERARLOG) {
@@ -126,21 +123,41 @@ class Debuguie {
     }
 
     private function _printMsgs() {
+        self::AddMsg("Debuguie - _printMsgs", "-*---------*-*-*-END-*-*-*---------*-", "none"); //p'agregar una linea al final...
+
         $ret = null;
         if (count($this->debuguieMsgs) > 0) {
-            $dMsgs = "";
-            foreach ($this->debuguieMsgs as $debMsg) {
-                $dMsgs .= '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
-                $dMsgs .= "     <td>" . $debMsg['tipoDeError'] . "</td><td>" . $debMsg['donde'] . "</td><td>" . $debMsg['msg'] . "</td>\n";
-                $dMsgs .= "    </tr>\n";
-            }
-            $ret = str_replace("<!--DEBUG_MSG_INPUT-->", $dMsgs, $this->debugTable);
 
-            if (GENERARLOG && !ONTHEFLY) $this->logFile->PushToDebugLogFile($ret, false);
+            $dMsgsFormateado = "";
+            $id = 0;
+            foreach ($this->debuguieMsgs as $debMsg) {
+                $id += 1;
+
+                //pa ignorar los addMsg de ciertas clases
+                $clase = explode(" - ", $debMsg['donde']);
+                if (!in_array($clase[0], $this->doNotDebug)) {
+
+                    $dMsgsFormateado .= '    <tr class="' . $debMsg['tipoDeError'] . '">' . "\n";
+                    $dMsgsFormateado .= '     <td>' . $id . '</td>' . "\n";
+                    $dMsgsFormateado .= '     <td>' . $this->debugSessionName . '</td>' . "\n";
+                    $dMsgsFormateado .= '     <td>' . date("Y-m-d H:i:s u", $debMsg['time']) . '</td>' . "\n";
+                    $dMsgsFormateado .= '     <td class="bold">' . $debMsg['tipoDeError'] . '</td>' . "\n";
+                    $dMsgsFormateado .= '     <td>' . $debMsg['donde'] . '</td>' . "\n";
+                    $dMsgsFormateado .= '     <td>' . $debMsg['msg'] . '</td>' . "\n";
+                    $dMsgsFormateado .= '    </tr>' . "\n";
+                }
+            }
+            $ret = str_replace("<!--DEBUG_MSG_INPUT-->", $dMsgsFormateado, $this->debugTable);
+
+            //if (GENERARLOG && !ONTHEFLY) $this->logFile->PushToDebugLogFile($ret, false);
         }
+
         return $ret;
     }
 
+    private function _printMsgsFromDB() {
+
+    }
 }
 
 //obsoleto?

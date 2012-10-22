@@ -24,5 +24,9 @@ define('BLOG_PAGE', APP_URL_ROOT.DS.'blog.php');
 
 //otros
 define('LOGS_LOCATION', 'logs');
+define('LANG_PAGES_LOCATION', 'lang'.DS.'langFiles');
+define('CSS_LOCATION', 'inc');
+define('JS_LOCATION', 'inc');
+define('OTHERSLIB_LOCATION', 'othersLib');
 define('BLOG_PAGES_LOCATION', 'pags'.DS.'blog');
 define('BLOG_IMGS_UPLOAD_LOCATION', 'img'.DS.'blog'.DS.'uploads');

@@ -8,11 +8,10 @@ class Lang {
     private $footer = null;
 
     private function carga_($fName) {
-        $path = APP_ROOT . DS . "lang" . DS . "l_$fName." . $this->lang . ".php";
+        $path = APP_ROOT . DS . LANG_PAGES_LOCATION . DS . "l_$fName." . $this->lang . ".php";
         require_once $path;
 
         $this->$fName = SuperFuncs::htmlent(${$fName});
-        //SuperFuncs::debuguie("re_", "this->bla" . json_encode($this->$fName));
     }
 
     /**
@@ -46,12 +45,12 @@ class Lang {
             //hay un cambio de lenguaje? (viene por post inp_lang)
             $this->lang = $_POST['inp_lang'];
             $lang = $_POST['inp_lang'];
-            //TODO: PREGLAU preguntar si cambio en la db o no
+            //PREG-LAU: preguntar si cambio en la db o no
             
         } elseif (isset($_GET['lang']) && strlen($_GET['lang']) === 2) {
             //hay un cambio de lenguaje? (viene por get lang)
             $lang = $_GET['lang'];
-            //TODO: PREGLAU preguntar si cambio en la db o no
+            //PREG-LAU: preguntar si cambio en la db o no
             
         } elseif (Session::get('lang')) {
             //pues no, está seteado el lenguaje en sess?
@@ -66,19 +65,19 @@ class Lang {
     }
 
     public function crearHeadMetas($pagTitu) {
-        printf('%s<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />%s', "\t\t", "\n");
-        printf('%s<title>%s - %s</title>%s', "\t\t", $pagTitu, $this->headMetas['titu'], "\n");
-        printf('%s<meta name="title" content="%s - %s" />%s', "\t\t", $pagTitu, $this->headMetas['titu'], "\n");
-        printf('%s<meta name="keywords" content="%s" />%s', "\t\t", $this->headMetas['keys'], "\n");
-        printf('%s<meta name="description" content="%s" />%s', "\t\t", $this->headMetas['desc'], "\n");
-        printf('%s<meta name="subject" content="%s" />%s', "\t\t", $this->headMetas['subj'], "\n");
-        printf('%s<meta name="Classification" content="%s" />%s', "\t\t", $this->headMetas['class'], "\n");
-        printf('%s<meta name="lang" content="%s" />%s', "\t\t", $this->lang, "\n");
-        printf('%s<meta http-equiv="Content-Language" content="%s" />%s', "\t\t", $this->lang, "\n");
+        $ret = sprintf(' <title>%s - %s</title>%s', $pagTitu, $this->headMetas['titu'], "\n");
+        $ret .= sprintf(' <meta name="title" content="%s - %s" />%s', $pagTitu, $this->headMetas['titu'], "\n");
+        $ret .= sprintf(' <meta name="keywords" content="%s" />%s', $this->headMetas['keys'], "\n");
+        $ret .= sprintf(' <meta name="description" content="%s" />%s', $this->headMetas['desc'], "\n");
+        $ret .= sprintf(' <meta name="subject" content="%s" />%s', $this->headMetas['subj'], "\n");
+        $ret .= sprintf(' <meta name="Classification" content="%s" />%s', $this->headMetas['class'], "\n");
+        $ret .= sprintf(' <meta name="lang" content="%s" />%s', $this->lang, "\n");
+        $ret .= sprintf(' <meta http-equiv="Content-Language" content="%s" />%s', $this->lang, "\n");
+        return $ret;
     }
 
     public function errMsg($msg) {
-        Debuguie::AddMsg("Lang - errMsg()", "atributo=$msg", "info");
+        Debuguie::AddMsg("Lang - errMsg()", "atributo=$msg", "fInit");
 
         if ($msg == ""  && $this->errMsg == null) return false;
 
@@ -127,7 +126,7 @@ class Lang {
      * @return string
      */
     public function __call($metodo, $argumentos) {
-        Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "success");
+        Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "fInit");
 
         if (!isset($this->$metodo)) {
             Debuguie::AddMsg("Lang - __call()", "$metodo inexistente", "error");

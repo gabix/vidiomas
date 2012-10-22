@@ -7,9 +7,9 @@ class dbFuncs {
     }
 
     public static function DBcrearMysqli() {
-        Debuguie::AddMsg("dbFuncs - DBcrearMysqli()", "", "success");
-        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        Debuguie::AddMsg("dbFuncs - DBcrearMysqli()", "", "fInit");
 
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         if (mysqli_connect_errno()) {
             Debuguie::AddMsg("dbFuncs - DBcrearMysqli()", "No se puede conectar a la DB. Err: " . mysqli_connect_error(), "error");
             return null;

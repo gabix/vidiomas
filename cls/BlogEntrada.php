@@ -145,7 +145,7 @@ class BlogEntrada {
             $q->execute();
             $return = true;
         } else {
-            Debuguie::AddMsg("BlogEntrada - CrearDB_entrada()", "Err: " . "fallo prepare", "error");
+            Debuguie::AddMsg("BlogEntrada - CrearDB_entrada()", "Err: " . "falló prepare", "error");
             if (!DEBUGUEANDO)
                 die();
         }
@@ -175,9 +175,8 @@ class BlogEntrada {
                 Debuguie::AddMsg("BlogEntrada - EliminarRestaurarDB_entrada()", "no se afectaron filas", "warning");
             }
         } else {
-            Debuguie::AddMsg("BlogEntrada - LlenarDesdeDB_entradaXnombre()", "Err: " . "fallo prepare", "error");
-            if (!DEBUGUEANDO)
-                die();
+            Debuguie::AddMsg("BlogEntrada - LlenarDesdeDB_entradaXnombre()", "Err: " . "falló prepare", "error");
+            if (!DEBUGUEANDO) die();
         }
 
         $mysqli->close();

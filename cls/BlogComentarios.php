@@ -7,7 +7,7 @@ class BlogComentarios {
     private $ultimoComId = 0;
 
     public function __construct($nomEntrada, $pag = 1) {
-        Debuguie::AddMsg("BlogComentarios - __construct()", "", "info");
+        Debuguie::AddMsg("BlogComentarios - __construct()", "", "fInit");
 
         $this->cPagRuta = $ruta = APP_ROOT.DS.BLOG_PAGES_LOCATION.DS.$nomEntrada.".c$pag.php";
         $this->file = new SuperFile($ruta);
@@ -31,13 +31,13 @@ class BlogComentarios {
     }
 
     private function GuardarComentarios() {
-        Debuguie::AddMsg("BlogComentarios - GuardarComentarios()", "cPagRuta: $this->cPagRuta", "info");
+        Debuguie::AddMsg("BlogComentarios - GuardarComentarios()", "cPagRuta: $this->cPagRuta", "fInit");
 
         return $this->file->put($this->comentarios);
     }
 
     public function ModificarComentario($comId, $txt) {
-        Debuguie::AddMsg("BlogComentarios - ModificarComentario()", "", "info");
+        Debuguie::AddMsg("BlogComentarios - ModificarComentario()", "", "fInit");
 
         $reCom = array();
         foreach ($this->comentarios as $c) {
@@ -52,7 +52,7 @@ class BlogComentarios {
     }
 
     public function EliminarRestaurarComentario($comId) {
-        Debuguie::AddMsg("BlogComentarios - ElimiarComentario()", "", "info");
+        Debuguie::AddMsg("BlogComentarios - ElimiarComentario()", "", "fInit");
 
         $reCom = array();
         foreach ($this->comentarios as $c) {
@@ -72,7 +72,7 @@ class BlogComentarios {
     }
 
     public function AgregarComentario($usuId, $txt) {
-        Debuguie::AddMsg("BlogComentarios - AgregarComentario()", "", "info");
+        Debuguie::AddMsg("BlogComentarios - AgregarComentario()", "", "fInit");
 
         $this->comentarios[] = array(
             'comId' => $this->ultimoComId + 1,

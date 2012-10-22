@@ -75,12 +75,12 @@ if (Session::get('entradaActiva')) {
         }
 
         Debuguie::AddMsg("p_blogComentarios", "post txt o eliminar no seteado", "error");
-        die("Pedido invalido");
+        die("Pedido inválido");
     } else {
         Debuguie::AddMsg("p_blogComentarios", "post comId no seteado", "error");
-        die("Pedido invalido");
+        die("Pedido inválido");
     }
 } else {
     Debuguie::AddMsg("p_blogComentarios", "no sess-entradaActiva", "error");
-    die("Pedido invalido");
+    die("Pedido inválido");
 }

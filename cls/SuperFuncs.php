@@ -2,6 +2,11 @@
 
 class SuperFuncs {
 
+    /**
+     * ejecuta htmlentities($s, ENT_QUOTES, "UTF-8");
+     * @param string|array $s string or array with strings to convert
+     * @return array|string
+     */
     public static function htmlent($s) {
         if (is_array($s)) {
             foreach ($s as $k => $val) {
@@ -10,56 +15,6 @@ class SuperFuncs {
             return $s;
         }
         return htmlentities($s, ENT_QUOTES, "UTF-8");
-    }
-
-    /**
-     * hace un echo entre <p></p> de htmlspecialchars($s)
-     * @param type $s
-     * @param type $style "", "rojo", "azul"
-     */
-    public static function echoConP($s, $style = "") {
-        switch ($style) {
-            case "" :
-                echo sprintf("<p>%s</p>\n", self::htmlent($s));
-                break;
-            case "rojo" :
-                echo sprintf('<p style="%s">%s</p>%s', "color:red;", self::htmlent($s), "\n");
-                break;
-            case "azul" :
-                echo sprintf('<p style="%s">%s</p>%s', "color:bule;", self::htmlent($s), "\n");
-                break;
-        }
-    }
-
-    /**
-     * @param int $time
-     * @param string $formato default: y-m-d H:i:s | ymd_his: ymd_His
-     * @return string
-     */
-    public static function aDate($time, $formato = "y-m-d H:i:s") {
-        $ret = null;
-        if (is_int($time)) {
-            switch ($formato) {
-                case "ymd_his" :
-                    $ret = date("ymd_His", $time);
-                    break;
-                case "y-m-d H:i:s" :
-                default :
-                    $ret = date("y-m-d H:i:s", $time);
-                    break;
-            }
-        }
-        return $ret;
-    }
-
-    /**
-     * @param float|bool $now set to true for now, or a float to get the timestamp
-     * @return int timestamp for date
-     */
-    public static function getTimestamp($now){
-        if ($now = true) $microtime = microtime(true);
-        $microtime = (float) $now;
-        return round( ($microtime * 1000) );
     }
 
     /**

@@ -17,7 +17,7 @@ class SuperFile {
 
     /**
      * Get entry form file.
-     * @param bool $strict (optinal, def=true, triggers error if file is not found)
+     * @param bool $strict (optional, def=true, triggers error if file is not found)
      * @return object if file exists returns $entry in specified file.
      */
     public function get($strict = true) {
