@@ -19,7 +19,6 @@ class Debuguie {
             $this->logFilePath = $logFilePath = APP_ROOT.DS.LOGS_LOCATION.DS."debugLog.".date("Ymd-H", time()).".html";
             $this->logFile = $logFile = new SuperFile($logFilePath);
 
-
             //if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
             if (ONTHEFLY) DBfuncs::DBcrearTablaLog();
         }
@@ -100,7 +99,10 @@ class Debuguie {
             if (!mysqli_connect_errno()) {
                 if ($q = $mysqli->prepare("INSERT INTO debuguie_log (titulo, time, claseYmetodo, msg, tipoDeError) VALUES (?, ?, ?, ?, ?)")) {
                     $time = time();
-                    $q->bind_param('sisss', $this->debugSessionName, $time, $debMsg['donde'], $debMsg['msg'], $debMsg['tipoDeError']);
+                    $r = $q->bind_param('sisss', $this->debugSessionName, $time, $debMsg['donde'], $debMsg['msg'], $debMsg['tipoDeError']);
+
+                    echo "caca bind?($r) en ".$debMsg['donde']."<br>\n";
+
                     $funciono = $q->execute();
 
                     $mysqli->close();
