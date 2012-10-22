@@ -53,6 +53,16 @@ class SuperFuncs {
     }
 
     /**
+     * @param float|bool $now set to true for now, or a float to get the timestamp
+     * @return int timestamp for date
+     */
+    public static function getTimestamp($now){
+        if ($now = true) $microtime = microtime(true);
+        $microtime = (float) $now;
+        return round( ($microtime * 1000) );
+    }
+
+    /**
      * Looks for the first occurrence of $needle in $haystack
      * and replaces it with $replace.
      * @param $needle

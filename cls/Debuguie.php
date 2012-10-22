@@ -74,7 +74,7 @@ class Debuguie {
         //if (is_numeric($msg)) $msg = "(numeric)=".(string) $msg;
         //if (is_bool($msg)) $msg = "(bool)=".(string) $msg;
         if (is_array($msg)) $msg = "(array)=".json_encode($msg);
-        if (is_numeric($msg)) $msg = "(obj)=".var_export ($msg, true);
+        //if (is_numeric($msg)) $msg = "(obj)=".var_export ($msg, true);
 
         //$msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
         return $this->debuguieMsgs[] = array('donde' => $donde, 'msg' => $msg, 'tipoDeError' => $tipoDeError);
@@ -91,6 +91,12 @@ class Debuguie {
     private function _onTheFly() {
         $debMsg = end($this->debuguieMsgs);
 
+        $sessName = $this->debugSessionName;
+        $time = microtime(true);
+        $donde = htmlentities($debMsg['donde'], ENT_QUOTES, "UTF-8");
+        $msg = htmlentities( $debMsg['msg'], ENT_QUOTES, "UTF-8");
+        $tipo = $debMsg['tipoDeError'];
+
         if ($debMsg['tipoDeError'] == "error" || ($debMsg['tipoDeError'] == "warning")) {
             trigger_error("<b>".$debMsg['tipoDeError']."</b>: en ".$debMsg['donde']." | ".$debMsg['msg']);
         }
@@ -99,24 +105,22 @@ class Debuguie {
             $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             if (!mysqli_connect_errno()) {
                 if ($q = $mysqli->prepare("INSERT INTO debuguie_log (titulo, time, claseYmetodo, msg, tipoDeError) VALUES (?, ?, ?, ?, ?)")) {
-                    $time = time();
-                    $donde = htmlentities($debMsg['donde'], ENT_QUOTES, "UTF-8");
-                    $msg = htmlentities( $debMsg['msg'], ENT_QUOTES, "UTF-8");
-                    echo "sqleo (JA!) debug(".$this->debugSessionName.")<br>\n";
 
-                    $r = $q->bind_param('sisss', $this->debugSessionName, $time, $donde, $msg, $debMsg['tipoDeError']);
+                    //echo "sqleo (JA!) debug(".$this->debugSessionName.")<br>\n";
 
-                    echo "caca bind?($r) en ".$debMsg['donde']."<br>\n";
+                    $r = $q->bind_param('sssss', $sessName, $time, $donde, $msg, $tipo);
+
+                    //echo "caca bind?($r)<br>\n";
 
                     $funciono = $q->execute();
 
                     $mysqli->close();
-                    echo "caca funciono?($funciono) en ".$debMsg['donde']."<br>\n";
+                    //echo "caca funciono?($funciono) con $sessName | $time | $donde | $msg | $tipo<br>\n";
                     return true;
                 }
             }
             $mysqli->close();
-            trigger_error("No se puede conectar a la DB. Err: " . mysqli_connect_error());
+            trigger_error("Desde Debuguie, no se puede conectar a la DB. Err: " . mysqli_connect_error());
             return null;
         }
     }

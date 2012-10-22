@@ -4,8 +4,9 @@
  * Date: 21/10/12
  * Time: 10:19
  */
+//TODO: Preguntar a Carlos que onda con el microtime(true) y porque el date no me está trayendo los microseconds
 
-require_once '..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
+require_once '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'init.php';
 
 $pagTit = "DBlogs";
 
@@ -36,9 +37,9 @@ function getLogs($limit = 100) {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title><?= $pagTit ?></title>
-    <link rel="stylesheet" type="text/css" href="../othersLib/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../othersLib/bootstrap.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
     <style>
@@ -49,6 +50,7 @@ function getLogs($limit = 100) {
         .textCenter {
             text-align: center;
         }
+
         .bold {
             font-weight: bolder;
         }
@@ -61,28 +63,35 @@ function getLogs($limit = 100) {
 
         <div id="contenido" class="span12">
             <h1 class="textCenter"><?= $pagTit ?></h1>
-            <hr />
+            <hr/>
 
             <div class="d_debuguie">
                 <table class="table table-condensed">
                     <thead>
                     <tr>
-                        <th>id</th><th>debug sess</th><th>time</th><th>Tipo</th><th>Donde</th><th>Mensaje</th>
+                        <th>id</th>
+                        <th>debug sess</th>
+                        <th>time</th>
+                        <th>Tipo</th>
+                        <th>Donde</th>
+                        <th>Mensaje</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     if (null != $dMsgs) {
-                        foreach ($dMsgs as $dMsg) { ?>
+                        foreach ($dMsgs as $dMsg) {
+                            ?>
                         <tr class="<?= $dMsg['tipoDeError'] ?>">
                             <td><?= $dMsg['id'] ?></td>
                             <td><?= $dMsg['titulo'] ?></td>
-                            <td><?= date("Y-m-d H:i:s", $dMsg['time']) ?></td>
+                            <td><?= date("Y-m-d H:i:s u", $dMsg['time']) ?></td>
                             <td class="bold"><?= $dMsg['tipoDeError'] ?></td>
                             <td><?= $dMsg['donde'] ?></td>
                             <td><?= $dMsg['msg'] ?></td>
                         </tr>
-                        <?php }
+                            <?php
+                        }
                     } ?>
                     </tbody>
                 </table>

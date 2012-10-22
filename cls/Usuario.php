@@ -124,6 +124,7 @@ class Usuario {
     }
 
     private function set_todo($id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time) {
+        Debuguie::AddMsg("Usuario - set_todo()", "", "success");
         $this->id = $id;
         $this->apodo = $apodo;
         $this->email = $email;
@@ -172,10 +173,10 @@ class Usuario {
     }
 
     /**
-     * Dandole un email y pass setea todos los parametros de esta clase
-     * @param (string) $email
-     * @param (string) $pass la contraseña ya hasheada
-     * @return (array) 'err' => t/f, 'msg' => mensaje de error
+     * Dándole un email y pass setea todos los parámetros de esta clase
+     * @param string $email
+     * @param string $pass la contraseña ya hasheada
+     * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     private function deDBPropsXemailYpass($email, $pass) {
         Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "success");
@@ -187,6 +188,7 @@ class Usuario {
             $q->bind_param('s', $email);
             $q->execute();
             $q->store_result();
+            /** @noinspection PhpUndefinedVariableInspection */
             $q->bind_result($user_id, $apodo, $categoria, $db_password, $salt, $creditos, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time);
             $q->fetch();
             $pass = hash('sha512', $pass . $salt);
@@ -196,22 +198,27 @@ class Usuario {
                     // usuario bloqueado!
                     Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "usuario bloqueado por 2hrs", "success");
 
-                    // TODO: mandar email informando que el usu esta bloqueado
                     $mysqli->close();
                     return array('err' => true, 'msg' => "usuarioBloqueado");
                 } else {
                     if ($db_password == $pass) {
+                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "dbPass = a pass", "success");
                         // Password is correct!
+
                         $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
                         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
                         $login_string = hash('sha512', $pass . $ip_address . $user_browser);
 
                         $this->set_todo($user_id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time);
+
+                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "this->loged a true", "success");
                         $this->loged = true;
 
                         $mysqli->close();
+
                         return array('err' => false, 'msg' => "");
                     } else {
+                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "dbPass != a pass", "success");
                         // Password is not correct
                         // We record this attempt in the database
                         $now = time();
@@ -228,15 +235,16 @@ class Usuario {
                 return array('err' => true, 'msg' => "noExisteMail");
             }
         }
-        $mysqli->close();
         Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+
+        $mysqli->close();
         return array('err' => true, 'msg' => "noConectaAdb");
     }
 
     /**
      * trae de db la cat y los cred asociados a un id, y los carga en las props de la clase
-     * @param (int) $usuId
-     * @return (array) 'err' => true, 'msg' => ""
+     * @param int $usuId
+     * @return array 'err' => true, 'msg' => ""
      */
     private function dbDBcatYcreditosXid($usuId) {
         $mysqli = dbFuncs::DBcrearMysqli();
@@ -339,7 +347,8 @@ class Usuario {
      * ojo con inciar sess antes!
      */
     private function setSession() {
-        //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu->aSess", "init");}
+        Debuguie::AddMsg("Usuario - setSession()", "", "success");
+
         Session::set('usu', array(
             'id' => $this->id,
             'apodo' => $this->apodo,
@@ -355,13 +364,13 @@ class Usuario {
             'lang' => $this->lang,
             'time' => $this->time
         ));
+
         Session::set('lang', $this->lang);
-        $this->loged = true;
     }
 
     /**
      * verifica si la cookie existe y todavía es válida, y luego carga de la db la categoría y los créditos
-     * @return (array) 'err' => t/f, 'msg' => mensaje de error
+     * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     private function deCookieAsess() {
         if (isset($_COOKIE["usu"]['id']) && isset($_COOKIE["usu"]['login_string'])) {
@@ -411,10 +420,10 @@ class Usuario {
         Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "success");
 
         $rta = $this->deDBPropsXemailYpass($email, $pass);
+        Debuguie::AddMsg("Usuario - loguear()", "rta=($rta)", "success");
 
         if (!$rta['err']) {
-            //props de this seteadas, guardo el usu en sess
-            //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu->loguear", "si log");}
+            //props de this ya seteadas --> guardo el usu en sess
 
             $this->setSession();
             if ($cookie) {
