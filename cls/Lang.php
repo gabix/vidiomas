@@ -8,6 +8,8 @@ class Lang {
     private $footer = null;
 
     private function carga_($fName) {
+        Debuguie::AddMsg("Lang - carga_()", "args=(fName=($fName))", "fInit");
+
         $path = APP_ROOT . DS . LANG_PAGES_LOCATION . DS . "l_$fName." . $this->lang . ".php";
         require_once $path;
 
@@ -19,6 +21,8 @@ class Lang {
      * @param (array/string) $soloTal Solo cargar el array de tal. ej: 'errMsg'
      */
     private function carga($soloTal) {
+        Debuguie::AddMsg("Lang - carga()", "args=(soloTal=($soloTal))", "fInit");
+
         if ($soloTal === null)
             $soloTal = array('headMetas', 'errMsg', 'grales');
 
@@ -37,10 +41,13 @@ class Lang {
      * @param string $lang
      */
     public function Lang($soloTal = null, $lang = null) {
+        Debuguie::AddMsg("Lang - Lang()", "args=(soloTal=($soloTal), lang=($lang))", "fInit");
         $this->setLang($soloTal, $lang);
     }
 
     public function setLang($soloTal, $lang = "") {
+        Debuguie::AddMsg("Lang - setLang()", "args=(soloTal=($soloTal), lang=($lang))", "fInit");
+
         if (isset($_POST['inp_lang']) && strlen($_POST['inp_lang']) === 2) {
             //hay un cambio de lenguaje? (viene por post inp_lang)
             $this->lang = $_POST['inp_lang'];
@@ -65,6 +72,8 @@ class Lang {
     }
 
     public function crearHeadMetas($pagTitu) {
+        Debuguie::AddMsg("Lang - crearHeadMetas()", "args=($pagTitu)", "fInit");
+
         $ret = sprintf(' <title>%s - %s</title>%s', $pagTitu, $this->headMetas['titu'], "\n");
         $ret .= sprintf(' <meta name="title" content="%s - %s" />%s', $pagTitu, $this->headMetas['titu'], "\n");
         $ret .= sprintf(' <meta name="keywords" content="%s" />%s', $this->headMetas['keys'], "\n");

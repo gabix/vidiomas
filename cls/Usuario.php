@@ -42,9 +42,10 @@ class Usuario {
      */
     public function get($prop) {
         if (isset($this->$prop) && !in_array((string) $prop, $this->excludeGet)) {
-            Debuguie::AddMsg("Usuario - get()", "args=($prop)", "success");
+            $return = $this->$prop;
 
-            return $this->$prop;
+            Debuguie::AddMsg("Usuario - get()", "args=($prop) ret=($return)", "success");
+            return $return;
         }
 
         Debuguie::AddMsg("Usuario - get()", "$prop excluida o inexistente", "warning");
@@ -59,9 +60,10 @@ class Usuario {
      */
     public function set($prop, $val) {
         if (isset($this->$prop) && !in_array($prop, $this->excludeSet)) {
-            Debuguie::AddMsg("Usuario - set()", "args=($prop)", "success");
+            $return = $this->$prop = $val;
 
-            return $this->$prop = $val;
+            Debuguie::AddMsg("Usuario - set()", "args=($prop) ret=($return)", "success");
+            return $return;
         }
 
         Debuguie::AddMsg("Usuario - set()", "$prop excluida o inexistente", "warning");

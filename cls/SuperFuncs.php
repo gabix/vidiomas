@@ -3,6 +3,16 @@
 class SuperFuncs {
 
     /**
+     * Imprime (con echo json_encode) un array con el valor de err y msg
+     * @param bool $err t/f
+     * @param string $msg string con msg
+     * @param obj|string|bla $xtra lo que quieras, para pasar datos extra
+     */
+    public static function errYmsg($err = true, $msg = "", $xtra = "") {
+        echo json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
+    }
+
+    /**
      * ejecuta htmlentities($s, ENT_QUOTES, "UTF-8");
      * @param string|array $s string or array with strings to convert
      * @return array|string

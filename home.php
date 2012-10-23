@@ -9,8 +9,8 @@ $usu->inicio();
 $l = new Lang;
 
 //vars para manejo fácil de la pag
-$lo = $usu->get_loged();
-$cat = $usu->get_categoria();
+$lo = $usu->get('loged');
+$cat = $usu->get('categoria');
 
 //defino el título de la pag
 $selPag = "home";
@@ -24,10 +24,8 @@ $pagTit = $l->grales($selPag);
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
     <link rel="stylesheet" type="text/css" href="inc/home.css" />
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="othersLib/sha512.js"></script>
 </head>
+
 <body>
 <div id="d_superContenedor">
     <?php require_once APP_ROOT.DS."pags".DS."header.php"; ?>

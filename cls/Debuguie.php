@@ -72,7 +72,9 @@ class Debuguie {
         if (is_array($msg)) $msg = "(array)=" . json_encode($msg);
         //if (is_numeric($msg)) $msg = "(obj)=".var_export ($msg, true);
 
-        //$msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
+        $donde = htmlentities($donde, ENT_QUOTES, "UTF-8");
+        $msg = htmlentities($msg, ENT_QUOTES, "UTF-8");
+
         return $this->debuguieMsgs[] = array('donde' => $donde, 'msg' => $msg, 'tipoDeError' => $tipoDeError, 'time' => microtime(true));
     }
 
@@ -90,12 +92,12 @@ class Debuguie {
 
         $sessName = $this->debugSessionName;
         $time = $debMsg['time'];
-        $donde = htmlentities($debMsg['donde'], ENT_QUOTES, "UTF-8");
-        $msg = htmlentities($debMsg['msg'], ENT_QUOTES, "UTF-8");
+        $donde = $debMsg['donde'];
+        $msg = $debMsg['msg'];
         $tipo = $debMsg['tipoDeError'];
 
-        if ($debMsg['tipoDeError'] == "error" || ($debMsg['tipoDeError'] == "warning")) {
-            trigger_error("<b>" . $debMsg['tipoDeError'] . "</b>: en " . $debMsg['donde'] . " | " . $debMsg['msg']);
+        if ($tipo == "error" || ($tipo == "warning")) {
+            trigger_error("<b>" . $tipo . "</b>: en " . $donde . " | " . $msg);
         }
 
         if (GENERARLOG) {

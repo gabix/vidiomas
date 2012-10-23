@@ -24,13 +24,6 @@ $pagTit = $l->grales($selPag);
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
 
-    <?php if(DEBUGUEANDO) { ?>
-        <script src="othersLib/jquery.min.js"></script>
-    <?php } else { ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <?php } ?>
-    <script type="text/javascript" src="othersLib/sha512.js"></script>
-
     <style type="text/css">
         #d_cuerpo {
             width: 100%;
@@ -40,6 +33,7 @@ $pagTit = $l->grales($selPag);
         }
     </style>
 </head>
+
 
 <body>
 <div id="d_superContenedor">
@@ -85,7 +79,8 @@ $pagTit = $l->grales($selPag);
     </div>
 </div>
 
-<script type="text/javascript" src="inc/generales.js"></script>
+<?= htmlGenericos::PrintScripts(null,true,null,true,true,null) ?>
+
 <script type="text/javascript">
     JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js')
 </script>

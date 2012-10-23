@@ -18,10 +18,8 @@ if (isset($_POST["inp_email"]) && isset($_POST["inp_passEnc"])) {
     //SuperFuncs::debuguie("p_loguin", '$usu->loguear(' . "mail: $email, pass: $pass, coo: $cookie)");
     $rta = $usu->loguear($email, $pass, $cookie);
     
-    SuperFuncs::errYmsg($rta['err'], $rta['msg']);
+    echo json_encode($rta);
 } else {
     // The correct POST variables were not sent to this page.
     SuperFuncs::errYmsg(true, 'pedidoInvalido');
 }
-exit;
-?>

@@ -13,6 +13,7 @@ Loader::addExtension('resources', 'php');
 Loader::addLookupDirectory(APP_ROOT.DS.'cls');
 Loader::addLookupDirectory(APP_ROOT.DS.'config');
 Loader::addLookupDirectory(APP_ROOT.DS.'lang');
+Loader::addLookupDirectory(APP_ROOT.DS.'pags');
 Loader::addLookupDirectory(APP_ROOT.DS.'othersLib');
 
 // <editor-fold desc="CONSTANTES">
