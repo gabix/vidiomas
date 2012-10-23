@@ -1,6 +1,6 @@
 <?php
 // <editor-fold desc="pag init">
-require 'config'.DIRECTORY_SEPARATOR.'init.php';
+require_once 'config'.DIRECTORY_SEPARATOR.'init.php';
 
 $usu = new Usuario;
 $usu->inicio();
@@ -45,14 +45,16 @@ $pagTit = $l->grales($selPag);
         <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
         <a href="debug_sess.php">debug_sess.php</a>
         <p id="cargandoJs_generales" class="colRojo">CARGANDO generales.js</p>
-        <?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
+        <p id="cargandoJs_enBebido" class="colRojo">CARGANDO script en bebido</p>
     </div>
 </div>
 
 <!-- TODO: agregar las CONST de xxPAG a window.constBla
 <script type="text/javascript"></script>
 -->
-<script type="text/javascript" src="inc/generales.js"></script>
+<?= htmlGenericos::PrintScripts(null,true,null,true,true,null) ?>
+
+<?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
 
 </body>
 </html>

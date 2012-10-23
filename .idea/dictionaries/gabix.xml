@@ -8,6 +8,7 @@
       <w>asociados</w>
       <w>azul</w>
       <w>bebido</w>
+      <w>bordes</w>
       <w>boto</w>
       <w>botonera</w>
       <w>cambio</w>
@@ -16,6 +17,7 @@
       <w>categoria</w>
       <w>charly</w>
       <w>codpostal</w>
+      <w>completo</w>
       <w>constantes</w>
       <w>contenedor</w>
       <w>contraseña</w>
@@ -23,6 +25,7 @@
       <w>crea</w>
       <w>creditos</w>
       <w>cuerpo</w>
+      <w>código</w>
       <w>datos</w>
       <w>debugueando</w>
       <w>deflang</w>
@@ -32,10 +35,13 @@
       <w>enckey</w>
       <w>entre</w>
       <w>enviado</w>
+      <w>enviar</w>
       <w>estás</w>
       <w>excluida</w>
       <w>existe</w>
+      <w>femenino</w>
       <w>filas</w>
+      <w>flecha</w>
       <w>formateado</w>
       <w>funciono</w>
       <w>funcs</w>
@@ -54,6 +60,7 @@
       <w>inexistente</w>
       <w>lenguaje</w>
       <w>loged</w>
+      <w>masculino</w>
       <w>metas</w>
       <w>microtime</w>
       <w>método</w>
@@ -77,7 +84,9 @@
       <w>pues</w>
       <w>quieras</w>
       <w>registro</w>
+      <w>repita</w>
       <w>rojo</w>
+      <w>sess</w>
       <w>setea</w>
       <w>seteado</w>
       <w>setear</w>
@@ -85,6 +94,8 @@
       <w>sexo</w>
       <w>sola</w>
       <w>solicita</w>
+      <w>telefono</w>
+      <w>teléfono</w>
       <w>tenés</w>
       <w>testeate</w>
       <w>tiene</w>

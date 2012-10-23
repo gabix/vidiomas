@@ -9,8 +9,8 @@ $usu->inicio();
 $l = new Lang;
 
 //vars para manejo fácil de la pag
-$lo = $usu->get_loged();
-$cat = $usu->get_categoria();
+$lo = $usu->get('loged');
+$cat = $usu->get('categoria');
 
 //defino el título de la pag
 $selPag = "templateNewPage";
@@ -61,9 +61,7 @@ $pagTit = $l->grales($selPag);
     </div>
 </div>
 
-<script type="text/javascript" src="inc/generales.js"></script>
-<script type="text/javascript">
-    JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js');
-</script>
+<?= htmlGenericos::PrintScripts(null,true,null,true,true,null) ?>
+
 </body>
 </html>

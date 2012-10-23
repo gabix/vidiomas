@@ -75,7 +75,6 @@ $pagTit = $l->grales($selPag);
         <a href="debug_sess.php">debug_sess.php</a>
         <p id="cargandoJs_generales" class="colRojo">CARGANDO generales.js</p>
         <p id="cargandoJs_enBebido" class="colRojo">CARGANDO script en bebido</p>
-        <?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
     </div>
 </div>
 
@@ -84,5 +83,8 @@ $pagTit = $l->grales($selPag);
 <script type="text/javascript">
     JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js')
 </script>
+
+<?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
+
 </body>
 </html>
