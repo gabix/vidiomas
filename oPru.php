@@ -46,25 +46,6 @@ $pagTit = $l->grales($selPag);
         <p>si</p>
         <hr/>
 
-        <?php
-        if (isset($_POST['si']) && $_POST['si'] == "si") {
-            $ret = Cookie::set('almacen', 'miMamaMeMima');
-            ?><p class="lefteame">estoy seteando!! ret=(<?= $ret ?>)</p><?php
-        }
-        if (isset($_POST['kill']) && $_POST['kill'] == "kill") {
-            $ret = Cookie::kill('almacen');
-            ?><p class="lefteame">estoy matando!! ret=(<?= $ret ?>)</p><?php
-        }
-
-        $getIl = Cookie::get('almacen');
-        ?>
-        <p>Prueba de alamc&eacute;n de cookie getIl=(<?= $getIl ?>)</p>
-
-        <form class="centrame" method="post" action="oPru.php">
-            <input type="submit" name="si" value="si" />
-            <input type="submit" name="kill" value="kill" />
-        </form>
-
         <p class="cl"></p>
     </div>
 
@@ -88,3 +69,26 @@ $pagTit = $l->grales($selPag);
 
 </body>
 </html>
+
+<?php
+/*
+<?php
+        if (isset($_POST['si']) && $_POST['si'] == "si") {
+            $ret = Cookie::set('almacen', 'miMamaMeMima');
+            ?><p class="lefteame">estoy seteando!! ret=(<?= $ret ?>)</p><?php
+        }
+        if (isset($_POST['kill']) && $_POST['kill'] == "kill") {
+            $ret = Cookie::kill('almacen');
+            ?><p class="lefteame">estoy matando!! ret=(<?= $ret ?>)</p><?php
+        }
+
+        $getIl = Cookie::get('almacen');
+        ?>
+        <p>Prueba de alamc&eacute;n de cookie getIl=(<?= $getIl ?>)</p>
+
+        <form class="centrame" method="post" action="oPru.php">
+            <input type="submit" name="si" value="si" />
+            <input type="submit" name="kill" value="kill" />
+        </form>
+*/
+?>

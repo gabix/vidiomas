@@ -1,9 +1,13 @@
 <?php
 require_once '..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
+Debuguie::AddMsg("p_login", "", "fInit");
+
 if (isset($_POST["inp_email"]) && isset($_POST["inp_passEnc"])) {
     if (!preg_match('/^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/', $_POST["inp_email"])) {
-        SuperFuncs::errYmsg(true, 'mailInvalido');
+        Debuguie::AddMsg("p_login", "mail invalido", "info");
+
+        echo SuperFuncs::errYmsg(true, 'mailInvalido');
         exit();
     }
     $usu = new Usuario;
@@ -15,11 +19,13 @@ if (isset($_POST["inp_email"]) && isset($_POST["inp_passEnc"])) {
         $cookie = true;
     }
     
-    //SuperFuncs::debuguie("p_loguin", '$usu->loguear(' . "mail: $email, pass: $pass, coo: $cookie)");
     $rta = $usu->loguear($email, $pass, $cookie);
-    
+
+    Debuguie::AddMsg("p_login", "rta=(".json_encode($rta).")", "success");
     echo json_encode($rta);
 } else {
+    Debuguie::AddMsg("p_login", "pedido invalido", "info");
+
     // The correct POST variables were not sent to this page.
-    SuperFuncs::errYmsg(true, 'pedidoInvalido');
+    echo SuperFuncs::errYmsg(true, 'pedidoInvalido');
 }

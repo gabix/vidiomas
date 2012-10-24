@@ -22,7 +22,7 @@ class Debuguie {
             //$this->logFile = $logFile = new SuperFile($logFilePath);
             //if (ONTHEFLY) $logFile->PushToDebugLogFile($debugTable, false);
 
-            if (ONTHEFLY) DBfuncs::DBcrearTablaLog();
+            if (ONTHEFLY) DBfuncs::crearTablaLog();
         }
     }
 

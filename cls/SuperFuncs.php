@@ -9,7 +9,10 @@ class SuperFuncs {
      * @param obj|string|bla $xtra lo que quieras, para pasar datos extra
      */
     public static function errYmsg($err = true, $msg = "", $xtra = "") {
-        echo json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
+        $ret = json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
+
+        Debuguie::AddMsg("SuperFuncs - errYmsg()", "ret=(".json_encode($ret).")", "info");
+        return $ret;
     }
 
     /**

@@ -45,7 +45,6 @@ $pagTit = $l->grales($selPag);
         <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
         <a href="debug_sess.php">debug_sess.php</a>
         <p id="cargandoJs_generales" class="colRojo">CARGANDO generales.js</p>
-        <p id="cargandoJs_enBebido" class="colRojo">CARGANDO script en bebido</p>
     </div>
 </div>
 

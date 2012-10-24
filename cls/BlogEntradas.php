@@ -15,7 +15,7 @@ class BlogEntradas {
         $entradas = array();
         $ret = false;
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         
         if ($q = $mysqli->prepare("SELECT id, visible, nombre, titulo, time, usuId FROM blog_entradas ORDER BY nombre ASC")) {
             $q->execute();

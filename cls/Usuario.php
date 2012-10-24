@@ -178,7 +178,7 @@ class Usuario {
     private function deDBPropsXemailYpass($email, $pass) {
         Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "fInit");
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
 
         if ($q = $mysqli->prepare("SELECT id, apodo, categoria, pass, salt, creditos, nombre, pais, sexo, tel, codpostal, lang, time FROM usuarios WHERE email = ? LIMIT 1")) {
@@ -244,7 +244,7 @@ class Usuario {
      * @return array 'err' => true, 'msg' => ""
      */
     private function dbDBcatYcreditosXid($usuId) {
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
 
         if ($q = $mysqli->prepare("SELECT categoria, creditos FROM usuarios WHERE id = ? LIMIT 1")) {
@@ -280,7 +280,7 @@ class Usuario {
         $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
 
         if ($q = $mysqli->prepare("SELECT pass FROM usuarios WHERE id = ? LIMIT 1")) {
@@ -347,10 +347,9 @@ class Usuario {
     private function setSession() {
         Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
 
-        $propsConValor = null;
-        foreach($this->todasProps as $prop) {
-            $propsConValor[] = array($prop => $this->$prop);
-        }
+        $propsConValor = $this->get_props($this->todasProps);
+
+        Debuguie::AddMsg("Usuario - setSession()", "pConVal=(".json_encode($propsConValor).")", "fInit");
 
         Session::set('usu', $propsConValor);
         Session::set('lang', $this->lang);
@@ -447,17 +446,19 @@ class Usuario {
         Debuguie::AddMsg("Usuario - inicio()", "", "fInit");
 
         if (Session::get('usu')) {
-            Debuguie::AddMsg("Usuario - inicio()", "hay usu sess", "info");
+            $usuSess = Session::get('usu');
 
-            //TODO: función rta de q seteo correctamente.
-            $this->set_props(Session::get('usu'));
-            $this->loged = true;
-            return null;
+            Debuguie::AddMsg("Usuario - inicio()", "hay usu sess=(".json_encode($usuSess).")", "info");
+
+            $ret = $this->loged = $this->set_props($usuSess);
+
+            Debuguie::AddMsg("Usuario - inicio()", "ret=(".$ret.")", "info");
+            return $ret;
         } else {
             //hay cookie?
-            //SuperFuncs::debuguie("cusu", "no sess");
             if (isset($_COOKIE["usu"])) {
                 Debuguie::AddMsg("Usuario - inicio()", "hay cookie usu", "info");
+
                 $this->deCookieAsess();
             }
             return null;
@@ -465,10 +466,9 @@ class Usuario {
 
     }
 
-    /**
-     * Redirige a wwwwww/logout.php
-     */
     public static function logout() {
+        Debuguie::AddMsg("Usuario - logout()", "", "fInit");
+
         return self::instance()->killCookies();
     }
 

@@ -1,10 +1,10 @@
 <?php
 require_once '..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'init.php';
 
+Debuguie::AddMsg("p_logout", "", "fInit");
+
 Usuario::logout();
 Session::kill();
 
-//TODO: redirigir?
-//header("location:".HOMEPAGE);
-//defino el título de la pag
-?>
+header("location:".HOME_PAGE);
+exit();

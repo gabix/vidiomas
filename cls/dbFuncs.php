@@ -2,24 +2,20 @@
 
 class dbFuncs {
 
-    public static function CrearTablasEnDB() {
-        mysql_query("SHOW TABLES FROM yourDB");
-    }
-
-    public static function DBcrearMysqli() {
-        Debuguie::AddMsg("dbFuncs - DBcrearMysqli()", "", "fInit");
+    public static function crearMysqli() {
+        Debuguie::AddMsg("dbFuncs - crearMysqli()", "", "fInit");
 
         $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         if (mysqli_connect_errno()) {
-            Debuguie::AddMsg("dbFuncs - DBcrearMysqli()", "No se puede conectar a la DB. Err: " . mysqli_connect_error(), "error");
+            Debuguie::AddMsg("dbFuncs - crearMysqli()", "No se puede conectar a la DB. Err: " . mysqli_connect_error(), "error");
             return null;
 
         }
         return $mysqli;
     }
 
-    public static function DBcrearTablaLog() {
-        //no uso el self::DBcrearMysqli porque esa func usa Debuguie, y no puedo debuguear el debug
+    public static function crearTablaLog() {
+        //no uso el self::crearMysqli porque esa func usa Debuguie, y no puedo debuguear el debug
         $mysqli = new mysqli(DB_HOST, 'root', '', DB_NAME);
         if (mysqli_connect_errno()) {
             trigger_error("EN dbFuncs, No se puede conectar a la DB. Err: " . mysqli_connect_error());
@@ -51,8 +47,8 @@ class dbFuncs {
         return $ret;
     }
 
-    public static function DBmatarTablaLog() {
-        //no uso el self::DBcrearMysqli porque esa func usa Debuguie, y no puedo debuguear el debug
+    public static function matarTablaLog() {
+        //no uso el self::crearMysqli porque esa func usa Debuguie, y no puedo debuguear el debug
         $mysqli = new mysqli(DB_HOST, 'root', '', DB_NAME);
         if (mysqli_connect_errno()) {
             trigger_error("EN dbFuncs, No se puede conectar a la DB. Err: " . mysqli_connect_error());
@@ -60,24 +56,10 @@ class dbFuncs {
             return null;
         }
 
-        $q = "SHOW TABLES LIKE 'debuguie_log'";
+        $q = 'DROP TABLE IF EXISTS debuguie_log';
         $ret = $mysqli->query($q);
 
-        if ($ret != false && $ret->num_rows > 0) {
-            $q = 'CREATE TABLE IF NOT EXISTS debuguie_log (
-                id int(11) NOT NULL AUTO_INCREMENT,
-                titulo varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-                time varchar(50) NOT NULL,
-                claseYmetodo varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-                msg varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-                tipoDeError varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-                PRIMARY KEY (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;';
-
-            $ret = $mysqli->query($q);
-
-            $mysqli->close();
-        }
+        $mysqli->close();
         return $ret;
     }
 

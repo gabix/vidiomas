@@ -113,7 +113,7 @@ class BlogEntrada {
     private function ModificarDB_entradaXid($titulo) {
         $return = false;
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if ($q = $mysqli->prepare('UPDATE blog_entradas SET titulo = ? WHERE id = ?')) {
             Debuguie::AddMsg("BlogEntrada - ModificarDB_entradaXid()", "bindeame esto: tit: $this->titulo, id: $this->id ", "info");
 
@@ -139,7 +139,7 @@ class BlogEntrada {
     private function CrearDB_entrada() {
         $return = false;
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if ($q = $mysqli->prepare("INSERT INTO blog_entradas (visible, nombre, titulo, time, usuId) VALUES (?, ?, ?, ?, ?)")) {
             $q->bind_param('issii', $this->visible, $this->nombre, $this->titulo, $this->timeCreated, $this->usuId);
             $q->execute();
@@ -163,7 +163,7 @@ class BlogEntrada {
         if ($this->visible == 0)
             $visible = 1;
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if ($q = $mysqli->prepare("UPDATE blog_entradas SET visible = $visible WHERE id = ?")) {
             $q->bind_param('i', $this->id);
             $q->execute();
@@ -190,7 +190,7 @@ class BlogEntrada {
             return $return;
         }
 
-        $mysqli = dbFuncs::DBcrearMysqli();
+        $mysqli = dbFuncs::crearMysqli();
         if ($q = $mysqli->prepare("SELECT id, visible, titulo, time, usuId FROM blog_entradas WHERE nombre = ?")) {
             $q->bind_param('s', $nombre);
             $q->execute();
