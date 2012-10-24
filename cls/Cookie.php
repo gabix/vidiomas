@@ -31,15 +31,16 @@ class Cookie {
         return false;
     }
 
-    public static function set($key, $value, $expirTime = 20) {
+    public static function set($key, $value, $expirTime = 20, $path = '/', $domain='', $secure=false, $httponly=false) {
         $expirTime = time() + (60 * 60 * 24 * $expirTime); //¿¿ves?? DÍAS
-        return self::instance()->setValue($key, $value, $expirTime);
+        return self::instance()->setValue($key, $value, $expirTime, $path, $domain, $secure, $httponly);
     }
 
-    public function setValue($key, $value, $expirTime) {
+    public function setValue($key, $value, $expirTime, $path, $domain, $secure, $httponly) {
+
         Debuguie::AddMsg("Cookie - setValue()", "parámetros = $key, $value", "fInit");
 
-        $setCookie = setcookie($key, $value, $expirTime);
+        $setCookie = setcookie($key, $value, $expirTime, $path, $domain, $secure, $httponly);
 
         Debuguie::AddMsg("Cookie - setValue()", "ret de set = $setCookie", "info");
         return $setCookie;
@@ -58,6 +59,16 @@ class Cookie {
             return $killCookie;
 
         } else {
+if (is_array($key)) {
+    if (isset($_COOKIE[$key[0]][$key[1]])) {
+
+        $killCookie = setcookie($key, null, -1);
+        Debuguie::AddMsg("Cookie - killCookie()", "ret=($killCookie) --supuestamente $key murió", "success");
+        return $killCookie;
+
+    }
+}
+
             Debuguie::AddMsg("Cookie - killCookie()", "$key no seteada", "info");
             return false;
         }

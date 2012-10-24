@@ -330,7 +330,8 @@ class Usuario {
     private function killCookies() {
         Debuguie::AddMsg("Usuario - killCookies()", "", "fInit");
         foreach ($this->cookieProps as $cooKey) {
-            $cooName = "usu[".$cooKey."]";
+            //$cooName = "usu[".$cooKey."]";
+            $cooName = array('usu' => '$cooKey');
 
             Cookie::kill($cooName);
         }
