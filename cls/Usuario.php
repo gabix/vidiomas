@@ -26,8 +26,8 @@ class Usuario {
     private $login_string = "";
     private $loged = false;
     // otras
-    private $excludeGet = array('excludeGet', 'excludeSet', 'instance'); //acá van las propiedades que no se pueden tocar por get, ej: 'id', 'tuVieja'
-    private $excludeSet = array('excludeGet', 'excludeSet', 'instance', 'loged'); //acá van las propiedades que no se pueden tocar por set, ej: 'id', 'tuVieja'
+    private $excludeGet = array('excludeGet', 'excludeSet', 'instance', 'todasProps', 'cookieProps'); //acá van las propiedades que no se pueden tocar por get, ej: 'id', 'tuVieja'
+    private $excludeSet = array('loged', 'excludeGet', 'excludeSet', 'instance', 'todasProps', 'cookieProps'); //acá van las propiedades que no se pueden tocar por set, ej: 'id', 'tuVieja'
     private $todasProps = array("id", "apodo", "email", "categoria", "creditos", "login_string", "nombre", "pais", "sexo", "tel", "codpostal", "lang", "time");
     private $cookieProps = array("id", "apodo", "email", "login_string", "nombre", "pais", "sexo", "tel", "codpostal", "lang", "time");
 
@@ -70,16 +70,23 @@ class Usuario {
         return null;
     }
 
+    /**
+     * setea propiedades de la clase por array
+     * @param $params ej=array('id' => 0, 'apodo' => 'pumba', etc)
+     * @return bool true pa éxitos, false pa error
+     */
     public function set_props($params) {
-        //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: set_props args: " . json_encode($params));}
+        Debuguie::AddMsg("Usuario - set_props()", "params=(".json_encode($params).")", "fInit");
+
         foreach ($params as $prop => $val) {
             if (!isset($this->$prop)) {
-                trigger_error("Err: No existe la propiedad $prop, en set_props, ");
+                Debuguie::AddMsg("Usuario - set_props()", "no existe prop=($prop)", "error");
+
                 return false;
             }
             $this->set($prop, $val);
-            //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: set_props set($prop, $val)");}
         }
+        return true;
     }
 
     /**
@@ -310,22 +317,23 @@ class Usuario {
      * Genera un cookie con todas las props no protegidas
      */
     private function setCookies() {
+        Debuguie::AddMsg("Usuario - setCookies()", "", "fInit");
         $paCookie = $this->get_props($this->cookieProps);
 
         foreach ($paCookie as $cooKey => $val) {
-            $cooname = "usu_".$cooKey;
+            $cooName = "usu[".$cooKey."]";
 
-            Cookie::set($cooname, $val);
+            Cookie::set($cooName, $val);
         }
     }
 
     private function killCookies() {
+        Debuguie::AddMsg("Usuario - killCookies()", "", "fInit");
         foreach ($this->cookieProps as $cooKey) {
-            $cooname = "usu_".$cooKey;
+            $cooName = "usu[".$cooKey."]";
 
-            Cookie::kill($cooname);
+            Cookie::kill($cooName);
         }
-
     }
 
     // </editor-fold>
@@ -339,7 +347,15 @@ class Usuario {
     private function setSession() {
         Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
 
-        Session::set('usu', array(
+        $propsConValor = null;
+        foreach($this->todasProps as $prop) {
+            $propsConValor[] = array($prop => $this->$prop);
+        }
+
+        Session::set('usu', $propsConValor);
+        Session::set('lang', $this->lang);
+
+        /*Session::set('usu', array(
             'id' => $this->id,
             'apodo' => $this->apodo,
             'email' => $this->email,
@@ -354,8 +370,7 @@ class Usuario {
             'lang' => $this->lang,
             'time' => $this->time
         ));
-
-        Session::set('lang', $this->lang);
+        */
     }
 
     /**
@@ -410,7 +425,7 @@ class Usuario {
         Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "fInit");
 
         $rta = $this->deDBPropsXemailYpass($email, $pass);
-        Debuguie::AddMsg("Usuario - loguear()", "rta=($rta)", "success");
+        Debuguie::AddMsg("Usuario - loguear()", "rta=(".json_encode($rta).")", "info");
 
         if (!$rta['err']) {
             //props de this ya seteadas --> guardo el usu en sess
@@ -429,8 +444,11 @@ class Usuario {
     }
 
     public function inicio() {
+        Debuguie::AddMsg("Usuario - inicio()", "", "fInit");
+
         if (Session::get('usu')) {
-            //SuperFuncs::debuguie("cusu", "si sess");
+            Debuguie::AddMsg("Usuario - inicio()", "hay usu sess", "info");
+
             //TODO: función rta de q seteo correctamente.
             $this->set_props(Session::get('usu'));
             $this->loged = true;
@@ -439,6 +457,7 @@ class Usuario {
             //hay cookie?
             //SuperFuncs::debuguie("cusu", "no sess");
             if (isset($_COOKIE["usu"])) {
+                Debuguie::AddMsg("Usuario - inicio()", "hay cookie usu", "info");
                 $this->deCookieAsess();
             }
             return null;

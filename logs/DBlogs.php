@@ -10,6 +10,8 @@ require_once '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'init
 
 $pagTit = "DBlogs";
 
+
+
 $dMsgs = getLogs();
 
 

@@ -8,6 +8,7 @@
       <w>asociados</w>
       <w>azul</w>
       <w>bebido</w>
+      <w>blogs</w>
       <w>bordes</w>
       <w>boto</w>
       <w>botonera</w>
@@ -16,11 +17,16 @@
       <w>cargando</w>
       <w>categoria</w>
       <w>charly</w>
+      <w>ciertas</w>
+      <w>clase</w>
+      <w>clases</w>
       <w>codpostal</w>
       <w>completo</w>
+      <w>conectar</w>
       <w>constantes</w>
       <w>contenedor</w>
       <w>contraseña</w>
+      <w>correctamente</w>
       <w>cpanel</w>
       <w>crea</w>
       <w>creditos</w>
@@ -31,6 +37,7 @@
       <w>deflang</w>
       <w>donde</w>
       <w>dándole</w>
+      <w>días</w>
       <w>ejecuta</w>
       <w>enckey</w>
       <w>entre</w>
@@ -39,11 +46,13 @@
       <w>estás</w>
       <w>excluida</w>
       <w>existe</w>
+      <w>expir</w>
       <w>femenino</w>
       <w>filas</w>
       <w>flecha</w>
       <w>formateado</w>
       <w>funciono</w>
+      <w>función</w>
       <w>funcs</w>
       <w>fácil</w>
       <w>gabix</w>
@@ -55,15 +64,25 @@
       <w>hasheada</w>
       <w>htmlent</w>
       <w>htmlentities</w>
+      <w>hubo</w>
+      <w>ignorar</w>
       <w>imgs</w>
       <w>incluye</w>
       <w>inexistente</w>
+      <w>inicializadores</w>
+      <w>inicio</w>
+      <w>intentos</w>
       <w>lenguaje</w>
       <w>loged</w>
+      <w>logueado</w>
+      <w>loguear</w>
+      <w>logueo</w>
+      <w>mandaste</w>
       <w>masculino</w>
       <w>metas</w>
       <w>microtime</w>
       <w>método</w>
+      <w>métodos</w>
       <w>onda</w>
       <w>onthefly</w>
       <w>otros</w>
@@ -75,12 +94,16 @@
       <w>pasado</w>
       <w>pasar</w>
       <w>pasarle</w>
+      <w>pedidas</w>
       <w>pedido</w>
       <w>posicion</w>
       <w>posición</w>
       <w>preglau</w>
       <w>preguntar</w>
+      <w>propiedad</w>
       <w>propiedades</w>
+      <w>protegidas</w>
+      <w>publicos</w>
       <w>pues</w>
       <w>quieras</w>
       <w>registro</w>
@@ -88,6 +111,7 @@
       <w>rojo</w>
       <w>sess</w>
       <w>setea</w>
+      <w>seteada</w>
       <w>seteado</w>
       <w>setear</w>
       <w>seteo</w>
@@ -101,6 +125,7 @@
       <w>tiene</w>
       <w>tipo</w>
       <w>todas</w>
+      <w>traer</w>
       <w>trayendo</w>
       <w>título</w>
       <w>usuario</w>
@@ -108,6 +133,8 @@
       <w>viene</w>
       <w>xtra</w>
       <w>zealand</w>
+      <w>éxito</w>
+      <w>éxitos</w>
     </words>
   </dictionary>
 </component>

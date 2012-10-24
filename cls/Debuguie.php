@@ -125,7 +125,7 @@ class Debuguie {
     }
 
     private function _printMsgs() {
-        self::AddMsg("Debuguie - _printMsgs", "-*---------*-*-*-END-*-*-*---------*-", "none"); //p'agregar una linea al final...
+        self::AddMsg("Debuguie - _printMsgs", "<--*--END--*-->", "none"); //p'agregar una linea al final...
 
         $ret = null;
         if (count($this->debuguieMsgs) > 0) {

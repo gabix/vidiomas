@@ -59,7 +59,7 @@ $pagTit = $l->grales($selPag);
                     <p>* pais
                         <select id="pais" name="pais">
                             <?php
-                            if (file_exists(APP_ROOT.DS.'inc'.DS.'countries.xml')) {
+                            if (is_file(APP_ROOT.DS.'inc'.DS.'countries.xml')) {
                                 $countriesXML = simplexml_load_file(APP_ROOT.DS.'inc'.DS.'countries.xml');
                                 foreach ($countriesXML->country as $pais) {
                                     echo "\t\t\t<option" . (($pais == "Argentina")? " SELECTED" : "") . ">$pais</option>\n";
