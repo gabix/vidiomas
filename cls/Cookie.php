@@ -46,28 +46,20 @@ class Cookie {
         return $setCookie;
     }
 
-    public static function kill($key) {
-        return self::instance()->killCookie($key);
+    public static function kill($key, $path = '/', $domain='', $secure=false, $httponly=false) {
+        return self::instance()->killCookie($key, $path, $domain, $secure, $httponly);
     }
 
-    public function killCookie($key) {
+    public function killCookie($key, $path, $domain, $secure, $httponly) {
         Debuguie::AddMsg("Cookie - killCookie()", "parámetros = $key", "fInit");
 
         if (isset($_COOKIE[$key])) {
-            $killCookie = setcookie($key, null, -1);
+            $killCookie = setcookie($key, null, -1, $path, $domain, $secure, $httponly);
             Debuguie::AddMsg("Cookie - killCookie()", "ret=($killCookie) --supuestamente $key murió", "success");
             return $killCookie;
 
         } else {
-if (is_array($key)) {
-    if (isset($_COOKIE[$key[0]][$key[1]])) {
 
-        $killCookie = setcookie($key, null, -1);
-        Debuguie::AddMsg("Cookie - killCookie()", "ret=($killCookie) --supuestamente $key murió", "success");
-        return $killCookie;
-
-    }
-}
 
             Debuguie::AddMsg("Cookie - killCookie()", "$key no seteada", "info");
             return false;

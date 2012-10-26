@@ -37,14 +37,18 @@ $pagTit = $l->grales($selPag);
 
 <body>
 <div id="d_superContenedor">
-    <?php require_once APP_ROOT.DS."pags".DS."header.php"; ?>
-    <?php require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
+    <?php // require_once APP_ROOT.DS."pags".DS."header.php"; ?>
+    <?php // require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
 
     <div id="d_cuerpo">
         <h1><?=$pagTit?></h1>
         <p>oPru es un super-duper template</p>
         <p>si</p>
         <hr/>
+
+
+
+
 
         <p class="cl"></p>
     </div>
@@ -72,7 +76,46 @@ $pagTit = $l->grales($selPag);
 
 <?php
 /*
-<?php
+<?php //esto funca
+        $arr = array('cen' => "loloLeLulaLila", 'nac' => "LulaLilaLoloLe?");
+        $arrKeys = array('cen', 'nac');
+
+        if (isset($_POST['si']) && $_POST['si'] == "si") {
+            foreach($arr as $k => $v) {
+                $cooName = 'alma_'.$k;
+                $ret = Cookie::set($cooName, $v);
+                ?><p class="lefteame">estoy seteando!! ret=(<?= $ret ?>)</p><?php
+            }
+
+        }
+
+        if (isset($_POST['kill']) && $_POST['kill'] == "kill") {
+            foreach ($arrKeys as $k) {
+                $cooName = 'alma_'.$k;
+                $ret = Cookie::kill($cooName);
+                ?><p class="lefteame">estoy matando!! ret=(<?= $ret ?>)</p><?php
+            }
+        }
+
+        $getIl = Cookie::get('alma');
+        if (isset($getIl) && is_array($getIl)) {
+            foreach ($arrKeys as $k) {
+                ?><p>Prueba de alma de cookie getIl=(<?= $getIl[$k] ?>)</p><?php
+            }
+        } else {
+            ?><p>Prueba de alma de cookie getIl no seteado</p><?php
+        }
+        ?>
+
+
+        <form class="centrame" method="post" action="oPru.php">
+            <input type="submit" name="si" value="si" />
+            <input type="submit" name="kill" value="kill" />
+        </form>
+
+
+
+<?php //esto funca
         if (isset($_POST['si']) && $_POST['si'] == "si") {
             $ret = Cookie::set('almacen', 'miMamaMeMima');
             ?><p class="lefteame">estoy seteando!! ret=(<?= $ret ?>)</p><?php

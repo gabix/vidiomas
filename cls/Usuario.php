@@ -313,30 +313,6 @@ class Usuario {
         return false;
     }
 
-    /**
-     * Genera un cookie con todas las props no protegidas
-     */
-    private function setCookies() {
-        Debuguie::AddMsg("Usuario - setCookies()", "", "fInit");
-        $paCookie = $this->get_props($this->cookieProps);
-
-        foreach ($paCookie as $cooKey => $val) {
-            $cooName = "usu[".$cooKey."]";
-
-            Cookie::set($cooName, $val);
-        }
-    }
-
-    private function killCookies() {
-        Debuguie::AddMsg("Usuario - killCookies()", "", "fInit");
-        foreach ($this->cookieProps as $cooKey) {
-            //$cooName = "usu[".$cooKey."]";
-            $cooName = array('usu' => '$cooKey');
-
-            Cookie::kill($cooName);
-        }
-    }
-
     // </editor-fold>
     //
     // <editor-fold desc="Métodos Publicos">
@@ -378,11 +354,26 @@ class Usuario {
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     private function deCookieAsess() {
-        if (isset($_COOKIE["usu"]['id']) && isset($_COOKIE["usu"]['login_string'])) {
-            //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", "si isset"); }
+        Debuguie::AddMsg("Usuario - deCookieAsess()", "", "fInit");
+
+        if (false != Cookie::get('usu_log')) {
+            $tea = new TEA();
+            $vals = $tea->decrypt(Cookie::get('usu_log'), ENCKEY);
+            $vals = explode("|", $valPaCook);
+
+            if (is_array($vals) && count($vals) === 2) {
+                $logStr = $vals[0];
+                $usuId = $vals[1];
+
+
+            }
+
+
+
+            Debuguie::AddMsg("Usuario - deCookieAsess()", "hay cookie usu_log = deEnc=()", "info");
+
 
             $usuId = $_COOKIE["usu"]['id'];
-            $logStr = $_COOKIE["usu"]['login_string'];
             //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", "usuID: $usuId, logStr: $logStr"); }
             $chkCook = $this->checkCookie($usuId, $logStr);
 
@@ -429,15 +420,22 @@ class Usuario {
 
         if (!$rta['err']) {
             //props de this ya seteadas --> guardo el usu en sess
-
             $this->setSession();
+
             if ($cookie) {
-                $this->setCookies();
+                //guardo el login_string + el usu id en una cookie (encriptado)
+
+                $valPaCook = $this->login_string . "|" . $this->id;
+                $tea = new TEA();
+                $enc = $tea->encrypt($valPaCook, ENCKEY);
+
+                Debuguie::AddMsg("Usuario - loguear()", "enc=(".$enc.")", "info");
+
+                Cookie::set("usu_log", $enc);
             }
             return $rta;
         } else {
             //no logueado
-            //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu->loguear", "no log");}
 
             return $rta;
         }
@@ -475,3 +473,101 @@ class Usuario {
 
     // </editor-fold> 
 }
+
+
+///**
+// * Genera un cookie con todas las props no protegidas
+// */
+//private function setCookies() {
+//    Debuguie::AddMsg("Usuario - setCookies()", "", "fInit");
+//    $paCookie = $this->get_props($this->cookieProps);
+//
+//    foreach ($paCookie as $cooKey => $val) {
+//        $cooName = "usu_".$cooKey;
+//
+//        Cookie::set($cooName, $val);
+//    }
+//}
+//
+//private function killCookies() {
+//    Debuguie::AddMsg("Usuario - killCookies()", "", "fInit");
+//    foreach ($this->cookieProps as $cooKey) {
+//        $cooName = 'usu_'.$cooKey;
+//
+//        Cookie::kill($cooName);
+//    }
+//}
+///**
+// * trae de db la cat y los cred asociados a un id, y los carga en las props de la clase
+// * @param int $usuId
+// * @return array 'err' => true, 'msg' => ""
+// */
+//private function dbDBcatYcreditosXid($usuId) {
+//    $mysqli = dbFuncs::crearMysqli();
+//    if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
+//
+//    if ($q = $mysqli->prepare("SELECT categoria, creditos FROM usuarios WHERE id = ? LIMIT 1")) {
+//        $q->bind_param('i', $usuId);
+//        $q->execute();
+//        $q->store_result();
+//
+//        if ($q->num_rows == 1) {
+//            $q->bind_result($cat, $cred);
+//            $q->fetch();
+//
+//            $this->set_props(array('categoria' => $cat, 'creditos' => $cred));
+//            $mysqli->close();
+//            return array('err' => false, 'msg' => "");
+//            ;
+//        }
+//    }
+//
+//    $mysqli->close();
+//    Debuguie::AddMsg("Usuario - dbDBcatYcreditosXidYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+//    return array('err' => true, 'msg' => "noConectaAdb");
+//}
+//
+///** checkCookie
+// * para comprobar que la cookie es valida
+// * @param type $usuId
+// * @param type $logStr
+// * @return bool
+// */
+//private function checkCookie($usuId, $logStr) {
+//    //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-checkCookie", "entré"); }
+//
+//    $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
+//    $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
+//
+//    $mysqli = dbFuncs::crearMysqli();
+//    if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
+//
+//    if ($q = $mysqli->prepare("SELECT pass FROM usuarios WHERE id = ? LIMIT 1")) {
+//        $q->bind_param('i', $usuId);
+//        $q->execute();
+//        $q->store_result();
+//
+//        if ($q->num_rows == 1) {
+//            $q->bind_result($pass); // get variables from result.
+//            $q->fetch();
+//            $login_string = hash('sha512', $pass . $ip_address . $user_browser);
+//            //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-checkCookie", "$login_string"); }
+//
+//            if ($login_string == $logStr) {
+//                // cookie correcta
+//                $mysqli->close();
+//                return true;
+//            } else {
+//                $mysqli->close();
+//                return false;
+//            }
+//        } else {
+//            $mysqli->close();
+//            return false;
+//        }
+//    }
+//
+//    $mysqli->close();
+//    Debuguie::AddMsg("Usuario - checkCookie()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+//    return false;
+//}
