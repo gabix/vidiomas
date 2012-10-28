@@ -5,6 +5,13 @@ require_once 'config' . DIRECTORY_SEPARATOR . 'init.php';
 $l = new Lang;
 
 $pagTit = "Debug Session y Cookies";
+
+if (isset($_GET['p'])) {
+    $p = $_GET['p'];
+    if ($p == "clearsess") {
+        Session::kill();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,5 +47,6 @@ $pagTit = "Debug Session y Cookies";
         ?>
         <hr />
         <a href="proc/p_logout.php">p_logout</a>
+        <a href="debug_sess.php?p=clearsess">borrar sess</a>
     </body>
 </html>

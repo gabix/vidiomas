@@ -21,16 +21,22 @@ class Usuario {
     private $codpostal = "";
     private $lang = "en";
     private $time = 0;
+
     //de acá
-    private static $instance = null;
     private $login_string = "";
-    private $loged = false;
+
     // otras
+    private static $instance = null;
     private $excludeGet = array('excludeGet', 'excludeSet', 'instance', 'todasProps', 'cookieProps'); //acá van las propiedades que no se pueden tocar por get, ej: 'id', 'tuVieja'
     private $excludeSet = array('loged', 'excludeGet', 'excludeSet', 'instance', 'todasProps', 'cookieProps'); //acá van las propiedades que no se pueden tocar por set, ej: 'id', 'tuVieja'
     private $todasProps = array("id", "apodo", "email", "categoria", "creditos", "login_string", "nombre", "pais", "sexo", "tel", "codpostal", "lang", "time");
-    private $cookieProps = array("id", "apodo", "email", "login_string", "nombre", "pais", "sexo", "tel", "codpostal", "lang", "time");
 
+    public static function instance() {
+        if (null === self::$instance) {
+            self::$instance = new Usuario();
+        }
+        return self::$instance;
+    }
     // </editor-fold>
     // 
     // <editor-fold desc="Propiedades">
@@ -55,8 +61,8 @@ class Usuario {
     /**
      * set para 1SOLA propiedad
      * @param string $prop nombre de la prop
-     * @param $val value para la prop
-     * @return int|null el seteo de la prop o null
+     * @param int|string $val value para la prop
+     * @return bool el seteo de la prop o null
      */
     public function set($prop, $val) {
         if (isset($this->$prop) && !in_array($prop, $this->excludeSet)) {
@@ -91,8 +97,8 @@ class Usuario {
 
     /**
      * para traer todas las propiedades de la clase pedidas en $params
-     * @param type array(), ej: array('xx1', 'xx2')
-     * @return type array(), ej: array('xx1' => 'el val de xx1', 'xx2' => 'el val de xx2')
+     * @param array, ej: array('xx1', 'xx2')
+     * @return array, ej: array('xx1' => 'el val de xx1', 'xx2' => 'el val de xx2')
      */
     public function get_props($params) {
         //if (SuperFuncs::debuguie) {SuperFuncs::debuguie("en c_usu: met: get_props args: " . json_encode($params));}
@@ -109,17 +115,22 @@ class Usuario {
         return $ret;
     }
 
-    // </editor-fold>
-    // 
-    // <editor-fold desc="Inicializadores">
-
-    public static function instance() {
-        if (null === self::$instance) {
-            self::$instance = new Usuario();
-        }
-        return self::$instance;
-    }
-
+    /**
+     * Setea TODAS las props de DB de usuario
+     * @param $id
+     * @param $apodo
+     * @param $email
+     * @param $categoria
+     * @param $creditos
+     * @param $login_string
+     * @param $nombre
+     * @param $pais
+     * @param $sexo
+     * @param $tel
+     * @param $codpostal
+     * @param $lang
+     * @param $time
+     */
     private function set_todo($id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time) {
         Debuguie::AddMsg("Usuario - set_todo()", "", "fInit");
 
@@ -145,8 +156,27 @@ class Usuario {
         */
     }
 
+    // </editor-fold>
+    // 
+    // <editor-fold desc="Métodos privados">
+
+    /**
+     * Carga todas las props en sess usu ($this->props)
+     * y tb genera $_SESSION['lang'] con el lang pref del usu
+     */
+    private function setSession() {
+        Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
+
+        $propsConValor = $this->get_props($this->todasProps);
+
+        Debuguie::AddMsg("Usuario - setSession()", "pConVal=(".json_encode($propsConValor).")", "fInit");
+
+        Session::set('usu', $propsConValor);
+        Session::set('lang', $propsConValor['lang']);
+    }
+
     // </editor-fold> 
-    // <editor-fold desc="Metodos Privados">
+    // <editor-fold desc="Metodos x DB">
 
     /**
      * Dándole un useId, verifica que ese uduario no se zarpe en cantidades de logueo.
@@ -194,7 +224,6 @@ class Usuario {
         Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "fInit");
 
         $mysqli = dbFuncs::crearMysqli();
-        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
 
         if ($q = $mysqli->prepare("SELECT id, apodo, categoria, pass, salt, creditos, nombre, pais, sexo, tel, codpostal, lang, time FROM usuarios WHERE email = ? LIMIT 1")) {
             $q->bind_param('s', $email);
@@ -223,12 +252,9 @@ class Usuario {
 
                         $this->set_todo($user_id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time);
 
-                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "this->loged a true", "success");
-                        $this->loged = true;
-
                         $mysqli->close();
-
                         return array('err' => false, 'msg' => "");
+
                     } else {
                         Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "dbPass != a pass", "success");
                         // Password is not correct
@@ -253,71 +279,48 @@ class Usuario {
         return array('err' => true, 'msg' => "noConectaAdb");
     }
 
-    /**
-     * trae de db la cat y los cred asociados a un id, y los carga en las props de la clase
-     * @param int $usuId
-     * @return array 'err' => true, 'msg' => ""
-     */
-    private function dbDBcatYcreditosXid($usuId) {
-        $mysqli = dbFuncs::crearMysqli();
-        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
-
-        if ($q = $mysqli->prepare("SELECT categoria, creditos FROM usuarios WHERE id = ? LIMIT 1")) {
-            $q->bind_param('i', $usuId);
-            $q->execute();
-            $q->store_result();
-
-            if ($q->num_rows == 1) {
-                $q->bind_result($cat, $cred);
-                $q->fetch();
-
-                $this->set_props(array('categoria' => $cat, 'creditos' => $cred));
-                $mysqli->close();
-                return array('err' => false, 'msg' => "");
-                ;
-            }
-        }
-
-        $mysqli->close();
-        Debuguie::AddMsg("Usuario - dbDBcatYcreditosXidYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
-        return array('err' => true, 'msg' => "noConectaAdb");
-    }
-
     /** checkCookie
      * para comprobar que la cookie es valida
      * @param $usuId
      * @param $logStr
-     * @return bool
+     * @return bool (t pa logueado, f pa NO logueado)
      */
-    private function checkCookie($usuId, $logStr) {
-        //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-checkCookie", "entré"); }
+    private function deDBPropsXusuIdYlogStr($usuId, $logStr) {
+        Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "params usuId=($usuId), logStr=($logStr)", "fInit");
 
         $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 
         $mysqli = dbFuncs::crearMysqli();
-        if (null == $mysqli) return array('err' => true, 'msg' => "noConectaAdb");
-
-        if ($q = $mysqli->prepare("SELECT pass FROM usuarios WHERE id = ? LIMIT 1")) {
+        if ($q = $mysqli->prepare("SELECT email, apodo, categoria, pass, salt, creditos, nombre, pais, sexo, tel, codpostal, lang, time FROM usuarios WHERE id = ? LIMIT 1")) {
             $q->bind_param('i', $usuId);
             $q->execute();
             $q->store_result();
+            /** @noinspection PhpUndefinedVariableInspection */
+            $q->bind_result($email, $apodo, $categoria, $db_password, $salt, $creditos, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time);
+            $q->fetch();
 
             if ($q->num_rows == 1) {
-                $q->bind_result($pass); // get variables from result.
-                $q->fetch();
+                $pass = hash('sha512', $db_password . $salt);
                 $login_string = hash('sha512', $pass . $ip_address . $user_browser);
-                //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-checkCookie", "$login_string"); }
 
                 if ($login_string == $logStr) {
                     // cookie correcta
+                    $this->set_todo($usuId, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time);
+
                     $mysqli->close();
                     return true;
+
                 } else {
+                    //cookie mala mala
+                    Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "logStr <> ", "info");
+
                     $mysqli->close();
                     return false;
                 }
             } else {
+                Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "num rows <> 1", "info");
+
                 $mysqli->close();
                 return false;
             }
@@ -328,31 +331,12 @@ class Usuario {
         return false;
     }
 
-    // </editor-fold>
-    //
-    // <editor-fold desc="Métodos Publicos">
-    /**
-     * Carga todas las props en sess usu ($this->props)
-     * y tb genera $_SESSION['lang'] con el lang pref del usu
-     * ojo con inciar sess antes!
-     */
-    private function setSession() {
-        Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
-
-        $propsConValor = $this->get_props($this->todasProps);
-
-        Debuguie::AddMsg("Usuario - setSession()", "pConVal=(".json_encode($propsConValor).")", "fInit");
-
-        Session::set('usu', $propsConValor);
-        Session::set('lang', $propsConValor['lang']);
-    }
-
     /**
      * verifica si la cookie existe y todavía es válida, y luego carga de la db la categoría y los créditos
-     * @return array 'err' => t/f, 'msg' => mensaje de error
+     * @return bool (t pa logueado, f pa NO logueado)
      */
-    private function deCookieAsess() {
-        Debuguie::AddMsg("Usuario - deCookieAsess()", "", "fInit");
+    private function loguearXcookie() {
+        Debuguie::AddMsg("Usuario - loguearXcookie()", "", "fInit");
 
         if (false != Cookie::get('usu_log')) {
             $tea = new TEA();
@@ -363,39 +347,27 @@ class Usuario {
                 $logStr = $vals[0];
                 $usuId = $vals[1];
 
-                Debuguie::AddMsg("Usuario - deCookieAsess()", "hay cookie usu_log = deEnc=()", "info");
+                $ret = $this->deDBPropsXusuIdYlogStr($usuId, $logStr);
 
-                //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", "usuID: $usuId, logStr: $logStr"); }
-                $chkCook = $this->checkCookie($usuId, $logStr);
-
-                //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", sprintf(json_encode($chkCook))); }
-                if ($chkCook) {
-                    $this->dbDBcatYcreditosXid($usuId);
-
-                    foreach ($_COOKIE["usu"] as $k => $val) {
-                        $this->$k = $val;
-                    }
+                Debuguie::AddMsg("Usuario - loguearXcookie()", "logueado? (ret=$ret)", "info");
+                if ($ret) {
                     $this->setSession();
-
-                    $this->loged = true;
-                    return array('err' => false, 'msg' => "");
                 }
+
+                return $ret;
             } else {
-                return array('err' => true, 'msg' => 'cookieDesactualizada');
+                Debuguie::AddMsg("Usuario - loguearXcookie()", "cookie fea y mala", "info");
+                return false;
             }
         } else {
-            return array('err' => true, 'msg' => 'noExisteCookie');
+            Debuguie::AddMsg("Usuario - loguearXcookie()", "no cookie no cry", "info");
+            return false;
         }
     }
 
-    /**
-     * se hace?
-     * @param type $id
-     * @param type $logStr
-     */
-    public function logueadoXdb($id, $logStr) {
-        //TODO: logueadoXdb si es nesario
-    }
+    // </editor-fold>
+    //
+    // <editor-fold desc="Métodos Publicos">
 
     /**
      *
@@ -428,33 +400,26 @@ class Usuario {
             return $rta;
         } else {
             //no logueado
-
             return $rta;
         }
     }
 
-    public function inicio() {
-        Debuguie::AddMsg("Usuario - inicio()", "", "fInit");
+    public function logueado() {
+        Debuguie::AddMsg("Usuario - logueado()", "", "fInit");
 
         if (Session::get('usu')) {
+            //hay sess?
             $usuSess = Session::get('usu');
+            $ret = $this->set_props($usuSess);
 
-            Debuguie::AddMsg("Usuario - inicio()", "hay usu sess=(".json_encode($usuSess).")", "info");
-
-            $ret = $this->loged = $this->set_props($usuSess);
-
-            Debuguie::AddMsg("Usuario - inicio()", "ret=(".$ret.")", "info");
+            Debuguie::AddMsg("Usuario - logueado()", "hay sess, logueado=($ret)", "info");
             return $ret;
         } else {
             //hay cookie?
-            if (isset($_COOKIE["usu"])) {
-                Debuguie::AddMsg("Usuario - inicio()", "hay cookie usu", "info");
-
-                $this->deCookieAsess();
-            }
-            return null;
+            $ret = $this->loguearXcookie();
+            Debuguie::AddMsg("Usuario - logueado()", "hay cookie, logueado=(".$ret.")", "info");
+            return $ret;
         }
-
     }
 
     public static function logout() {

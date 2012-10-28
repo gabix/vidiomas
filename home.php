@@ -3,14 +3,11 @@
 require_once 'config'.DIRECTORY_SEPARATOR.'init.php';
 
 $usu = new Usuario;
-$usu->inicio();
+$lo = $usu->logueado();
+$cat = $usu->get('categoria');
 
 //defino el lenguaje de la pag
 $l = new Lang;
-
-//vars para manejo fácil de la pag
-$lo = $usu->get('loged');
-$cat = $usu->get('categoria');
 
 //defino el título de la pag
 $selPag = "home";
@@ -52,8 +49,6 @@ $pagTit = $l->grales($selPag);
 <script type="text/javascript"></script>
 -->
 <?= htmlGenericos::PrintScripts(null,true,null,true,true,null) ?>
-
-<?= ((DEBUGUEANDO) ? Debuguie::PrintMsgs() : "") ?>
 
 </body>
 </html>

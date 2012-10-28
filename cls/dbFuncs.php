@@ -9,7 +9,6 @@ class dbFuncs {
         if (mysqli_connect_errno()) {
             Debuguie::AddMsg("dbFuncs - crearMysqli()", "No se puede conectar a la DB. Err: " . mysqli_connect_error(), "error");
             return null;
-
         }
         return $mysqli;
     }
