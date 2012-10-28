@@ -40,6 +40,7 @@
       <w>datos</w>
       <w>debugueando</w>
       <w>deflang</w>
+      <w>desigual</w>
       <w>donde</w>
       <w>dropeame</w>
       <w>dándole</w>
@@ -58,6 +59,7 @@
       <w>filas</w>
       <w>flecha</w>
       <w>formateado</w>
+      <w>formulario</w>
       <w>funciono</w>
       <w>función</w>
       <w>funcs</w>
@@ -90,9 +92,11 @@
       <w>masculino</w>
       <w>matar</w>
       <w>matata</w>
+      <w>maxlenght</w>
       <w>metas</w>
       <w>metodos</w>
       <w>microtime</w>
+      <w>minlength</w>
       <w>método</w>
       <w>métodos</w>
       <w>naranja</w>
@@ -123,8 +127,10 @@
       <w>recordame</w>
       <w>registro</w>
       <w>repita</w>
+      <w>requerido</w>
       <w>retado</w>
       <w>rojo</w>
+      <w>rpass</w>
       <w>sess</w>
       <w>setea</w>
       <w>seteada</w>
@@ -132,6 +138,7 @@
       <w>setear</w>
       <w>seteo</w>
       <w>sexo</w>
+      <w>sido</w>
       <w>sola</w>
       <w>solicita</w>
       <w>telefono</w>
@@ -146,6 +153,8 @@
       <w>trayendo</w>
       <w>título</w>
       <w>usuario</w>
+      <w>vacia</w>
+      <w>validado</w>
       <w>vals</w>
       <w>verifica</w>
       <w>vidiomas</w>

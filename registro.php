@@ -37,6 +37,8 @@ $pagTit = $l->grales($selPag);
             <div class="d_bordes_contiene">
                 <h2>Registrate salamín</h2>
                 <form id="form_register" method="post">
+                    <?= (isset($_POST['apodo'])? "<p>post apodo!</p>" : "") ?>
+
                     <p>Los campos que tienen * son obligatorios</p>
                     <p>* Apodo
                         <input id="apodo" name="apodo" type="text" placeholder="apodo" value="" />
@@ -98,6 +100,25 @@ $pagTit = $l->grales($selPag);
 
 <script type="text/javascript">
     // -- Funcs -- \\
+    function SacarTags(itemId) {
+        var ret = false;
+
+        return ret;
+    }
+
+    Validar_filtroMail(itemId) {
+        var ret = false;
+
+        return ret;
+    }
+
+    function Validar_MinMaxLenght(itemId, minL, maxL) {
+        var itemVal = itemId.val();
+
+        var ret = false;
+
+        return ret;
+    }
 
 
 
@@ -155,7 +176,7 @@ $pagTit = $l->grales($selPag);
             }
         });
 
-        JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js')
+        JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js');
     });
 </script>
 

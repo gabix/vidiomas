@@ -6,11 +6,11 @@ $errMsg['cookieDesactualizada'] = "La cookie está desactualizada. Vuelva a logu
 
 $errMsg['apodoRequerido'] = "Debe ingresar un apodo";
 $errMsg['apodoMin'] = "El apodo debe consistir en al menos 5 caracteres";
-$errMsg['apodoMax'] = "El apodo debe ser de menos de 30 caracteres";
+$errMsg['apodoMax'] = "Apodo muy largo loco";
 
 $errMsg['nombreRequerido'] = "Debe ingresar un nombre";
 $errMsg['nombreMin'] = "El nombre debe consistir en al menos 3 caracteres";
-$errMsg['nombreMax'] = "El nombre debe ser de menos de 50 caracteres";
+$errMsg['nombreMax'] = "¿Ese es tu nombre? ¡Fuaa, qué largo!";
 
 $errMsg['noExisteMail'] = "Ese email no existe";
 $errMsg['mailInvalido'] = "email inválido, debe ingresar un email en formato ej@emp.lo";
@@ -18,7 +18,7 @@ $errMsg['mailInvalido'] = "email inválido, debe ingresar un email en formato ej
 $errMsg['passIncorrecta'] = "Contraseña Incorrecta";
 $errMsg['passVacia'] = "La contraseña no puede estar vacia";
 $errMsg['passMin'] = "La contraseña debe consistir en al menos 5 caracteres";
-$errMsg['passMax'] = "La contraseña debe ser de menos de 25 caracteres";
+$errMsg['passMax'] = "Largoooopass, no te la vas a acordar";
 $errMsg['passDesigual'] = "Las contraseñas no son iguales";
 
 $errMsg['telMin'] = "El teléfono debe consistir en al menos 5 caracteres";
