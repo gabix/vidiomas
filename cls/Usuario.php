@@ -301,8 +301,8 @@ class Usuario {
             $q->fetch();
 
             if ($q->num_rows == 1) {
-                $pass = hash('sha512', $db_password . $salt);
-                $login_string = hash('sha512', $pass . $ip_address . $user_browser);
+                //$pass = hash('sha512', $db_password . $salt);
+                $login_string = hash('sha512', $db_password . $ip_address . $user_browser);
 
                 if ($login_string == $logStr) {
                     // cookie correcta
