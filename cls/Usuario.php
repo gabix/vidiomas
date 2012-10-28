@@ -140,6 +140,13 @@ class Usuario {
     // </editor-fold> 
     // <editor-fold desc="Metodos Privados">
 
+    /**
+     * Dándole un useId, verifica que ese uduario no se zarpe en cantidades de logueo.
+     * si hubo más de 10 intentos de logueos erroneos devuelve false.
+     * @param $user_id
+     * @param $mysqli
+     * @return bool
+     */
     private function checkBrute($user_id, $mysqli) {
         Debuguie::AddMsg("Usuario - checkBrute()", "params user_id=($user_id), y mysqli", "fInit");
 
@@ -270,8 +277,8 @@ class Usuario {
 
     /** checkCookie
      * para comprobar que la cookie es valida
-     * @param type $usuId
-     * @param type $logStr
+     * @param $usuId
+     * @param $logStr
      * @return bool
      */
     private function checkCookie($usuId, $logStr) {
@@ -358,36 +365,30 @@ class Usuario {
 
         if (false != Cookie::get('usu_log')) {
             $tea = new TEA();
-            $vals = $tea->decrypt(Cookie::get('usu_log'), ENCKEY);
+            $valPaCook = $tea->decrypt(Cookie::get('usu_log'), ENCKEY);
             $vals = explode("|", $valPaCook);
 
             if (is_array($vals) && count($vals) === 2) {
                 $logStr = $vals[0];
                 $usuId = $vals[1];
 
+                Debuguie::AddMsg("Usuario - deCookieAsess()", "hay cookie usu_log = deEnc=()", "info");
 
-            }
+                //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", "usuID: $usuId, logStr: $logStr"); }
+                $chkCook = $this->checkCookie($usuId, $logStr);
 
+                //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", sprintf(json_encode($chkCook))); }
+                if ($chkCook) {
+                    $this->dbDBcatYcreditosXid($usuId);
 
+                    foreach ($_COOKIE["usu"] as $k => $val) {
+                        $this->$k = $val;
+                    }
+                    $this->setSession();
 
-            Debuguie::AddMsg("Usuario - deCookieAsess()", "hay cookie usu_log = deEnc=()", "info");
-
-
-            $usuId = $_COOKIE["usu"]['id'];
-            //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", "usuID: $usuId, logStr: $logStr"); }
-            $chkCook = $this->checkCookie($usuId, $logStr);
-
-            //if (SuperFuncs::debuguie) { SuperFuncs::debuguie("cusu-deCookieAsess", sprintf(json_encode($chkCook))); }
-            if ($chkCook) {
-                $this->dbDBcatYcreditosXid($usuId);
-
-                foreach ($_COOKIE["usu"] as $k => $val) {
-                    $this->$k = $val;
+                    $this->loged = true;
+                    return array('err' => false, 'msg' => "");
                 }
-                $this->setSession();
-
-                $this->loged = true;
-                return array('err' => false, 'msg' => "");
             } else {
                 return array('err' => true, 'msg' => 'cookieDesactualizada');
             }
