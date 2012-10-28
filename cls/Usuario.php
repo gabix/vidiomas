@@ -122,6 +122,13 @@ class Usuario {
 
     private function set_todo($id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time) {
         Debuguie::AddMsg("Usuario - set_todo()", "", "fInit");
+
+        foreach ($this->todasProps as $prop) {
+            $this->$prop = ${$prop};
+            Debuguie::AddMsg("Usuario - set_todo()", "seteo this->$prop=(".$this->$prop.")", "info");
+        }
+
+        /*
         $this->id = $id;
         $this->apodo = $apodo;
         $this->email = $email;
@@ -135,6 +142,7 @@ class Usuario {
         $this->codpostal = $codpostal;
         $this->lang = $lang;
         $this->time = $time;
+        */
     }
 
     // </editor-fold> 
@@ -336,24 +344,7 @@ class Usuario {
         Debuguie::AddMsg("Usuario - setSession()", "pConVal=(".json_encode($propsConValor).")", "fInit");
 
         Session::set('usu', $propsConValor);
-        Session::set('lang', $this->lang);
-
-        /*Session::set('usu', array(
-            'id' => $this->id,
-            'apodo' => $this->apodo,
-            'email' => $this->email,
-            'categoria' => $this->categoria,
-            'creditos' => $this->creditos,
-            'login_string' => $this->login_string,
-            'nombre' => $this->nombre,
-            'pais' => $this->pais,
-            'sexo' => $this->sexo,
-            'tel' => $this->tel,
-            'codpostal' => $this->codpostal,
-            'lang' => $this->lang,
-            'time' => $this->time
-        ));
-        */
+        Session::set('lang', $propsConValor['lang']);
     }
 
     /**
@@ -469,7 +460,10 @@ class Usuario {
     public static function logout() {
         Debuguie::AddMsg("Usuario - logout()", "", "fInit");
 
-        return self::instance()->killCookies();
+        $kill = Cookie::kill("usu_log");
+        Debuguie::AddMsg("Usuario - logout()", "ret de kill=($kill)", "fInit");
+
+        return $kill;
     }
 
     // </editor-fold> 
