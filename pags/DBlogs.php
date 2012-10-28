@@ -24,6 +24,8 @@ $filterStr = "";
 $filter = array();
 if (isset($_POST['filter'])) {
     $filter = explode(", ", $_POST['filter']);
+
+
     $filterStr = $_POST['filter'];
 }
 
@@ -147,6 +149,8 @@ function getLogs($limit) {
                     }
 
                     $clase = explode(" - ", $dMsg['donde']);
+
+
                     if (!in_array($clase[0], $filter)) {
                         ?>
                     <tr class="<?= $dMsg['tipoDeError'] ?>">

@@ -17,7 +17,7 @@ $pagTit = $l->grales($selPag);
 <!DOCTYPE html>
 <html>
 <head>
-    <?php $l->crearHeadMetas($pagTit) ?>
+    <?= $l->crearHeadMetas($pagTit) ?>
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
     <link rel="stylesheet" type="text/css" href="inc/cpanel.css" />

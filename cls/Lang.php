@@ -73,8 +73,9 @@ class Lang {
 
     public function crearHeadMetas($pagTitu) {
         Debuguie::AddMsg("Lang - crearHeadMetas()", "args=($pagTitu)", "fInit");
-
-        $ret = sprintf(' <title>%s - %s</title>%s', $pagTitu, $this->headMetas['titu'], "\n");
+        $ret = '';
+        $ret .= ' <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n";
+        $ret .= sprintf(' <title>%s - %s</title>%s', $pagTitu, $this->headMetas['titu'], "\n");
         $ret .= sprintf(' <meta name="title" content="%s - %s" />%s', $pagTitu, $this->headMetas['titu'], "\n");
         $ret .= sprintf(' <meta name="keywords" content="%s" />%s', $this->headMetas['keys'], "\n");
         $ret .= sprintf(' <meta name="description" content="%s" />%s', $this->headMetas['desc'], "\n");

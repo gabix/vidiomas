@@ -17,7 +17,7 @@ $pagTit = $l->grales($selPag);
 <!DOCTYPE html>
 <html>
 <head>
-    <?php $l->crearHeadMetas($pagTit) ?>
+    <?= $l->crearHeadMetas($pagTit) ?>
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
     <link rel="stylesheet" type="text/css" href="inc/registro.css" />
@@ -99,10 +99,12 @@ $pagTit = $l->grales($selPag);
 <script type="text/javascript">
     // -- Funcs -- \\
 
+
+
     // -- Validator extended -- \\
-    $.validator.addMethod("buga", function(value) {
-        return value == "buga";
-    }, 'Please enter "buga"!');
+//    $.validator.addMethod("buga", function(value) {
+//        return value == "buga";
+//    }, 'Please enter "buga"!');
 
     // -- Init -- \\
     $(function(){
@@ -114,7 +116,7 @@ $pagTit = $l->grales($selPag);
                 'pass': {required: true, minlength: 5, maxlenght: 25},
                 'rpass': {required: true, minlength: 5, maxlenght: 25, equalTo: "#pass"},
                 'tel': {minlength: 5, maxlenght: 50},
-                'codPostal': {minlength: 2, maxlenght: 50},
+                'codPostal': {minlength: 2, maxlenght: 50}
             },
             messages: {
                 apodo: {
