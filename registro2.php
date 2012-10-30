@@ -41,25 +41,68 @@ $pagTit = $l->grales($selPag);
             <div class="d_bordes_contiene">
                 <h2>Registrate salamín</h2>
 
+
+
                 <form id="f_registro">
+                    <table>
+                        <tr>
+                            <td class="lbl">Apodo</td>
+                            <td class="inp"><input type="text" id="inp_apodo" name="inp_apodo" placeholder="apodo" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td id="err_apodo" class="err" colspan="2">ERORRRR!!</td>
+                        </tr>
 
+                        <tr>
+                            <td class="lbl">E-Mail</td>
+                            <td class="inp"><input type="text" id="inp_email" name="inp_email" placeholder="ej@emp.lo" value="" /</td>
+                        </tr>
+                        <tr>
+                            <td id="err_email" class="err" colspan="2"></td>
+                        </tr>
 
-                    <input id="btn_submit" type="submit" value="enviar" />
+                        <tr>
+                            <td class="lbl">Nombre completo</td>
+                            <td class="inp"><input type="text" id="inp_nombre" name="inp_nombre" placeholder="Juan Perez" value="" /></td>
+                        </tr>
+                        <tr>
+                            <td id="err_nombre" class="err" colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="lbl">Contraseña</td>
+                            <td class="inp">
+                                <input type="text" id="inp_pass" name="inp_pass" class="inpCont" placeholder="Password" value="" />
+                                <input type="text" id="inp_passR" name="inp_passR" class="inpCont" placeholder="Password" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="err_pass" class="err" colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="lbl">enviar formulario puto</td>
+                            <td class="inp"><button type="submit" id="btn_submit">enviar</button></td>
+                        </tr>
+                        <tr>
+                            <td id="err_" class="err" colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <!--
+                    <tr>
+                        <td class="lbl"></td>
+                        <td class="inp"><input type="text" id="inp_" name="inp_" placeholder="" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td id="err_" class="err" colspan="2"></td>
+                    </tr>
+                    -->
                 </form>
-
-                <p>la concha de la lora?</p>
-                <p>la concha de la lora al cuadrado</p>
-                <p>la concha de la lora?</p>
-                <p>la concha de la lora al cuadrado</p>
-                <p>la concha de la lora?</p>
-                <p>la concha de la lora al cuadrado</p>
-                <p>la concha de la lora?</p>
-                <p>la concha de la lora al cuadrado</p>
-                <p>la concha de la lora?</p>
-                <p>la concha de la lora al cuadrado</p>
             </div>
         </div>
         <div class="d_bordes_flecha"><img id="img_flecha" src="img/flecha.png" alt="flecha" /></div>
+
     </div>
 
     <?php require_once APP_ROOT.DS.'pags'.DS.'footer.php'; ?>

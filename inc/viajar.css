@@ -110,8 +110,9 @@ li {
 }
 
 .hr_punteada {
-    border-style: dashed;
-    color: #379ED8;
+    border-top: 2px dashed #379ED8;
+    /*border-style: dashed;*/
+    /*color: #379ED8;*/
 }
 
 

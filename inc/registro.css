@@ -47,11 +47,15 @@ p {
     padding-left: 55px;
     padding-right: 72px;
     padding-bottom: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: normal;
+    color: #000000;
 }
 
 .hr_punteada {
-    border-style: dashed;
-    color: #379ED8;
+    border-top: 2px dashed #379ED8;
 }
 
 .d_preg {
@@ -77,7 +81,7 @@ p {
     border-radius: 10px;
     -webkit-box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
     box-shadow:  0px 0px 5px 2px rgba(0, 0, 0, 0.3);
-    behavior: url(othersLib/PIE.htc);
+    behavior: url(../othersLib/PIE.htc);
 }
 .d_bordes_contiene {
     padding: 10px;
@@ -86,11 +90,43 @@ p {
 }
 
 #f_registro {
-    text-align: center;
-
     margin: 5px;
     padding: 5px;
     border: 1px solid #000000;
+}
+
+#f_registro table {
+    width: 100%;
+}
+
+td {
+    margin: 0;
+    padding: 0;
+}
+
+td.lbl {
+    text-align: right;
+    width: 20%;
+}
+td.inp {
+    text-align: center;
+    width: 80%;
+}
+td.inp input {
+    width: 95%;
+}
+td.inp input.inpCont {
+    width: 46%;
+}
+td.err {
+    text-align: right;
+    width: 100%;
+    padding: 0 10px 10px 0;
+    color: #a9302a;
+}
+
+#f_registro button {
+    width: 95%;
 }
 
 
