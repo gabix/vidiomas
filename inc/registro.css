@@ -81,10 +81,17 @@ p {
 }
 .d_bordes_contiene {
     padding: 10px;
-
+    float: none;
     /*background-color: #b7d68e;*/
 }
 
+#f_registro {
+    text-align: center;
+
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #000000;
+}
 
 
 

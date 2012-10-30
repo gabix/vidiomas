@@ -41,6 +41,12 @@ $pagTit = $l->grales($selPag);
             <div class="d_bordes_contiene">
                 <h2>Registrate salamín</h2>
 
+                <form id="f_registro">
+
+
+                    <input id="btn_submit" type="submit" value="enviar" />
+                </form>
+
                 <p>la concha de la lora?</p>
                 <p>la concha de la lora al cuadrado</p>
                 <p>la concha de la lora?</p>

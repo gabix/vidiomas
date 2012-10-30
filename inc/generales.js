@@ -104,7 +104,7 @@ function Login() {
                 $("#inp_email").addClass("backRojo");
                 $("#inp_pass").addClass("backRojo");
                 login_activa(0);
-                l_generico('errMsg', errYmsg.msg, "#lbl_logErr");
+                l_generico('errMsg', errYmsg.msg, $('#lbl_logErr'));
 
             } else {
                 //LOGEADO!
@@ -132,7 +132,7 @@ function l_generico(arr, msg, obj) {
             return false;
         }
         if (!obj == "") {
-            $(obj).html(rta.msg);
+            obj.html(rta.msg);
         } else {
             return rta.msg;
 

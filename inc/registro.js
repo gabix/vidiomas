@@ -1,5 +1,11 @@
 //-- FUNCS --\\
 
+
+function MostrarError(obj, tipo) {
+    l_generico('errMsg', tipo, obj);
+}
+
+
 //-- INICIO --\\
 
 $(function () {
