@@ -104,7 +104,7 @@ function Login() {
                 $("#inp_email").addClass("backRojo");
                 $("#inp_pass").addClass("backRojo");
                 login_activa(0);
-                l_generico('errMsg', errYmsg.msg, $('#lbl_logErr'));
+                l_generico('errMsg', errYmsg.msg, '#lbl_logErr');
 
             } else {
                 //LOGEADO!
@@ -116,7 +116,7 @@ function Login() {
     }
 }
 
-function l_generico(arr, msg, obj) {
+function l_generico(arr, msg, objId) {
     var setedLang = $('meta[name=lang]').attr("content");
     var paForm = '<form>'
         + '<input type="text" name="lang" value="' + setedLang + '"/>'
@@ -131,8 +131,8 @@ function l_generico(arr, msg, obj) {
         if (rta.err == true) {
             return false;
         }
-        if (!obj == "") {
-            obj.html(rta.msg);
+        if (!objId == "") {
+            $(objId).html(rta.msg);
         } else {
             return rta.msg;
 
