@@ -10,7 +10,7 @@ $cat = $usu->get('categoria');
 $l = new Lang;
 
 //defino el título de la pag
-$selPag = "templateNewPage";
+$selPag = "registro";
 $pagTit = $l->grales($selPag);
 // </editor-fold>
 ?>
@@ -20,18 +20,10 @@ $pagTit = $l->grales($selPag);
     <?= $l->crearHeadMetas($pagTit) ?>
     <link rel="stylesheet" type="text/css" href="inc/fonts/fonts.css" />
     <link rel="stylesheet" type="text/css" href="inc/generales.css" />
+    <link rel="stylesheet" type="text/css" href="inc/registro.css" />
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="othersLib/sha512.js"></script>
-
-    <style type="text/css">
-        #d_cuerpo {
-            width: 100%;
-            height: 400px;
-            float: left;
-            border-left: 3px solid red;
-        }
-    </style>
 </head>
 
 <body>
@@ -40,11 +32,28 @@ $pagTit = $l->grales($selPag);
     <?php require_once APP_ROOT.DS."pags".DS."botonera.php"; ?>
 
     <div id="d_cuerpo">
-        <h1><?=$pagTit?></h1>
-        <p>oPru es un super-duper template</p>
-        <p>si</p>
+        <div class="d_preg">
+            <h1><span class="colVerde">¡</span>registrate bolú<span class="colVerde">!</span></h1>
+            <hr class="hr_punteada" />
+        </div>
 
-        <p class="cl"></p>
+        <div class="d_bordes">
+            <div class="d_bordes_contiene">
+                <h2>Registrate salamín</h2>
+
+                <p>la concha de la lora?</p>
+                <p>la concha de la lora al cuadrado</p>
+                <p>la concha de la lora?</p>
+                <p>la concha de la lora al cuadrado</p>
+                <p>la concha de la lora?</p>
+                <p>la concha de la lora al cuadrado</p>
+                <p>la concha de la lora?</p>
+                <p>la concha de la lora al cuadrado</p>
+                <p>la concha de la lora?</p>
+                <p>la concha de la lora al cuadrado</p>
+            </div>
+        </div>
+        <div class="d_bordes_flecha"><img id="img_flecha" src="img/flecha.png" alt="flecha" /></div>
     </div>
 
     <?php require_once APP_ROOT.DS.'pags'.DS.'footer.php'; ?>
@@ -53,16 +62,11 @@ $pagTit = $l->grales($selPag);
         <p>-testeate-> Username: champEOn | Email: champi@eo.nn | Password: 6ZaxN2Vzm9NUJT2y</p>
         <a href="debug_sess.php">debug_sess.php</a>
         <p id="cargandoJs_generales" class="colRojo">CARGANDO generales.js</p>
-        <p id="cargandoJs_enBebido" class="colRojo">CARGANDO script en bebido</p>
+        <p id="cargandoJs_registro" class="colRojo">CARGANDO registro.js</p>
     </div>
 </div>
 
-<?= htmlGenericos::PrintScripts(null,true,null,true,true,null) ?>
-<script type="text/javascript">
-    $(function(){
-        JsCargado($('#cargandoJs_enBebido'), 'script de la pag en Bebido.js');
-    });
-</script>
+<?= htmlGenericos::PrintScripts(null,true,null,true,true,"registro") ?>
 
 </body>
 </html>

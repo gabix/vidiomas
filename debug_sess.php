@@ -34,17 +34,6 @@ if (isset($_GET['p'])) {
         <hr />
         <h3>Cookies:</h3>
         <p><?php print_r($_COOKIE); ?></p><br />
-        <?php
-        if (isset($_COOKIE['usu'])) {
-            echo "<h3>cookie usu</h3>\n";
-            echo "<p><br />\n";
-            foreach ($_COOKIE['usu'] as $k => $v) {
-                echo "<span class=\"az\">usu</span><span class=\"re\">[$k]</span> = <span class=\"ve\">$v</span><br />\n";
-            };
-        } else {
-            echo "<h3>NO COOKIE USU</h3>";
-        }
-        ?>
         <hr />
         <a href="proc/p_logout.php">p_logout</a>
         <a href="debug_sess.php?p=clearsess">borrar sess</a>

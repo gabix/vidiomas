@@ -106,7 +106,7 @@ $pagTit = $l->grales($selPag);
         return ret;
     }
 
-    Validar_filtroMail(itemId) {
+    function Validar_filtroMail(itemId) {
         var ret = false;
 
         return ret;
