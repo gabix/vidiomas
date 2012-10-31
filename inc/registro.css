@@ -92,18 +92,17 @@ p {
 #f_registro {
     margin: 0;
     padding: 10px 5px 0 5px;
-    border: 1px solid #000000;
+    /*border: 1px solid #000000;*/
 }
 
 #f_registro table {
     width: 100%;
 }
-
 td {
     margin: 0;
     padding: 0;
+    vertical-align: baseline;
 }
-
 td.lbl {
     text-align: right;
     width: 20%;
@@ -115,8 +114,14 @@ td.inp {
 td.inp input {
     width: 95%;
 }
+td.inp select {
+    width: 95%;
+}
 td.inp input.inpCont {
     width: 46%;
+}
+td.inp input.inpRad {
+    width: 20px;
 }
 td.err {
     text-align: right;
@@ -124,7 +129,6 @@ td.err {
     padding: 0 10px 10px 0;
     color: #a9302a;
 }
-
 #f_registro button {
     width: 95%;
 }

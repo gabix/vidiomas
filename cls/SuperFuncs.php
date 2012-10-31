@@ -47,6 +47,16 @@ class SuperFuncs {
         return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 
+    public static function EliminarEspaciosDeStr($str) {
+        Debuguie::AddMsg("SuperFuncs - EliminarEspaciosDeStr()", "arg str=($str)", "fInit");
+
+        $exp = array('/ |&nbsp;|\r\n|\r|\n/');
+        $str = preg_replace($exp, "", $str);
+
+        Debuguie::AddMsg("SuperFuncs - EliminarEspaciosDeStr()", "return=($str)", "info");
+        return $str;
+    }
+
     public static function EliminarTagsDeStr($str) {
         Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "arg str=($str)", "fInit");
 
@@ -57,7 +67,7 @@ class SuperFuncs {
 
         $str = str_ireplace($find, $repl, $str);
 
-        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "returns: $str", "info");
+        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "return=($str)", "info");
         return $str;
     }
 
@@ -67,48 +77,75 @@ class SuperFuncs {
         $replace = array("<!--scr", "scr-->", "<!--?", "<!--?=", "?-->");
         $str = str_ireplace($find, $replace, $str);
 
-        Debuguie::AddMsg("SuperFuncs - ComentarScriptsDeStr()", "returns: $str", "info");
+        Debuguie::AddMsg("SuperFuncs - ComentarScriptsDeStr()", "return=($str)", "info");
         return $str;
     }
 
     public static function Validar($tipoDeValidaciones, $objAValidar) {
         Debuguie::AddMsg("SuperFuncs - Validar()", "args=(tipo=($tipoDeValidaciones), obj=($objAValidar))", "fInit");
-        $valido = false;
-        $msg = "";
+        $err = true;
 
         $tipoDeValidaciones = explode("|", $tipoDeValidaciones);
 
         foreach ($tipoDeValidaciones as $tipoDeValidacion) {
+            if (preg_match("Min", $tipoDeValidacion) === 1) {
+                $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
+                $min = str_replace("Min", "", $tipoDeValidacion);
+                $tipoDeValidacion = "Min";
+            }
+            if (preg_match("Max", $tipoDeValidacion) === 1) {
+                $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
+                $max = str_replace("Max", "", $tipoDeValidacion);
+                $tipoDeValidacion = "Max";
+            }
+
             switch($tipoDeValidacion) {
                 case 'numerico' :
                     if (is_numeric($objAValidar)) {
-                        $valido = true;
-                        $msg = "";
+                        $err = false;
                     } else {
-                        $msg = "no es un número";
+                        $msg = $tipoDeValidacion;
+                    }
+                    break;
+
+                case 'Min' :
+                    if (strlen($objAValidar) >= $min) {
+                        $err = false;
+                    }
+                    break;
+
+                case 'Max' :
+                    if (strlen($objAValidar) <= $max) {
+                        $err = false;
                     }
                     break;
 
                 case 'letrasYGuion' :
-                    $exp = '#^([0-9a-zA-Z\-])$#';
+                    $exp = '#^([0-9a-zA-Z\-]{1,})$#';
                     if (preg_match($exp, $objAValidar) === 1) {
-                        $valido = true;
-                        $msg = "";
-                    } else {
-                        $msg = "solo se permiten números, letras normales (sin acentos) y guiones '-'";
+                        $err = false;
                     }
                     break;
 
+                case 'email' :
+                    if (filter_var($objAValidar, FILTER_VALIDATE_EMAIL)) {
+                        $err = false;
+                    }
+                    break;
+
+                case 'tel' :
+                    $exp = '#^([0-9\(\)\/\+ \-\*]{1,})$#';;
+                    if (preg_match($exp, $objAValidar) === 1) {
+                        $err = false;
+                    }
+                    break;
 
                 default :
-                    $valido = false;
-                    $msg = "pedidoInvalido";
+                    $err = true;
                     break;
             }
-            $ret[$tipoDeValidacion] = array('valido' => $valido, 'msg' => $msg);
+            $ret[$tipoDeValidacion] = $err;
         }
-
-
 
         Debuguie::AddMsg("SuperFuncs - Validar()", "ret=(".json_encode($ret).")", "fInit");
         return $ret;

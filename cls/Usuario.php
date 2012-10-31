@@ -180,6 +180,40 @@ class Usuario {
         Session::set('lang', $propsConValor['lang']);
     }
 
+    /**
+     * verifica si la cookie existe y todavía es válida, y luego carga de la db la categoría y los créditos
+     * @return bool (t pa logueado, f pa NO logueado)
+     */
+    private function loguearXcookie() {
+        Debuguie::AddMsg("Usuario - loguearXcookie()", "", "fInit");
+
+        if (false != Cookie::get('usu_log')) {
+            $tea = new TEA();
+            $valPaCook = $tea->decrypt(Cookie::get('usu_log'), ENCKEY);
+            $vals = explode("|", $valPaCook);
+
+            if (is_array($vals) && count($vals) === 2) {
+                $logStr = $vals[0];
+                $usuId = $vals[1];
+
+                $ret = $this->deDBPropsXusuIdYlogStr($usuId, $logStr);
+
+                Debuguie::AddMsg("Usuario - loguearXcookie()", "logueado? (ret=$ret)", "info");
+                if ($ret) {
+                    $this->setSession();
+                }
+
+                return $ret;
+            } else {
+                Debuguie::AddMsg("Usuario - loguearXcookie()", "cookie fea y mala", "info");
+                return false;
+            }
+        } else {
+            Debuguie::AddMsg("Usuario - loguearXcookie()", "no cookie no cry", "info");
+            return false;
+        }
+    }
+
     // </editor-fold> 
     // <editor-fold desc="Metodos x DB">
 
@@ -284,7 +318,7 @@ class Usuario {
         return array('err' => true, 'msg' => "noConectaAdb");
     }
 
-    /** checkCookie
+    /** deDBPropsXusuIdYlogStr
      * para comprobar que la cookie es valida
      * @param $usuId
      * @param $logStr
@@ -336,39 +370,31 @@ class Usuario {
         return false;
     }
 
-    /**
-     * verifica si la cookie existe y todavía es válida, y luego carga de la db la categoría y los créditos
-     * @return bool (t pa logueado, f pa NO logueado)
-     */
-    private function loguearXcookie() {
-        Debuguie::AddMsg("Usuario - loguearXcookie()", "", "fInit");
+    public function checkApodoEemail($apodo, $email) {
+        $mysqli = dbFuncs::crearMysqli();
 
-        if (false != Cookie::get('usu_log')) {
-            $tea = new TEA();
-            $valPaCook = $tea->decrypt(Cookie::get('usu_log'), ENCKEY);
-            $vals = explode("|", $valPaCook);
+        if ($q = $mysqli->prepare('SELECT apodo FROM usuarios WHERE apodo = ? LIMIT 1')) {
+            $q->bind_param('s', $apodo);
+            $q->execute();
+            $q->store_result();
+            /** @noinspection PhpUndefinedVariableInspection */
+            if ($q->num_rows == 1) {
 
-            if (is_array($vals) && count($vals) === 2) {
-                $logStr = $vals[0];
-                $usuId = $vals[1];
-
-                $ret = $this->deDBPropsXusuIdYlogStr($usuId, $logStr);
-
-                Debuguie::AddMsg("Usuario - loguearXcookie()", "logueado? (ret=$ret)", "info");
-                if ($ret) {
-                    $this->setSession();
-                }
-
-                return $ret;
-            } else {
-                Debuguie::AddMsg("Usuario - loguearXcookie()", "cookie fea y mala", "info");
-                return false;
             }
         } else {
-            Debuguie::AddMsg("Usuario - loguearXcookie()", "no cookie no cry", "info");
-            return false;
+            Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        }
+
+
+        $q = "";
+        $ret = $mysqli->query($q);
+
+        if ($ret != false && $ret->num_rows > 0) {
+            $mysqli->close();
+            return true;
         }
     }
+
 
     // </editor-fold>
     //
@@ -436,7 +462,7 @@ class Usuario {
         return $kill;
     }
 
-    // </editor-fold> 
+    // </editor-fold>
 }
 
 
