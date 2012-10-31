@@ -5,28 +5,18 @@ function MostrarError(objId, tipo) {
     l_generico('errMsg', tipo, objId);
 }
 
-//function ValidarMinMax(objId, min, max) {
-//    var minValido = false;
-//    var maxValido = false;
-//
-//    var txt = $(objId).val();
-//
-//    var filtros = [/(<([^>]+)>)/ig, / |&nbsp;/ig, /\r\n|\r|\n/g];
-//    for(var i in filtros) {
-//        txt = txt.replace(filtros[i], "");
-//    }
-//
-//
-//
-//    if (txt.length > min && txt.lenght < max) {
-//        valido = true;
-//    } else {
-//        msg = 'Debe escribir al menos 2 caracteres';
-//    }
-//
-//    if (minValido && maxValido) return true;
-//    return false;
-//}
+function ValidarMinMax(obj, min, max, tagsYesps) {
+    var txt = obj.val();
+
+    if (tagsYesps) {
+        var filtros = [/(<([^>]+)>)/ig, / |&nbsp;/ig, /\r\n|\r|\n/g];
+        for(var i in filtros) {
+            txt = txt.replace(filtros[i], "");
+        }
+    }
+
+    return (txt.length >= min && txt.length <= max);
+}
 //
 //function ValidarMail(objId) {
 //    var valido = false;
@@ -44,68 +34,89 @@ function MostrarError(objId, tipo) {
 //
 //}
 
+/**
+ * @return {boolean}
+ */
 function ValidarR_pass() {
-    var lugarErr = $('#err_pass');
-    lugarErr.html("");
-
+    var lugarErr = '#err_pass';
     var pass = $('#inp_r_pass');
     var passR = $('#inp_r_passR');
 
-    if (pass.val().lenght > 0) {
-        
+    var valP = ValidarMinMax(pass, 5, 50, false);
+    var valPr = ValidarMinMax(passR, 5, 50, false);
+    if (valP && valPr) {
+        if (pass.val() == passR.val()) {
+            $(lugarErr).html("");
+            return true;
+        } else {
+            MostrarError(lugarErr, "passDesigual");
+        }
+
+    } else {
+        MostrarError(lugarErr, "passMinMax");
     }
+    return false;
 }
 
 function ValidarTodo() {
+    console.log("ValidarTodo!");
     var err = true;
 
-    if (ValidarR_pass());
-
+    if (ValidarR_pass() && true) {
+        return true;
+    }
+    return false;
 }
 
-$('#btn_enviar').on('click', function(evt){
-    evt.stopImmediatePropagation();
-    evt.preventDefault();
-
-    //validar
-    Submit_f_registro();
-});
-
 function Submit_f_registro() {
+    console.log("Submit_f_registro!");
+
     var form = $('#f_registro');
-    var r_pass = $
+    var pass = $('#inp_r_pass');
+    var passR = $('#inp_r_passR');
 
     var pE = document.createElement("input");
     pE.name = "inp_passEnc";
     pE.type = "hidden";
-    pE.value = hex_sha512($("#inp_pass").val());
-    //borro el pass tipeado
-    $("#inp_pass").val("");
-    $('#form_login').append(pE);
+    pE.value = hex_sha512(pass.val());
 
-    var serialized = $('#form_login').serialize();
-    $.post('proc/p_login.php', serialized, function (errYmsg) {
-        errYmsg = $.parseJSON(errYmsg);
-        //console.log(errYmsg);
+    pass.val("");
+    passR.val("");
+    form.append(pE);
 
-        if (errYmsg.err) {
-            //en caso de error
-            $("#inp_email").removeClass("backVerde");
-            $("#inp_pass").removeClass("backVerde");
-            $("#inp_email").addClass("backRojo");
-            $("#inp_pass").addClass("backRojo");
-            login_activa(0);
-            l_generico('errMsg', errYmsg.msg, '#lbl_logErr');
+    var serialized = form.serialize();
+    $.post('proc/p_registro.php', serialized, function (rta) {
+        rta = $.parseJSON(rta);
+        console.log(rta);
 
-        } else {
-            //LOGEADO!
-            //redirigir a control panel
-            window.location = "cpanel.php";
-        }
+//        if (errYmsg.err) {
+//            //en caso de error
+//            $("#inp_email").removeClass("backVerde");
+//            $("#inp_pass").removeClass("backVerde");
+//            $("#inp_email").addClass("backRojo");
+//            $("#inp_pass").addClass("backRojo");
+//            login_activa(0);
+//            l_generico('errMsg', errYmsg.msg, '#lbl_logErr');
+//
+//        } else {
+//            //LOGEADO!
+//            //redirigir a control panel
+//            window.location = "cpanel.php";
+//        }
     });
-    return true;
-
 }
+
+//-- Eventos --\\
+$('#btn_submit').on('click', function(evt){
+    evt.stopImmediatePropagation();
+    evt.preventDefault();
+
+    console.log("enviar!");
+
+    if (ValidarTodo()) {
+        Submit_f_registro();
+    }
+});
 
 //-- INICIO --\\
 $(function () {

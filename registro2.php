@@ -127,7 +127,7 @@ $pagTit = $l->grales($selPag);
 
                         <tr>
                             <td class="lbl">Enviar formulario puto</td>
-                            <td class="inp"><button type="submit" id="btn_submit">enviar</button></td>
+                            <td class="inp"><button id="btn_submit">enviar</button></td>
                         </tr>
                         <tr>
                             <td id="err_submit" class="err" colspan="2"></td>

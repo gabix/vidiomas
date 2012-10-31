@@ -16,10 +16,9 @@ $errMsg['noExisteMail'] = "NO Mail - no exist";
 $errMsg['mailInvalido'] = "Please enter a valid email address, like ex@amp.le";
 
 $errMsg['passIncorrecta'] = "Contraseña Incorrecta";
-$errMsg['passVacia'] = "Please provide a password";
-$errMsg['passMin'] = "Your password must be at least 5 characters long";
-$errMsg['passMax'] = "La contraseña debe ser de menos de 25 caracteres";
-$errMsg['passDesigual'] = "Las contraseñas no son iguales";
+$errMsg['passVacia'] = "No Empty pass NONO";
+$errMsg['passMinMax'] = "Your password must be more than 5 and less than 50 characters long";
+$errMsg['passDesigual'] = "Passwords don't match";
 
 $errMsg['telMin'] = "El teléfono debe consistir en al menos 5 caracteres";
 $errMsg['telMax'] = "El teléfono debe ser de menos de 50 caracteres";

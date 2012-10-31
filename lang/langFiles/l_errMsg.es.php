@@ -18,8 +18,7 @@ $errMsg['mailInvalido'] = "email inválido, debe ingresar un email en formato ej
 
 $errMsg['passIncorrecta'] = "Contraseña Incorrecta";
 $errMsg['passVacia'] = "La contraseña no puede estar vacia";
-$errMsg['passMin'] = "La contraseña debe consistir en al menos 5 caracteres";
-$errMsg['passMax'] = "Largoooopass, no te la vas a acordar";
+$errMsg['passMinMax'] = "La contraseña debe ser mayor a 5 y menor a 50 caracteres";
 $errMsg['passDesigual'] = "Las contraseñas no son iguales";
 
 $errMsg['telMin'] = "El teléfono debe consistir en al menos 5 caracteres";
