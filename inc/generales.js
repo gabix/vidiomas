@@ -73,24 +73,21 @@ function validaP() {
     return ret;
 }
 
-function HashPass() {
-    var pE = document.createElement("input");
-    pE.name = "inp_passEnc";
-    //hago oculto el campo
-    pE.type = "hidden";
-    //encripto la pass tipeada y se la asigno a inp_passEnc
-    pE.value = hex_sha512($("#inp_pass").val());
-    //borro el pass tipeado
-    $("#inp_pass").val("");
-    $('#form_login').append(pE);
-}
-
 function Login() {
     if (validaE() || validaP()) {
         return false;
     } else {
         //logueo
-        HashPass();
+
+        var pE = document.createElement("input");
+        pE.name = "inp_passEnc";
+        //hago oculto el campo
+        pE.type = "hidden";
+        //encripto la pass tipeada y se la asigno a inp_passEnc
+        pE.value = hex_sha512($("#inp_pass").val());
+        //borro el pass tipeado
+        $("#inp_pass").val("");
+        $('#form_login').append(pE);
 
         var serialized = $('#form_login').serialize();
         $.post('proc/p_login.php', serialized, function (errYmsg) {

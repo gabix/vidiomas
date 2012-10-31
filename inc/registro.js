@@ -1,10 +1,10 @@
 //-- FUNCS --\\
 
 
-//function MostrarError(objId, tipo) {
-//    l_generico('errMsg', tipo, objId);
-//}
-//
+function MostrarError(objId, tipo) {
+    l_generico('errMsg', tipo, objId);
+}
+
 //function ValidarMinMax(objId, min, max) {
 //    var minValido = false;
 //    var maxValido = false;
@@ -44,11 +44,68 @@
 //
 //}
 
+function ValidarR_pass() {
+    var lugarErr = $('#err_pass');
+    lugarErr.html("");
+
+    var pass = $('#inp_r_pass');
+    var passR = $('#inp_r_passR');
+
+    if (pass.val().lenght > 0) {
+        
+    }
+}
+
+function ValidarTodo() {
+    var err = true;
+
+    if (ValidarR_pass());
+
+}
+
 $('#btn_enviar').on('click', function(evt){
     evt.stopImmediatePropagation();
     evt.preventDefault();
 
+    //validar
+    Submit_f_registro();
 });
+
+function Submit_f_registro() {
+    var form = $('#f_registro');
+    var r_pass = $
+
+    var pE = document.createElement("input");
+    pE.name = "inp_passEnc";
+    pE.type = "hidden";
+    pE.value = hex_sha512($("#inp_pass").val());
+    //borro el pass tipeado
+    $("#inp_pass").val("");
+    $('#form_login').append(pE);
+
+    var serialized = $('#form_login').serialize();
+    $.post('proc/p_login.php', serialized, function (errYmsg) {
+        errYmsg = $.parseJSON(errYmsg);
+        //console.log(errYmsg);
+
+        if (errYmsg.err) {
+            //en caso de error
+            $("#inp_email").removeClass("backVerde");
+            $("#inp_pass").removeClass("backVerde");
+            $("#inp_email").addClass("backRojo");
+            $("#inp_pass").addClass("backRojo");
+            login_activa(0);
+            l_generico('errMsg', errYmsg.msg, '#lbl_logErr');
+
+        } else {
+            //LOGEADO!
+            //redirigir a control panel
+            window.location = "cpanel.php";
+        }
+    });
+    return true;
+
+}
 
 //-- INICIO --\\
 $(function () {

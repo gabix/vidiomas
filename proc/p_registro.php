@@ -4,16 +4,22 @@ require_once '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'init
 $err = true;
 Debuguie::AddMsg("p_registro", "", "fInit");
 
-if (isset($_POST['inp_apodo']) && isset($_POST['inp_email'])) {
-    $apodo = $_POST['inp_apodo'];
-    $email = $_POST['inp_apodo'];
+if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
+    $apodo = SuperFuncs::EliminarTagsDeStr($_POST['inp_apodo']);
+    $email = SuperFuncs::EliminarTagsDeStr($_POST['inp_r_email']);
 
     Debuguie::AddMsg("p_registro", "apodo=($apodo), email=($email)", "info");
 
-    $usu = new Usuario;
+    $retVal['apodo'] = SuperFuncs::Validar("Min3|Max50", $apodo);
+    $retVal['email'] = SuperFuncs::Validar("Min6|Max50|email", $email);
+    Debuguie::AddMsg("p_registro", "retVal=(".json_encode($retVal).")", "info");
+
+    echo json_encode($retVal);
+
+    //$usu = new Usuario;
 
 
-    if (isset($_POST['inp_nombre']) && isset($_POST['inp_passEnc']) && isset($_POST['inp_sexo']) &&
+    if (isset($_POST['inp_nombre']) && isset($_POST['inp_r_passEnc']) && isset($_POST['inp_sexo']) &&
         isset($_POST['inp_pais']) && isset($_POST['inp_tel']) && isset($_POST['inp_codpostal'])) {
 
         $nombre = $_POST['inp_nombre'];

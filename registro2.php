@@ -42,8 +42,6 @@ $pagTit = $l->grales($selPag);
             <div class="d_bordes_contiene">
                 <h2>Registrate salamín</h2>
 
-
-
                 <form id="f_registro">
                     <table>
                         <tr>
@@ -56,7 +54,7 @@ $pagTit = $l->grales($selPag);
 
                         <tr>
                             <td class="lbl">E-Mail</td>
-                            <td class="inp"><input type="text" id="inp_email" name="inp_email" placeholder="ej@emp.lo" value="" /</td>
+                            <td class="inp"><input type="text" id="inp_r_email" name="inp_r_email" placeholder="ej@emp.lo" value="" /</td>
                         </tr>
                         <tr>
                             <td id="err_email" class="err" colspan="2"></td>
@@ -73,9 +71,8 @@ $pagTit = $l->grales($selPag);
                         <tr>
                             <td class="lbl">Contraseña</td>
                             <td class="inp">
-                                <input type="password" id="inp_pass" name="inp_pass" class="inpCont" placeholder="Password" value="" />
-                                <input type="password" id="inp_passR" name="inp_passR" class="inpCont" placeholder="Password" value="" />
-                                <input type="hidden" id="inp_passEnc" name="inp_pass" value="" />
+                                <input type="password" id="inp_r_pass" name="inp_r_pass" class="inpCont" placeholder="Password" value="" />
+                                <input type="password" id="inp_r_passR" name="inp_r_passR" class="inpCont" placeholder="Password" value="" />
                             </td>
                         </tr>
                         <tr>
