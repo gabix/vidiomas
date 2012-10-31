@@ -74,6 +74,7 @@
       <w>googleapis</w>
       <w>grales</w>
       <w>guardo</w>
+      <w>guion</w>
       <w>hace</w>
       <w>hasheada</w>
       <w>htmlent</w>
@@ -104,6 +105,8 @@
       <w>método</w>
       <w>métodos</w>
       <w>naranja</w>
+      <w>numerico</w>
+      <w>número</w>
       <w>onda</w>
       <w>onthefly</w>
       <w>otros</w>
@@ -134,6 +137,7 @@
       <w>registrate</w>
       <w>registro</w>
       <w>repita</w>
+      <w>repl</w>
       <w>requerido</w>
       <w>retado</w>
       <w>rojo</w>
@@ -162,8 +166,10 @@
       <w>título</w>
       <w>usuario</w>
       <w>vacia</w>
+      <w>validacion</w>
       <w>validaciones</w>
       <w>validado</w>
+      <w>valido</w>
       <w>vals</w>
       <w>verifica</w>
       <w>vidiomas</w>

@@ -47,4 +47,67 @@ class SuperFuncs {
         return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 
+    public static function EliminarTagsDeStr($str) {
+        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "arg str=($str)", "fInit");
+
+        $str = (string) $str;
+
+        $find = '/(<([^>]+)>)/';
+        $repl = "";
+
+        $str = str_ireplace($find, $repl, $str);
+
+        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "returns: $str", "info");
+        return $str;
+    }
+
+    public static function ComentarScriptsDeStr($str) {
+        $str = (string) $str;
+        $find = array("<script", "script>", "<?php", "<?=", "?>");
+        $replace = array("<!--scr", "scr-->", "<!--?", "<!--?=", "?-->");
+        $str = str_ireplace($find, $replace, $str);
+
+        Debuguie::AddMsg("SuperFuncs - ComentarScriptsDeStr()", "returns: $str", "info");
+        return $str;
+    }
+
+    public static function Validar($tipoDeValidaciones, $objAValidar) {
+        Debuguie::AddMsg("SuperFuncs - Validar()", "args=(tipo=($tipoDeValidaciones), obj=($objAValidar))", "fInit");
+        $valido = false;
+        $msg = "";
+
+        $tipoDeValidaciones = explode("|", $tipoDeValidaciones);
+
+        foreach ($tipoDeValidaciones as $tipoDeValidacion) {
+            switch($tipoDeValidacion) {
+                case 'id' :
+                    if (is_numeric($objAValidar)) {
+                        $valido = true;
+                        $msg = "";
+                    } else {
+                        $msg = "noEsNúmero";
+                    }
+                    break;
+
+                case 'letrasYGuion' :
+                    $exp = '#^([0-9a-zA-Z\-]{0,})$#';
+                    if (preg_match($exp, $val) === 1) {
+                        $ret = true;
+                    }
+                    break;
+
+
+                default :
+                    $valido = false;
+                    $msg = "pedidoInvalido";
+                    break;
+            }
+            $ret[$tipoDeValidacion] = array('valido' => $valido, 'msg' => $msg);
+        }
+
+
+
+        Debuguie::AddMsg("SuperFuncs - Validar()", "ret=(".json_encode($ret).")", "fInit");
+        return $ret;
+    }
 }

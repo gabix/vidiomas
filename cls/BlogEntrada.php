@@ -75,16 +75,6 @@ class BlogEntrada {
         return $ret;
     }
 
-    public static function EliminarScriptsDeStr($str) {
-        $str = (string) $str;
-        $find = array("<script", "script>", "<?php", "<?=", "?>");
-        $replace = array("<!--script", "script-->", "<!--?", "<!--?=", "?-->");
-        $str = str_ireplace($find, $replace, $str);
-
-        Debuguie::AddMsg("BlogEntrada - EliminarScriptsDeStr()", "returns: $str", "info");
-        return $str;
-    }
-
     //</editor-fold>
 
     public function Crear_entrada($txt) {
@@ -223,7 +213,7 @@ class BlogEntrada {
     }
 
     private function CrearModificarArch_entrada($txt) {
-        $txt = $this->EliminarScriptsDeStr($txt);
+        $txt = SuperFuncs::ComentarScriptsDeStr($txt);
         $html = APP_ROOT.DS.BLOG_PAGES_LOCATION.DS.$this->nombre.".html";
 
         $puntero = fopen($html, 'w');
