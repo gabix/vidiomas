@@ -72,8 +72,8 @@ $pagTit = $l->grales($selPag);
                         <tr>
                             <td class="lbl">Contraseña</td>
                             <td class="inp">
-                                <input type="text" id="inp_pass" name="inp_pass" class="inpCont" placeholder="Password" value="" />
-                                <input type="text" id="inp_passR" name="inp_passR" class="inpCont" placeholder="Password" value="" />
+                                <input type="password" id="inp_pass" name="inp_pass" class="inpCont" placeholder="Password" value="" />
+                                <input type="password" id="inp_passR" name="inp_passR" class="inpCont" placeholder="Password" value="" />
                             </td>
                         </tr>
                         <tr>
