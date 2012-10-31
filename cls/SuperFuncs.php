@@ -80,19 +80,22 @@ class SuperFuncs {
 
         foreach ($tipoDeValidaciones as $tipoDeValidacion) {
             switch($tipoDeValidacion) {
-                case 'id' :
+                case 'numerico' :
                     if (is_numeric($objAValidar)) {
                         $valido = true;
                         $msg = "";
                     } else {
-                        $msg = "noEsNúmero";
+                        $msg = "no es un número";
                     }
                     break;
 
                 case 'letrasYGuion' :
-                    $exp = '#^([0-9a-zA-Z\-]{0,})$#';
-                    if (preg_match($exp, $val) === 1) {
-                        $ret = true;
+                    $exp = '#^([0-9a-zA-Z\-])$#';
+                    if (preg_match($exp, $objAValidar) === 1) {
+                        $valido = true;
+                        $msg = "";
+                    } else {
+                        $msg = "solo se permiten números, letras normales (sin acentos) y guiones '-'";
                     }
                     break;
 
