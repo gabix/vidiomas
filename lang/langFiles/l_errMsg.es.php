@@ -4,6 +4,7 @@ $errMsg['noConectaAdb'] = "No se puede conectar a la DB";
 $errMsg['noExisteCookie'] = "No existe esa cookie";
 $errMsg['cookieDesactualizada'] = "La cookie está desactualizada. Vuelva a loguearse.";
 
+$errMsg['apodoExiste'] = "Ese apodo ya existe";
 $errMsg['apodoRequerido'] = "Debe ingresar un apodo";
 $errMsg['apodoMin'] = "El apodo debe consistir en al menos 5 caracteres";
 $errMsg['apodoMax'] = "Apodo muy largo loco";

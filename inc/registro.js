@@ -40,6 +40,16 @@ function ValidarTel(objId) {
     return valido;
 }
 
+function ValidarApodoNoUsado() {
+
+}
+
+S('#btn_enviar').on('click', function(evt){
+    evt.stopImmediatePropagation();
+    evt.preventDefault();
+
+
+});
 
 //-- INICIO --\\
 

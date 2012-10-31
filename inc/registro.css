@@ -90,8 +90,8 @@ p {
 }
 
 #f_registro {
-    margin: 5px;
-    padding: 5px;
+    margin: 0;
+    padding: 10px 5px 0 5px;
     border: 1px solid #000000;
 }
 
