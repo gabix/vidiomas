@@ -152,7 +152,7 @@ function getLogs($limit) {
 
 
                     if (!in_array($clase[0], $filter)) {
-                        ?>
+                    ?>
                     <tr class="<?= $dMsg['tipoDeError'] ?>">
                         <td><?= $dMsg['id'] ?></td>
                         <td class="<?= $cols[$i] ?> bold"><?= $dMsg['titulo'] ?></td>

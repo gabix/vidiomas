@@ -1,10 +1,4 @@
 <?php
-/**
- * User: gabix
- * Date: 20/10/12
- * Time: 22:41
- */
-
 // pa'los lenguajes
 define('DEFLANG', 'en');
 

@@ -8,7 +8,7 @@ class Lang {
     private $footer = null;
 
     private function carga_($fName) {
-        Debuguie::AddMsg("Lang - carga_()", "args=(fName=($fName))", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(fName=($fName))", "fInit");
 
         $path = APP_ROOT . DS . LANG_PAGES_LOCATION . DS . "l_$fName." . $this->lang . ".php";
         require_once $path;
@@ -21,7 +21,7 @@ class Lang {
      * @param (array/string) $soloTal Solo cargar el array de tal. ej: 'errMsg'
      */
     private function carga($soloTal) {
-        Debuguie::AddMsg("Lang - carga()", "args=(soloTal=($soloTal))", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(soloTal=($soloTal))", "fInit");
 
         if ($soloTal === null)
             $soloTal = array('headMetas', 'errMsg', 'grales');
@@ -41,12 +41,12 @@ class Lang {
      * @param string $lang
      */
     public function Lang($soloTal = null, $lang = null) {
-        Debuguie::AddMsg("Lang - Lang()", "args=(soloTal=($soloTal), lang=($lang))", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(soloTal=($soloTal), lang=($lang))", "fInit");
         $this->setLang($soloTal, $lang);
     }
 
     public function setLang($soloTal, $lang = "") {
-        Debuguie::AddMsg("Lang - setLang()", "args=(soloTal=($soloTal), lang=($lang))", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(soloTal=($soloTal), lang=($lang))", "fInit");
 
         if (isset($_POST['inp_lang']) && strlen($_POST['inp_lang']) === 2) {
             //hay un cambio de lenguaje? (viene por post inp_lang)
@@ -72,7 +72,7 @@ class Lang {
     }
 
     public function crearHeadMetas($pagTitu) {
-        Debuguie::AddMsg("Lang - crearHeadMetas()", "args=($pagTitu)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=($pagTitu)", "fInit");
         $ret = '';
         $ret .= ' <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n";
         $ret .= sprintf(' <title>%s - %s</title>%s', $pagTitu, $this->headMetas['titu'], "\n");
@@ -87,7 +87,7 @@ class Lang {
     }
 
     public function errMsg($msg) {
-        Debuguie::AddMsg("Lang - errMsg()", "atributo=$msg", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "atributo=$msg", "fInit");
 
         if ($msg == ""  && $this->errMsg == null) return false;
 
@@ -109,7 +109,7 @@ class Lang {
             return $ret;
 
         } else {
-            Debuguie::AddMsg("Lang - errMsg()", "msg=$msg vacio?", "warning");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "msg=$msg vacio?", "warning");
             return $this->errMsg['defErr'];
         }
     }
@@ -124,7 +124,7 @@ class Lang {
         if (($this->$arr <> null) && (array_key_exists($msg, $this->$arr))) {
             return $this->{$arr}[$msg];
         } else {
-            Debuguie::AddMsg("Lang - generico()", "(arr=($arr) | msg=($msg)) inválido", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "(arr=($arr) | msg=($msg)) inválido", "info");
             return $msg;
         }
     }
@@ -136,10 +136,10 @@ class Lang {
      * @return string
      */
     public function __call($metodo, $argumentos) {
-        Debuguie::AddMsg("Lang - __call()", "m: $metodo args: ".json_encode($argumentos), "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "m: $metodo args: ".json_encode($argumentos), "fInit");
 
         if (!isset($this->$metodo)) {
-            Debuguie::AddMsg("Lang - __call()", "$metodo inexistente", "error");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "$metodo inexistente", "error");
             return null;
         }
         return $this->generico($metodo, $argumentos[0]);

@@ -50,11 +50,11 @@ class Usuario {
         if (isset($this->$prop) && !in_array((string) $prop, $this->excludeGet)) {
             $return = $this->$prop;
 
-            Debuguie::AddMsg("Usuario - get()", "args=($prop) ret=($return)", "success");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=($prop) ret=($return)", "success");
             return $return;
         }
 
-        Debuguie::AddMsg("Usuario - get()", "$prop excluida o inexistente", "warning");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "$prop excluida o inexistente", "warning");
         return null;
     }
 
@@ -68,11 +68,11 @@ class Usuario {
         if (isset($this->$prop) && !in_array($prop, $this->excludeSet)) {
             $return = $this->$prop = $val;
 
-            Debuguie::AddMsg("Usuario - set()", "args=($prop) ret=($return)", "success");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=($prop) ret=($return)", "success");
             return $return;
         }
 
-        Debuguie::AddMsg("Usuario - set()", "$prop excluida o inexistente", "warning");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "$prop excluida o inexistente", "warning");
         return null;
     }
 
@@ -82,11 +82,11 @@ class Usuario {
      * @return bool true pa éxitos, false pa error
      */
     public function set_props($params) {
-        Debuguie::AddMsg("Usuario - set_props()", "params=(".json_encode($params).")", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "params=(".json_encode($params).")", "fInit");
 
         foreach ($params as $prop => $val) {
             if (!isset($this->$prop)) {
-                Debuguie::AddMsg("Usuario - set_props()", "no existe prop=($prop)", "error");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "no existe prop=($prop)", "error");
 
                 return false;
             }
@@ -132,11 +132,11 @@ class Usuario {
      * @param $time
      */
     private function set_todo($id, $apodo, $email, $categoria, $creditos, $login_string, $nombre, $pais, $sexo, $tel, $codpostal, $lang, $time) {
-        Debuguie::AddMsg("Usuario - set_todo()", "", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
         foreach ($this->todasProps as $prop) {
             $this->$prop = ${$prop};
-            Debuguie::AddMsg("Usuario - set_todo()", "seteo this->$prop=(".$this->$prop.")", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "seteo this->$prop=(".$this->$prop.")", "info");
         }
 
         /*
@@ -170,11 +170,11 @@ class Usuario {
      * y tb genera $_SESSION['lang'] con el lang pref del usu
      */
     private function setSession() {
-        Debuguie::AddMsg("Usuario - setSession()", "", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
         $propsConValor = $this->get_props($this->todasProps);
 
-        Debuguie::AddMsg("Usuario - setSession()", "pConVal=(".json_encode($propsConValor).")", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pConVal=(".json_encode($propsConValor).")", "fInit");
 
         Session::set('usu', $propsConValor);
         Session::set('lang', $propsConValor['lang']);
@@ -185,7 +185,7 @@ class Usuario {
      * @return bool (t pa logueado, f pa NO logueado)
      */
     private function loguearXcookie() {
-        Debuguie::AddMsg("Usuario - loguearXcookie()", "", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
         if (false != Cookie::get('usu_log')) {
             $tea = new TEA();
@@ -198,18 +198,18 @@ class Usuario {
 
                 $ret = $this->deDBPropsXusuIdYlogStr($usuId, $logStr);
 
-                Debuguie::AddMsg("Usuario - loguearXcookie()", "logueado? (ret=$ret)", "info");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "logueado? (ret=$ret)", "info");
                 if ($ret) {
                     $this->setSession();
                 }
 
                 return $ret;
             } else {
-                Debuguie::AddMsg("Usuario - loguearXcookie()", "cookie fea y mala", "info");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "cookie fea y mala", "info");
                 return false;
             }
         } else {
-            Debuguie::AddMsg("Usuario - loguearXcookie()", "no cookie no cry", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "no cookie no cry", "info");
             return false;
         }
     }
@@ -225,7 +225,7 @@ class Usuario {
      * @return bool
      */
     private function checkBrute($user_id, $mysqli) {
-        Debuguie::AddMsg("Usuario - checkBrute()", "params user_id=($user_id), y mysqli", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "params user_id=($user_id), y mysqli", "fInit");
 
         $now = time();
         // All login attempts are counted from the past 2 hours. 
@@ -239,16 +239,16 @@ class Usuario {
 
             // If there has been more than 10 failed logins
             if ($q->num_rows > 10) {
-                Debuguie::AddMsg("Usuario - checkBrute()", "hubo más de 10 intentos de logueo (ret true)", "success");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "hubo más de 10 intentos de logueo (ret true)", "success");
 
                 return true;
             } else {
-                Debuguie::AddMsg("Usuario - checkBrute()", "no hubo más de 10 intentos de logueo (ret false)", "success");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "no hubo más de 10 intentos de logueo (ret false)", "success");
 
                 return false;
             }
         }
-        Debuguie::AddMsg("Usuario - checkBrute()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
 
         return false;
     }
@@ -260,7 +260,7 @@ class Usuario {
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     private function deDBPropsXemailYpass($email, $pass) {
-        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "params email=($email), pass=($pass)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "params email=($email), pass=($pass)", "fInit");
 
         $mysqli = dbFuncs::crearMysqli();
 
@@ -276,13 +276,13 @@ class Usuario {
             if ($q->num_rows == 1) {
                 if ($this->checkBrute($user_id, $mysqli) == true) {
                     // usuario bloqueado!
-                    Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "usuario bloqueado por 2hrs", "success");
+                    Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "usuario bloqueado por 2hrs", "success");
 
                     $mysqli->close();
                     return array('err' => true, 'msg' => "usuarioBloqueado");
                 } else {
                     if ($db_password == $pass) {
-                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "dbPass = a pass", "success");
+                        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "dbPass = a pass", "success");
                         // Password is correct!
 
                         $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
@@ -295,7 +295,7 @@ class Usuario {
                         return array('err' => false, 'msg' => "");
 
                     } else {
-                        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "dbPass != a pass", "success");
+                        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "dbPass != a pass", "success");
                         // Password is not correct
                         // We record this attempt in the database
                         $now = time();
@@ -306,13 +306,13 @@ class Usuario {
                 }
             } else {
                 //no existe el mail
-                Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "no existe el mail", "success");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "no existe el mail", "success");
 
                 $mysqli->close();
                 return array('err' => true, 'msg' => "noExisteMail");
             }
         }
-        Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
 
         $mysqli->close();
         return array('err' => true, 'msg' => "noConectaAdb");
@@ -325,7 +325,8 @@ class Usuario {
      * @return bool (t pa logueado, f pa NO logueado)
      */
     private function deDBPropsXusuIdYlogStr($usuId, $logStr) {
-        Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "params usuId=($usuId), logStr=($logStr)", "fInit");
+
+        Debuguie::AddMsg("Usuario - ".__METHOD__."()", "params usuId=($usuId), logStr=($logStr)", "fInit");
 
         $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
@@ -352,13 +353,13 @@ class Usuario {
 
                 } else {
                     //cookie mala mala
-                    Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "logStr <> ", "info");
+                    Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "logStr <> ", "info");
 
                     $mysqli->close();
                     return false;
                 }
             } else {
-                Debuguie::AddMsg("Usuario - deDBPropsXusuIdYlogStr()", "num rows <> 1", "info");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "num rows <> 1", "info");
 
                 $mysqli->close();
                 return false;
@@ -366,7 +367,7 @@ class Usuario {
         }
 
         $mysqli->close();
-        Debuguie::AddMsg("Usuario - checkCookie()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
         return false;
     }
 
@@ -382,7 +383,7 @@ class Usuario {
 
             }
         } else {
-            Debuguie::AddMsg("Usuario - deDBPropsXemailYpass()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
         }
 
 
@@ -408,10 +409,10 @@ class Usuario {
      * @return array 'err' => t/f, 'msg' => mensaje de error
      */
     public function loguear($email, $pass, $cookie = false) {
-        Debuguie::AddMsg("Usuario - loguear()", "params email=($email), pass=($pass), cookie=($cookie)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "params email=($email), pass=($pass), cookie=($cookie)", "fInit");
 
         $rta = $this->deDBPropsXemailYpass($email, $pass);
-        Debuguie::AddMsg("Usuario - loguear()", "rta=(".json_encode($rta).")", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "rta=(".json_encode($rta).")", "info");
 
         if (!$rta['err']) {
             //props de this ya seteadas --> guardo el usu en sess
@@ -424,7 +425,7 @@ class Usuario {
                 $tea = new TEA();
                 $enc = $tea->encrypt($valPaCook, ENCKEY);
 
-                Debuguie::AddMsg("Usuario - loguear()", "enc=(".$enc.")", "info");
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "enc=(".$enc.")", "info");
 
                 Cookie::set("usu_log", $enc);
             }
@@ -436,28 +437,28 @@ class Usuario {
     }
 
     public function logueado() {
-        Debuguie::AddMsg("Usuario - logueado()", "", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
         if (Session::get('usu')) {
             //hay sess?
             $usuSess = Session::get('usu');
             $ret = $this->set_props($usuSess);
 
-            Debuguie::AddMsg("Usuario - logueado()", "hay sess, logueado=($ret)", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "hay sess, logueado=($ret)", "info");
             return $ret;
         } else {
             //hay cookie?
             $ret = $this->loguearXcookie();
-            Debuguie::AddMsg("Usuario - logueado()", "hay cookie, logueado=(".$ret.")", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "hay cookie, logueado=(".$ret.")", "info");
             return $ret;
         }
     }
 
     public static function logout() {
-        Debuguie::AddMsg("Usuario - logout()", "", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
         $kill = Cookie::kill("usu_log");
-        Debuguie::AddMsg("Usuario - logout()", "ret de kill=($kill)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret de kill=($kill)", "fInit");
 
         return $kill;
     }
@@ -559,6 +560,6 @@ class Usuario {
 //    }
 //
 //    $mysqli->close();
-//    Debuguie::AddMsg("Usuario - checkCookie()", "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
+//    Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
 //    return false;
 //}

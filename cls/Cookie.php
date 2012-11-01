@@ -20,14 +20,14 @@ class Cookie {
     }
 
     public function getValue($key) {
-        Debuguie::AddMsg("Cookie - getValue()", "parámetros = $key", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "parámetros = $key", "fInit");
 
         if (isset($_COOKIE[$key])) {
-            Debuguie::AddMsg("Cookie - getValue()", "val para key=$key = $_COOKIE[$key]", "success");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "val para key=$key = $_COOKIE[$key]", "success");
             return $_COOKIE[$key];
         }
 
-        Debuguie::AddMsg("Cookie - getValue()", "key=$key no seteada", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "key=$key no seteada", "info");
         return false;
     }
 
@@ -37,12 +37,11 @@ class Cookie {
     }
 
     public function setValue($key, $value, $expirTime, $path, $domain, $secure, $httponly) {
-
-        Debuguie::AddMsg("Cookie - setValue()", "parámetros = $key, $value", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "parámetros = $key, $value", "fInit");
 
         $setCookie = setcookie($key, $value, $expirTime, $path, $domain, $secure, $httponly);
 
-        Debuguie::AddMsg("Cookie - setValue()", "ret de set = $setCookie", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret de set = $setCookie", "info");
         return $setCookie;
     }
 
@@ -51,17 +50,17 @@ class Cookie {
     }
 
     public function killCookie($key, $path, $domain, $secure, $httponly) {
-        Debuguie::AddMsg("Cookie - killCookie()", "parámetros = $key", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "parámetros = $key", "fInit");
 
         if (isset($_COOKIE[$key])) {
             $killCookie = setcookie($key, null, -1, $path, $domain, $secure, $httponly);
-            Debuguie::AddMsg("Cookie - killCookie()", "ret=($killCookie) --supuestamente $key murió", "success");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=($killCookie) --supuestamente $key murió", "success");
             return $killCookie;
 
         } else {
 
 
-            Debuguie::AddMsg("Cookie - killCookie()", "$key no seteada", "info");
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "$key no seteada", "info");
             return false;
         }
     }

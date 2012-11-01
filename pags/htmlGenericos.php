@@ -12,7 +12,7 @@ class htmlGenericos {
 
 //    public static function PrintHead($titulo, $fromLang = null, $utf8 = null, $posicion = null, $fonts = null,
 //                                     $bootstrapTweeter = null, $generales = null, $cssAPartirDelTitulo = null) {
-//        Debuguie::AddMsg("htmlGenericos - PrintHead()", "args=(tit=$titulo, fromLang=$fromLang, uft=$utf8, pos=$posicion, fonts=$fonts, boots=$bootstrapTweeter, gen=$generales, cssAPartir=$cssAPartirDelTitulo", "fInit");
+//        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(tit=$titulo, fromLang=$fromLang, uft=$utf8, pos=$posicion, fonts=$fonts, boots=$bootstrapTweeter, gen=$generales, cssAPartir=$cssAPartirDelTitulo", "fInit");
 //
 //        $head = "<head>\n";
 //
@@ -39,7 +39,7 @@ class htmlGenericos {
 //
 //        $head .= "</head>\n";
 //
-//        Debuguie::AddMsg("htmlGenericos - PrintHead()", "head=($head)", "success");
+//        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "head=($head)", "success");
 //        return $head;
 //    }
 
@@ -54,7 +54,7 @@ class htmlGenericos {
      * @return string
      */
     public static function PrintScripts($posicion = null, $jquery = null, $jqueryValidate = null, $sha512 = null, $generales = null, $jsAPartirDelTitulo = null) {
-        Debuguie::AddMsg("htmlGenericos - PrintScripts()", "args=(pos=$posicion, gen=$generales, jquery=$jquery, jqueryValidate=$jqueryValidate, jsAPartir=$jsAPartirDelTitulo", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(pos=$posicion, gen=$generales, jquery=$jquery, jqueryValidate=$jqueryValidate, jsAPartir=$jsAPartirDelTitulo", "fInit");
 
         $scripts = "";
 
@@ -79,7 +79,7 @@ class htmlGenericos {
         if (isset($jsAPartirDelTitulo)) $scripts .= '<script src="'."$jsLoc/$jsAPartirDelTitulo".'.js"></script>' . "\n";
 
 
-        Debuguie::AddMsg("htmlGenericos - PrintScripts()", "scripts=($scripts)", "success");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "scripts=($scripts)", "success");
         return $scripts;
     }
 
