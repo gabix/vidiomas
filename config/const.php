@@ -11,10 +11,10 @@ define('GENERARLOG', true);
 define('ENCKEY', "tralalila");
 
 //pags
-define('INDEX_PAGE', APP_URL_ROOT.DS.'index.php');
-define('HOME_PAGE', APP_URL_ROOT.DS.'home.php');
-define('CPANEL_PAGE', APP_URL_ROOT.DS.'cpanel.php');
-define('BLOG_PAGE', APP_URL_ROOT.DS.'blog.php');
+define('INDEX_PAGE', APP_URL_ROOT.'/index.php');
+define('HOME_PAGE', APP_URL_ROOT.'/home.php');
+define('CPANEL_PAGE', APP_URL_ROOT.'/cpanel.php');
+define('BLOG_PAGE', APP_URL_ROOT.'/blog.php');
 
 //otros
 define('LOGS_LOCATION', 'logs');

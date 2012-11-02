@@ -1,12 +1,13 @@
 <?php
 require_once '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'init.php';
 
-$err = true;
 Debuguie::AddMsg("p_registro", "", "fInit");
 
+$err = true;
+
 if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
-    $apodo = SuperFuncs::EliminarTagsDeStr($_POST['inp_apodo']);
-    $email = SuperFuncs::EliminarTagsDeStr($_POST['inp_r_email']);
+    $apodo = strip_tags($_POST['inp_apodo']);
+    $email = strip_tags($_POST['inp_r_email']);
 
     Debuguie::AddMsg("p_registro", "apodo=($apodo), email=($email)", "info");
 
@@ -14,10 +15,8 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
     $retVal['email'] = SuperFuncs::Validar("Min6|Max50|email", $email);
     Debuguie::AddMsg("p_registro", "retVal=(".json_encode($retVal).")", "info");
 
-    echo json_encode($retVal);
-
     //$usu = new Usuario;
-
+    $ret = $retVal;
 
     if (isset($_POST['inp_nombre']) && isset($_POST['inp_r_passEnc']) && isset($_POST['inp_sexo']) &&
         isset($_POST['inp_pais']) && isset($_POST['inp_tel']) && isset($_POST['inp_codpostal'])) {
@@ -38,6 +37,26 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
     }
 } else {
     $err = true;
-    $ret['pedidoInvalido'] = $err;
+    $ret['general'] = SuperFuncs::errYmsg(true, 'pedidoInvalido');
 }
-echo json_encode($ret);
+//echo json_encode($ret);
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<form method="post">
+    apodo<input type="text" name="inp_apodo" value="<?= (isset($_POST['inp_apodo'])? $_POST['inp_apodo'] : "lalalalalal") ?>" /><br />
+    email<input type="text" name="inp_r_email" value="<?= (isset($_POST['inp_email'])? $_POST['inp_r_email'] : "lalalalalal") ?>" /><br />
+    <input type="submit">
+</form>
+
+<p>RET: <?= json_encode($ret) ?></p>
+
+</body>
+</html>

@@ -3,10 +3,11 @@
 class SuperFuncs {
 
     /**
-     * Imprime (con echo json_encode) un array con el valor de err y msg
-     * @param bool $err t/f
-     * @param string $msg string con msg
-     * @param obj|string|bla $xtra lo que quieras, para pasar datos extra
+     * Devuelve un array
+     * @param bool $err decile si hubo un error
+     * @param string $msg el mensaje a responder
+     * @param string $xtra si querés pasar algo extra
+     * @return string json array con los params de arriba
      */
     public static function errYmsg($err = true, $msg = "", $xtra = "") {
         $ret = json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
@@ -57,20 +58,6 @@ class SuperFuncs {
         return $str;
     }
 
-    public static function EliminarTagsDeStr($str) {
-        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "arg str=($str)", "fInit");
-
-        $str = (string) $str;
-
-        $find = '/(<([^>]+)>)/';
-        $repl = "";
-
-        $str = str_ireplace($find, $repl, $str);
-
-        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "return=($str)", "info");
-        return $str;
-    }
-
     public static function ComentarScriptsDeStr($str) {
         Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
@@ -92,15 +79,15 @@ class SuperFuncs {
         foreach ($tipoDeValidaciones as $tipoDeValidacion) {
             Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "tipoDeValid=($tipoDeValidacion)", "info");
 
-            if (preg_match("Min", $tipoDeValidacion) === 1) {
-                $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
+            if (preg_match('/Min/', $tipoDeValidacion) === 1) {
+                $objAValidar = self::EliminarEspaciosDeStr($objAValidar);
                 $min = str_replace("Min", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Min";
 
                 Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Min)--> tipoDeValid=($tipoDeValidacion), min=($min), objAVal=($objAValidar)", "info");
             }
-            if (preg_match("Max", $tipoDeValidacion) === 1) {
-                $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
+            if (preg_match('/Max/', $tipoDeValidacion) === 1) {
+                $objAValidar = self::EliminarEspaciosDeStr($objAValidar);
                 $max = str_replace("Max", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Max";
 
@@ -152,7 +139,7 @@ class SuperFuncs {
                     break;
             }
 
-            $ret[$tipoDeValidacion] = $err;
+            $ret[] = array('tipo' => $tipoDeValidacion, 'err' => $err);
             Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=(".json_encode($ret).")", "success");
         }
 
