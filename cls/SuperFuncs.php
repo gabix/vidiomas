@@ -11,7 +11,7 @@ class SuperFuncs {
     public static function errYmsg($err = true, $msg = "", $xtra = "") {
         $ret = json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
 
-        Debuguie::AddMsg("SuperFuncs - errYmsg()", "ret=(".json_encode($ret).")", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=(".json_encode($ret).")", "info");
         return $ret;
     }
 
@@ -48,17 +48,17 @@ class SuperFuncs {
     }
 
     public static function EliminarEspaciosDeStr($str) {
-        Debuguie::AddMsg("SuperFuncs - EliminarEspaciosDeStr()", "arg str=($str)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "arg str=($str)", "fInit");
 
         $exp = array('/ |&nbsp;|\r\n|\r|\n/');
         $str = preg_replace($exp, "", $str);
 
-        Debuguie::AddMsg("SuperFuncs - EliminarEspaciosDeStr()", "return=($str)", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "return=($str)", "info");
         return $str;
     }
 
     public static function EliminarTagsDeStr($str) {
-        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "arg str=($str)", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "arg str=($str)", "fInit");
 
         $str = (string) $str;
 
@@ -67,44 +67,51 @@ class SuperFuncs {
 
         $str = str_ireplace($find, $repl, $str);
 
-        Debuguie::AddMsg("SuperFuncs - EliminarTagsDeStr()", "return=($str)", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "return=($str)", "info");
         return $str;
     }
 
     public static function ComentarScriptsDeStr($str) {
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
+
         $str = (string) $str;
         $find = array("<script", "script>", "<?php", "<?=", "?>");
         $replace = array("<!--scr", "scr-->", "<!--?", "<!--?=", "?-->");
         $str = str_ireplace($find, $replace, $str);
 
-        Debuguie::AddMsg("SuperFuncs - ComentarScriptsDeStr()", "return=($str)", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "return=($str)", "info");
         return $str;
     }
 
     public static function Validar($tipoDeValidaciones, $objAValidar) {
-        Debuguie::AddMsg("SuperFuncs - Validar()", "args=(tipo=($tipoDeValidaciones), obj=($objAValidar))", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "args=(tipo=($tipoDeValidaciones), obj=($objAValidar))", "fInit");
         $err = true;
 
         $tipoDeValidaciones = explode("|", $tipoDeValidaciones);
 
         foreach ($tipoDeValidaciones as $tipoDeValidacion) {
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "tipoDeValid=($tipoDeValidacion)", "info");
+
             if (preg_match("Min", $tipoDeValidacion) === 1) {
                 $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
                 $min = str_replace("Min", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Min";
+
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Min)--> tipoDeValid=($tipoDeValidacion), min=($min), objAVal=($objAValidar)", "info");
             }
             if (preg_match("Max", $tipoDeValidacion) === 1) {
                 $objAValidar = self::EliminarEspaciosDeStr(self::EliminarTagsDeStr($objAValidar));
                 $max = str_replace("Max", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Max";
+
+                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Max)--> tipoDeValid=($tipoDeValidacion), min=($max), objAVal=($objAValidar)", "info");
             }
+
 
             switch($tipoDeValidacion) {
                 case 'numerico' :
                     if (is_numeric($objAValidar)) {
                         $err = false;
-                    } else {
-                        $msg = $tipoDeValidacion;
                     }
                     break;
 
@@ -144,10 +151,12 @@ class SuperFuncs {
                     $err = true;
                     break;
             }
+
             $ret[$tipoDeValidacion] = $err;
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=(".json_encode($ret).")", "success");
         }
 
-        Debuguie::AddMsg("SuperFuncs - Validar()", "ret=(".json_encode($ret).")", "fInit");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=(".json_encode($ret).")", "info");
         return $ret;
     }
 }

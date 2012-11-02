@@ -62,10 +62,9 @@ function ValidarTodo() {
     console.log("ValidarTodo!");
     var err = true;
 
-    if (ValidarR_pass() && true) {
-        return true;
-    }
-    return false;
+    var valRpass = ValidarR_pass();
+
+    return (valRpass && true && true);
 }
 
 function Submit_f_registro() {
