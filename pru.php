@@ -105,8 +105,8 @@ $tf = date("y-m-d H:i:s", $t);
         <p>pru errMsg(usuarioBloqueado): <?= $l->errMsg('usuarioBloqueado') ?></p>
         <p>pru grales(caca): <?= $l->grales('caca') ?></p>
         <p>pru grales(holaUsu): <?= $l->grales('holaUsu') ?></p>
-        <p>errMsg('usuarioBloqueado-mailInvalido')--> <?= $l->errMsg('usuarioBloqueado-mailInvalido') ?></p>
-        <p>errMsg('usuarioBloqueado-Me cago en dios y la virgen-por dios lo digo-mailInvalido'): <?= $l->errMsg('usuarioBloqueado-Me cago en dios y la virgen-por dios lo digo-mailInvalido') ?></p>
+        <p>errMsg('usuarioBloqueado-emailInvalido')--> <?= $l->errMsg('usuarioBloqueado-emailInvalido') ?></p>
+        <p>errMsg('usuarioBloqueado-Me cago en dios y la virgen-por dios lo digo-emailInvalido'): <?= $l->errMsg('usuarioBloqueado-Me cago en dios y la virgen-por dios lo digo-emailInvalido') ?></p>
         
         <hr />
         <h2>pruebas de xml</h2>

@@ -145,7 +145,7 @@ $pagTit = $l->grales($selPag);
                     minlenght: "<?= $l->errMsg('apodoMin') ?>",
                     maxlenght: "<?= $l->errMsg('apodoMax') ?>"
                 },
-                email: "<?= $l->errMsg('mailInvalido') ?>",
+                email: "<?= $l->errMsg('emailInvalido') ?>",
                 nombre: {
                     required: "<?= $l->errMsg('nombreRequerido') ?>",
                     minlenght: "<?= $l->errMsg('nombreMin') ?>",

@@ -7,13 +7,16 @@ $errMsg['cookieDesactualizada'] = "La cookie está desactualizada. Vuelva a logu
 $errMsg['apodoRequerido'] = "Debe ingresar un apodo";
 $errMsg['apodoMin'] = "your nickname must be at least 5 characters long";
 $errMsg['apodoMax'] = "El apodo debe ser de menos de 30 caracteres";
+$errMsg['apodoEnUso'] = "Di apodou is in use, choose another";
 
 $errMsg['nombreRequerido'] = "Debe ingresar un nombre";
 $errMsg['nombreMin'] = "Your name must be at least 3 characters long";
 $errMsg['nombreMax'] = "El nombre debe ser de menos de 50 caracteres";
 
 $errMsg['noExisteMail'] = "NO Mail - no exist";
-$errMsg['mailInvalido'] = "Please enter a valid email address, like ex@amp.le";
+$errMsg['emailInvalido'] = "Please enter a valid email address, like ex@amp.le";
+$errMsg['emailEnUso'] = "That email is registered";
+
 
 $errMsg['passIncorrecta'] = "Contraseña Incorrecta";
 $errMsg['passVacia'] = "No Empty pass NONO";

@@ -12,11 +12,25 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
     Debuguie::AddMsg("p_registro", "apodo=($apodo), email=($email)", "info");
 
     $retVal['apodo'] = SuperFuncs::Validar("Min3|Max50", $apodo);
-    $retVal['email'] = SuperFuncs::Validar("Min6|Max50|email", $email);
+    $retVal['r_email'] = SuperFuncs::Validar("Min6|Max50|email", $email);
     Debuguie::AddMsg("p_registro", "retVal=(".json_encode($retVal).")", "info");
 
-    //$usu = new Usuario;
-    $ret = $retVal;
+
+    $sigo = true;
+    foreach($retVal as $valItem) {
+        if ($valItem['err'] == true) {
+            $sigo = false;
+        }
+    }
+    Debuguie::AddMsg("p_registro", "sigo=($sigo)", "info");
+
+    if ($sigo) {
+        $usu = new Usuario;
+        $retVal['apodo'] = $usu->checkApodoEnUso($apodo);
+        $retVal['r_email'] = $usu->checkEmailEnUso($email);
+
+
+    }
 
     if (isset($_POST['inp_nombre']) && isset($_POST['inp_r_passEnc']) && isset($_POST['inp_sexo']) &&
         isset($_POST['inp_pais']) && isset($_POST['inp_tel']) && isset($_POST['inp_codpostal'])) {
@@ -36,8 +50,7 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
         $pass = hash('sha512', $passEnc . $random_salt);
     }
 } else {
-    $err = true;
-    $ret['general'] = SuperFuncs::errYmsg(true, 'pedidoInvalido');
+    $retVal['general'] = SuperFuncs::errYmsg(true, 'pedidoInvalido');
 }
 //echo json_encode($ret);
 
@@ -56,7 +69,7 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
     <input type="submit">
 </form>
 
-<p>RET: <?= json_encode($ret) ?></p>
+<p>RET: <?= json_encode($retVal) ?></p>
 
 </body>
 </html>

@@ -8,13 +8,15 @@ $errMsg['apodoExiste'] = "Ese apodo ya existe";
 $errMsg['apodoRequerido'] = "Debe ingresar un apodo";
 $errMsg['apodoMin'] = "El apodo debe consistir en al menos 5 caracteres";
 $errMsg['apodoMax'] = "Apodo muy largo loco";
+$errMsg['apodoEnUso'] = "El apodo está en uso, eleGILte otro";
 
 $errMsg['nombreRequerido'] = "Debe ingresar un nombre";
 $errMsg['nombreMin'] = "El nombre debe consistir en al menos 3 caracteres";
 $errMsg['nombreMax'] = "¿Ese es tu nombre? ¡Fuaa, qué largo!";
 
 $errMsg['noExisteMail'] = "Ese email no existe";
-$errMsg['mailInvalido'] = "email inválido, debe ingresar un email en formato ej@emp.lo";
+$errMsg['emailInvalido'] = "email inválido, debe ingresar un email en formato ej@emp.lo";
+$errMsg['emailEnUso'] = "Ese email ya está registrado";
 
 $errMsg['passIncorrecta'] = "Contraseña Incorrecta";
 $errMsg['passVacia'] = "La contraseña no puede estar vacia";

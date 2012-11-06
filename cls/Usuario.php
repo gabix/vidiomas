@@ -371,29 +371,55 @@ class Usuario {
         return false;
     }
 
-    public function checkApodoEemail($apodo, $email) {
+    public function checkApodoEnUso($apodo) {
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
+
         $mysqli = dbFuncs::crearMysqli();
 
         if ($q = $mysqli->prepare('SELECT apodo FROM usuarios WHERE apodo = ? LIMIT 1')) {
             $q->bind_param('s', $apodo);
             $q->execute();
             $q->store_result();
-            /** @noinspection PhpUndefinedVariableInspection */
-            if ($q->num_rows == 1) {
 
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "num rows por ese apodo=(".$q->num_rows.")", "info");
+
+
+            if ($q->num_rows > 0) {
+                $ret = array('tipo' => 'apodoEnUso', 'err' => true);
+            } else {
+                $ret = array('tipo' => 'apodoEnUso', 'err' => false);
             }
         } else {
             Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
         }
+        $mysqli->close();
 
+        return $ret;
+    }
 
-        $q = "";
-        $ret = $mysqli->query($q);
+    public function checkEmailEnUso($email) {
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "", "fInit");
 
-        if ($ret != false && $ret->num_rows > 0) {
-            $mysqli->close();
-            return true;
+        $mysqli = dbFuncs::crearMysqli();
+
+        if ($q = $mysqli->prepare('SELECT email FROM usuarios WHERE email = ? LIMIT 1')) {
+            $q->bind_param('s', $email);
+            $q->execute();
+            $q->store_result();
+
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "num rows por ese email=(".$q->num_rows.")", "info");
+
+            if ($q->num_rows > 0) {
+                $ret = array('tipo' => 'emailEnUso', 'err' => true);
+            } else {
+                $ret = array('tipo' => 'emailEnUso', 'err' => false);
+            }
+        } else {
+            Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "falló el mysql->prepare. Cacho, chequeate los params del statement", "error");
         }
+        $mysqli->close();
+
+        return $ret;
     }
 
 

@@ -12,7 +12,7 @@ class SuperFuncs {
     public static function errYmsg($err = true, $msg = "", $xtra = "") {
         $ret = json_encode(array('err' => $err, 'msg' => $msg, 'xtra' => null));
 
-        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=(".json_encode($ret).")", "info");
+        Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "ret=($ret)", "info");
         return $ret;
     }
 
