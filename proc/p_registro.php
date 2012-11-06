@@ -50,7 +50,7 @@ if (isset($_POST['inp_apodo']) && isset($_POST['inp_r_email'])) {
         $pass = hash('sha512', $passEnc . $random_salt);
     }
 } else {
-    $retVal['general'] = SuperFuncs::errYmsg(true, 'pedidoInvalido');
+    $retVal['general'] = array('tipo' => 'pedidoInvalido', 'err' => true);
 }
 //echo json_encode($ret);
 

@@ -84,14 +84,14 @@ class SuperFuncs {
                 $min = str_replace("Min", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Min";
 
-                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Min)--> tipoDeValid=($tipoDeValidacion), min=($min), objAVal=($objAValidar)", "info");
+                //Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Min)--> tipoDeValid=($tipoDeValidacion), min=($min), objAVal=($objAValidar)", "info");
             }
             if (preg_match('/Max/', $tipoDeValidacion) === 1) {
                 $objAValidar = self::EliminarEspaciosDeStr($objAValidar);
                 $max = str_replace("Max", "", $tipoDeValidacion);
                 $tipoDeValidacion = "Max";
 
-                Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Max)--> tipoDeValid=($tipoDeValidacion), min=($max), objAVal=($objAValidar)", "info");
+                //Debuguie::AddMsg(__CLASS__." - ".__FUNCTION__, "pregMatch(Max)--> tipoDeValid=($tipoDeValidacion), min=($max), objAVal=($objAValidar)", "info");
             }
 
 
